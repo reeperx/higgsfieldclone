@@ -33,10 +33,14 @@ export function GeneratorView({
         No {surface} models are available right now.
       </div>
     )
-  return surface === "image" ? (
-    <ImageLayout generator={generator} />
-  ) : (
-    <PanelLayout generator={generator} />
+  return (
+    <div data-theme="studio-dark" className="dark flex min-h-0 flex-1 flex-col">
+      {surface === "image" ? (
+        <ImageLayout generator={generator} />
+      ) : (
+        <PanelLayout generator={generator} />
+      )}
+    </div>
   )
 }
 

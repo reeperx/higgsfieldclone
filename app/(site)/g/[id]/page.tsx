@@ -121,7 +121,7 @@ export default async function PublicGenerationPage({
     <div className="mx-auto flex max-w-[1440px] flex-col gap-6 px-4 pt-6 md:px-8 md:pt-8">
       <Link
         href="/community"
-        className="inline-flex h-8 w-fit items-center gap-1 rounded-lg border border-white/10 pr-3 pl-2 text-sm transition-colors hover:bg-white/5"
+        className="inline-flex h-9 w-fit items-center gap-1 rounded-full border border-black/10 bg-white/60 pr-4 pl-2 text-sm transition-colors hover:bg-white"
       >
         <ChevronLeft className="size-4" aria-hidden /> Community
       </Link>
@@ -194,7 +194,7 @@ export default async function PublicGenerationPage({
           {item.prompt ? (
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <h2 className="text-xs font-medium tracking-wide text-[#828282] uppercase">
+                <h2 className="text-xs font-medium tracking-wide text-muted-foreground">
                   Prompt
                 </h2>
                 <CopyButton text={item.prompt} />
@@ -206,16 +206,16 @@ export default async function PublicGenerationPage({
           ) : null}
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-xs font-medium tracking-wide text-[#828282] uppercase">
+            <h2 className="text-xs font-medium tracking-wide text-muted-foreground">
               Details
             </h2>
-            <dl className="flex flex-col divide-y divide-white/5 rounded-xl bg-surface px-3 text-sm">
+            <dl className="flex flex-col divide-y divide-hairline rounded-xl bg-surface px-3 text-sm">
               {rows.map((row) => (
                 <div
                   key={row.id}
                   className="flex items-center justify-between gap-4 py-2.5"
                 >
-                  <dt className="text-[#828282]">{row.label}</dt>
+                  <dt className="text-muted-foreground">{row.label}</dt>
                   <dd className="truncate text-right tabular-nums">
                     {row.value}
                   </dd>
@@ -239,7 +239,7 @@ export default async function PublicGenerationPage({
                 generationId={item.id}
                 className="h-11 w-full text-sm"
               />
-              <span className="flex h-11 items-center justify-center rounded-xl bg-white/5 transition-colors hover:bg-white/10">
+              <span className="flex h-11 items-center justify-center rounded-xl bg-black/5 transition-colors hover:bg-black/10">
                 <CopyButton
                   link
                   label="Copy link"

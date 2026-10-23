@@ -2,6 +2,11 @@
 
 Operating Vendo in production. Everything below is idempotent unless noted.
 
+For local UI review, use the commerce-workbench routes in
+`docs/ui-inventory.md`. A seeded `seller@vendo.test` login is available only
+with loopback MongoDB via `pnpm db:init --test-user=seller@vendo.test`; it is
+not a production account or a sign-in bypass.
+
 ## Health at a glance
 
 | Signal | Where | Healthy |

@@ -15,9 +15,11 @@ contract comes from, and why anything is left out.
   re-selected for product work). Everything outside the keep-list was pruned
   from the picker and pricing table (see *Pruned* at the bottom); re-adding a
   model is one file + `pnpm models` + a price rule.
-- **Precedence:** live docs win for API behavior; the template
-  (`higgsfield-ai/app-templates`, commit `b29cdab`) wins for UI patterns. Every
-  disagreement is listed in `docs/decisions.md` §"Docs vs template".
+- **Precedence:** live docs win for API behavior. The template
+  (`higgsfield-ai/app-templates`, commit `b29cdab`) is historical scaffold
+  provenance only; Vendo's current interaction and visual system is defined in
+  `docs/ui-inventory.md`. Every API disagreement is listed in
+  `docs/decisions.md` §"Docs vs template".
 - **Price source:** the console price list needs an account login we don't have.
   The docs document `POST /estimate/{endpoint}` (billing-and-retention), so
   prices are filled by `pnpm pricing:sync`, which calls the estimate endpoint
@@ -64,6 +66,10 @@ required).
 | `genjutsu-swap` | Edit | Genjutsu Object Swap | `higgsfield/genjutsu/object-swap/v1.0` | source video (≥4 s, ≥409,600 px/frame) + 1–8 images; **billed per source second** (`sourceLength` rule, 30 s default) | resolution 720p·480p | Token-billed |
 
 ## Why these 17
+
+The picker is an implementation detail inside product workflows, not the
+primary route or homepage hierarchy. See `docs/ui-inventory.md` for the
+product-first page map.
 
 Product-photo and product-video work needs four capabilities, and each kept
 entry covers a distinct job:

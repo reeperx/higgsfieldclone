@@ -52,7 +52,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 export function Footer() {
   return (
     <footer className="mt-24">
-      <div className="bg-sand px-6 py-14 text-[#17130b] md:px-12">
+      <div className="bg-[#252d2b] px-6 py-14 text-[#fffdf8] md:px-12">
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[1.1fr_2fr]">
           <div className="flex flex-col gap-6">
             <LogoMark inverted className="size-10" />
@@ -65,14 +65,14 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {COLUMNS.map((column) => (
               <div key={column.title} className="flex flex-col gap-3">
-                <p className="text-sm font-medium text-[#17130b]/70">
+                <p className="text-sm font-medium text-[#fffdf8]/60">
                   {column.title}
                 </p>
                 {column.links.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="text-[15px] font-medium hover:underline hover:underline-offset-4"
+                    className="text-[15px] font-medium text-[#fffdf8]/85 transition-colors hover:text-[#e9a17f]"
                   >
                     {link.label}
                   </Link>
@@ -87,24 +87,24 @@ export function Footer() {
           © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
         </p>
         <div className="flex flex-wrap gap-4 text-foreground">
-          <Link href="/legal/terms" className="hover:text-sand">
+          <Link href="/legal/terms" className="hover:text-[#b94c32]">
             Terms
           </Link>
-          <Link href="/legal/refunds" className="hover:text-sand">
+          <Link href="/legal/refunds" className="hover:text-[#b94c32]">
             Refunds
           </Link>
-          <Link href="/legal/privacy" className="hover:text-sand">
+          <Link href="/legal/privacy" className="hover:text-[#b94c32]">
             Privacy
           </Link>
-          <Link href="/legal/cookies" className="hover:text-sand">
+          <Link href="/legal/cookies" className="hover:text-[#b94c32]">
             Cookies
           </Link>
-          <Link href="/legal/acceptable-use" className="hover:text-sand">
+          <Link href="/legal/acceptable-use" className="hover:text-[#b94c32]">
             Acceptable use
           </Link>
           <button
             type="button"
-            className="hover:text-sand"
+            className="hover:text-[#b94c32]"
             onClick={() =>
               window.dispatchEvent(new Event("vireo:cookie-preferences"))
             }

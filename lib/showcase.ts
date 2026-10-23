@@ -69,7 +69,7 @@ export function familyCover(
 }
 
 export const HERO = {
-  image: "/media/hero/coast.jpg",
+  image: "/media/presets/lifestyle-model.jpg",
   video: "/media/loops/hero.mp4",
   mark: "/media/hero/songbird.jpg",
 }

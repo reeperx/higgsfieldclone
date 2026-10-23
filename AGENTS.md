@@ -48,9 +48,14 @@ before changing behaviour.
   `GET /api/generations/status`; never poll through a server action.
 - **Model files cite their docs URLs**; never invent endpoints, fields or enums.
 - Generating and failed tiles stay in feeds; loaded media never unmounts on fast scroll.
-- Dark only; sand (`#D8B26E`, `bg-sand`/`--color-sand`) is reserved for the
-  Generate CTA and active states; every visible control works (remove what
-  can't); no `any`, `@ts-ignore`, `@ts-expect-error`.
+- The Vendo product UI uses paper/ink surfaces (`#F4F0E8`, `#FFFDF8`,
+  `#25231F`), terracotta (`#B94C32`) actions, mineral blue (`#476B82`) as a
+  secondary accent, editorial serif display type, and sentence case. Keep
+  model names subordinate to commerce tasks. A contained dark generation
+  canvas is allowed for media review; do not return public/account pages to a
+  full dark-and-lime theme. See `docs/ui-inventory.md`.
+- Every visible control works (remove what can't); no `any`, `@ts-ignore`, or
+  `@ts-expect-error`.
 - **Customer money is rand (ZAR):** plan/top-up amounts live in
   `lib/billing/plans.ts` and render through `lib/billing/money.ts` → `zar()`;
   Bachs products must be created in rands. The internal platform-cost basis

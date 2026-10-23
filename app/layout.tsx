@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   icons: { icon: "/icon.svg" },
 }
 
-export const viewport: Viewport = { themeColor: "#11100d", colorScheme: "dark" }
+export const viewport: Viewport = { themeColor: "#f4f0e8", colorScheme: "light" }
 
 /** Session, live balance and pricing for the client providers. Signed-out on DB errors. */
 async function bootstrap(): Promise<{
@@ -94,9 +94,9 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="default-dark"
+      data-theme="paper-ink"
       className={cn(
-        "dark font-sans antialiased",
+        "font-sans antialiased",
         spaceGrotesk.variable,
         inter.variable,
         plexMono.variable
@@ -105,7 +105,7 @@ export default async function RootLayout({
       <body className="min-h-dvh bg-page text-foreground">
         <a
           href="#main"
-          className="sr-only z-[100] rounded-lg bg-sand px-3 py-2 text-[#17130b] focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+          className="sr-only z-[100] rounded-lg bg-sand px-3 py-2 text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
         >
           Skip to content
         </a>

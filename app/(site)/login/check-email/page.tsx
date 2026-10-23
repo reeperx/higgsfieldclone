@@ -46,7 +46,7 @@ export default function CheckEmailPage() {
         </ul>
         <Link
           href="/login"
-          className="inline-flex h-11 items-center gap-2 rounded-xl bg-white/5 px-5 text-sm font-medium transition-colors hover:bg-white/10"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-black/10 bg-white/60 px-5 text-sm font-medium transition-colors hover:bg-white"
         >
           <ArrowLeft className="size-4" aria-hidden /> Use a different email
         </Link>

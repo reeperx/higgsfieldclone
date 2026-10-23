@@ -1,6 +1,5 @@
 /**
- * Capture our pages at 1440 and 390 px into docs/screens/vireo-<page>-<width>.png
- * for side-by-side comparison with the reference captures (docs/screens/<page>-<width>.png).
+ * Capture selected pages at desktop and mobile widths into docs/screens/vendo-<page>-<width>.png.
  *   BASE_URL=http://localhost:3000 pnpm exec tsx scripts/screenshots.ts
  */
 import { chromium } from "@playwright/test"
@@ -66,7 +65,7 @@ for (const width of [1440, 390]) {
   for (const [name, path] of PAGES) {
     await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" })
     await page.waitForTimeout(800)
-    await page.screenshot({ path: `docs/screens/vireo-${name}-${width}.png` })
+    await page.screenshot({ path: `docs/screens/vendo-${name}-${width}.png` })
     console.log(`captured ${name} @ ${width}`)
   }
   await context.close()

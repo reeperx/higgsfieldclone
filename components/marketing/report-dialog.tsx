@@ -103,7 +103,7 @@ export function ReportDialog({
         <DialogPrimitive.Popup className="fixed top-1/2 left-1/2 z-[60] flex max-h-[calc(100dvh-2rem)] w-[min(440px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-y-auto rounded-3xl border border-hairline bg-panel p-5 duration-150 outline-none md:p-6 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-full bg-white/5">
+              <span className="flex size-9 items-center justify-center rounded-full bg-black/5">
                 <Flag className="size-4" aria-hidden />
               </span>
               <div>
@@ -117,7 +117,7 @@ export function ReportDialog({
             </div>
             <DialogPrimitive.Close
               aria-label="Close"
-              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/5 hover:bg-white/10"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-black/5 hover:bg-black/10"
             >
               <X className="size-4" />
             </DialogPrimitive.Close>
@@ -132,7 +132,7 @@ export function ReportDialog({
                     "flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-sand",
                     reason === item.value
                       ? "border-sand/40 bg-sand/[0.06]"
-                      : "border-white/10 bg-surface hover:bg-raised"
+                      : "border-black/10 bg-surface hover:bg-raised"
                   )}
                 >
                   <input
@@ -141,7 +141,7 @@ export function ReportDialog({
                     value={item.value}
                     checked={reason === item.value}
                     onChange={() => setReason(item.value)}
-                    className="size-4 shrink-0 accent-[#d8b26e] focus-visible:outline-none"
+                    className="size-4 shrink-0 accent-[#a63f2b] focus-visible:outline-none"
                   />
                   <span className="flex flex-col">
                     <span className="text-sm font-medium">{item.label}</span>
@@ -167,7 +167,7 @@ export function ReportDialog({
                 rows={3}
                 maxLength={500}
                 placeholder="Anything that helps us review it"
-                className="resize-none rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
+                className="resize-none rounded-xl border border-black/10 bg-surface px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
               />
               <span className="self-end text-[11px] text-muted-foreground tabular-nums">
                 {details.length}/500
@@ -182,7 +182,7 @@ export function ReportDialog({
               <button
                 type="button"
                 onClick={() => close(false)}
-                className="h-10 rounded-[10px] bg-white/5 px-4 text-sm font-medium hover:bg-white/10"
+                className="h-10 rounded-full border border-black/10 bg-white/60 px-4 text-sm font-medium hover:bg-white"
               >
                 Cancel
               </button>
@@ -229,7 +229,7 @@ export function ReportButton({
           setOpen(true)
         }}
         className={cn(
-          "inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-5 text-base font-medium hover:bg-white/10",
+          "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/10 bg-white/60 px-5 text-base font-medium hover:bg-white",
           className
         )}
       >

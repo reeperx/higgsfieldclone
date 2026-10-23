@@ -6,19 +6,19 @@ export type NavLink = {
   match: (path: string) => boolean
 }
 
-/** Top navigation, in site order. Audio appears once an audio model exists. */
+/** Product workflow navigation. Audio appears once an audio model exists. */
 export function navLinks(): NavLink[] {
   const surfaces = activeSurfaces()
   const links: NavLink[] = [
-    { href: "/", label: "Explore", match: (path) => path === "/" },
+    { href: "/", label: "Overview", match: (path) => path === "/" },
     {
       href: "/image",
-      label: "Image",
+      label: "Product photos",
       match: (path) => path.startsWith("/image"),
     },
     {
       href: "/video",
-      label: "Video",
+      label: "Product video",
       match: (path) => path.startsWith("/video"),
     },
   ]
@@ -31,12 +31,12 @@ export function navLinks(): NavLink[] {
   links.push(
     {
       href: "/effects",
-      label: "Effects",
+      label: "Looks",
       match: (path) => path.startsWith("/effects"),
     },
     {
       href: "/community",
-      label: "Community",
+      label: "Work gallery",
       match: (path) => path.startsWith("/community") || path.startsWith("/g/"),
     },
     {

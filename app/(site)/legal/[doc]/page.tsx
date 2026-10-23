@@ -345,8 +345,8 @@ export default async function LegalPage({ params }: { params: Params }) {
             aria-current={slug === doc ? "page" : undefined}
             className={
               slug === doc
-                ? "inline-flex h-8 items-center rounded-lg bg-white/10 px-3 text-sm font-medium text-white"
-                : "inline-flex h-8 items-center rounded-lg px-3 text-sm font-medium text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+                ? "inline-flex h-9 items-center rounded-full bg-[#b94c32]/10 px-4 text-sm font-medium text-[#923b29]"
+                : "inline-flex h-9 items-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-black/5 hover:text-foreground"
             }
           >
             {DOCS[slug]!.title}
@@ -360,14 +360,14 @@ export default async function LegalPage({ params }: { params: Params }) {
             aria-label="On this page"
             className="sticky top-24 flex flex-col gap-1 text-sm"
           >
-            <p className="mb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            <p className="mb-1 text-xs font-medium tracking-wide text-muted-foreground">
               On this page
             </p>
             {entry.sections.map((section) => (
               <a
                 key={section.id}
                 href={`#${section.id}`}
-                className="rounded-md py-1 text-white/60 transition-colors hover:text-white"
+                className="rounded-md py-1 text-muted-foreground transition-colors hover:text-foreground"
               >
                 {section.title}
               </a>
@@ -380,7 +380,7 @@ export default async function LegalPage({ params }: { params: Params }) {
               {entry.title}
             </h1>
             <p className="text-base text-muted-foreground">{entry.summary}</p>
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-muted-foreground">
               Last updated: not yet published
             </p>
           </header>
@@ -397,7 +397,7 @@ export default async function LegalPage({ params }: { params: Params }) {
               >
                 {section.title}
               </h2>
-              <div className="flex flex-col gap-3 text-[15px] leading-7 text-white/75">
+              <div className="flex flex-col gap-3 text-[15px] leading-7 text-[#514b43]">
                 {section.body.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}

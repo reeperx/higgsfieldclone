@@ -21,19 +21,19 @@ export default async function EffectsPage() {
     <div className="flex flex-col">
       <section
         aria-labelledby="effects-title"
-        className="relative isolate overflow-hidden bg-gradient-to-b from-black from-60% to-page"
+        className="relative isolate overflow-hidden bg-gradient-to-b from-[#ebe5da]/70 from-30% to-page"
       >
         <Atmosphere glow="top" className="-z-10" />
         <div className="mx-auto flex max-w-[1440px] flex-col items-start gap-5 px-4 pt-12 pb-10 md:items-center md:pt-20 md:pb-14 md:text-center">
           <Link
             href="/video"
-            className="font-display inline-flex h-8 items-center gap-1.5 rounded-full bg-sand/15 px-3 text-[13px] text-sand shadow-[0_0_24px_rgba(216,178,110,0.25)] transition-colors hover:bg-sand/25"
+            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-[#b94c32]/20 bg-[#b94c32]/10 px-3 text-[13px] font-semibold text-[#923b29] transition-colors hover:bg-[#b94c32]/15"
           >
             <Sparkles className="size-3.5" aria-hidden /> Try for free
           </Link>
           <h1
             id="effects-title"
-            className="font-display text-[44px] leading-[0.95] tracking-[-0.04em] text-sand md:text-[96px] md:leading-[100px]"
+            className="font-display text-[48px] leading-[0.95] tracking-[-0.04em] text-foreground md:text-[76px]"
           >
             Visual effects
           </h1>

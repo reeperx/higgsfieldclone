@@ -24,7 +24,7 @@ export function PortalButton() {
         setPending(false)
         toast.error("Couldn't open billing portal", result.error)
       }}
-      className="flex h-11 items-center gap-2 rounded-xl bg-white/5 px-5 text-sm font-medium hover:bg-white/10 disabled:opacity-60"
+      className="flex h-11 items-center gap-2 rounded-full border border-black/10 bg-white/60 px-5 text-sm font-medium hover:bg-white disabled:opacity-60"
     >
       {pending ? (
         <Loader2 className="size-4 animate-spin" />

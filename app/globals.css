@@ -50,18 +50,17 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   /* Vendo surface steps: page → panel → card → raised → hover. */
-  --color-page: #11100d;
+  --color-page: #f4f0e8;
   --color-panel: var(--hf-color-background-primary);
   --color-surface: var(--hf-color-background-secondary);
   --color-raised: var(--hf-color-cool-250);
   --color-hover: var(--hf-color-cool-200);
-  /* Sand follows the brand accent; reserved for the Generate CTA and active states. */
-  --color-sand: var(--hf-color-brand-primary);
-  --color-gold-soft: #e4c98f;
-  /* Dusty rose — decorative badge accents (contrast-safe strong variant). */
-  --color-pink: #e79fb0;
-  --color-pink-strong: #b0556c;
-  --color-hairline: rgba(217, 217, 217, 0.04);
+  /* Legacy utility name retained with a darker shade for text contrast. */
+  --color-sand: var(--hf-color-text-brand);
+  --color-gold-soft: #476b82;
+  --color-pink: #b94c32;
+  --color-pink-strong: #8e3828;
+  --color-hairline: rgba(41, 36, 30, 0.12);
 }
 
 @layer base {
@@ -78,19 +77,18 @@
 
 /* Studio primitives that plain utilities cannot express. */
 @layer components {
-  /* Display type: Space Grotesk 700, uppercase, −2% tracking (calmed). */
+  /* Editorial display type replaces the template's all-caps geometric style. */
   .font-display {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    text-transform: uppercase;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
   }
-  /* The sand "studio light" CTA: warm fill with a darker bottom lip. */
+  /* Editorial terracotta action. */
   .btn-keycap {
     background-color: var(--color-sand);
-    color: #1a1409;
-    box-shadow: inset 0 -3px 0 rgba(35, 22, 4, 0.35);
+    color: #fffdf8;
+    box-shadow: 0 2px 0 #8e3828;
     transition:
       background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
       transform 80ms ease-out;
@@ -99,7 +97,7 @@
     background-color: color-mix(in oklab, var(--color-sand) 88%, white);
   }
   .btn-keycap:active:not(:disabled) {
-    box-shadow: inset 0 -1px 0 rgba(35, 22, 4, 0.35);
+    box-shadow: 0 1px 0 #8e3828;
     transform: translateY(1px);
   }
   .btn-keycap:disabled {
@@ -107,18 +105,18 @@
     cursor: not-allowed;
   }
   .btn-keycap-generate {
-    background-image: radial-gradient(#f0dcb2 40%, #d8b26e 100%);
+    background-image: linear-gradient(135deg, #c65e3f, #a63f2b);
   }
   .btn-keycap-white {
-    background-color: #f7f4ec;
-    color: #17130b;
-    box-shadow: inset 0 -3px 0 rgba(35, 22, 4, 0.25);
+    background-color: #fffdf8;
+    color: #25231f;
+    box-shadow: 0 1px 0 rgba(37, 35, 31, 0.12);
   }
   .glass {
-    background-color: rgba(30, 26, 22, 0.9);
+    background-color: rgba(255, 253, 248, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(247, 244, 236, 0.06);
+    border: 1px solid rgba(37, 35, 31, 0.12);
   }
   .fade-bottom {
     mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
@@ -133,9 +131,9 @@
   .shimmer {
     background: linear-gradient(
       100deg,
-      rgba(255, 255, 255, 0.02) 20%,
-      rgba(255, 255, 255, 0.07) 40%,
-      rgba(255, 255, 255, 0.02) 60%
+      rgba(37, 35, 31, 0.02) 20%,
+      rgba(37, 35, 31, 0.07) 40%,
+      rgba(37, 35, 31, 0.02) 60%
     );
     background-size: 200% 100%;
     animation: vireo-shimmer 1.6s linear infinite;
