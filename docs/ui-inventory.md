@@ -1,4 +1,4 @@
-# Vendo product-workbench UI
+# Vendo commerce-control UI
 
 Updated 2026-10-23. This document describes Vendo's product workflow, visual
 language, and route-by-route interface. It is the source of truth for UI work;
@@ -19,24 +19,26 @@ inside a workflow, not the main information architecture.
 
 | Role | Value | Use |
 |---|---|---|
-| Paper | `#F4F0E8` | App canvas and page background |
-| White paper | `#FFFDF8` | Cards, forms, menus, and raised panels |
-| Ink | `#25231F` | Primary text and dark footer |
-| Muted ink | `#665F57` | Supporting copy and metadata |
-| Terracotta | `#B94C32` | Primary action, selected state, key links |
-| Mineral blue | `#476B82` | Secondary data accents and information states |
-| Hairline | `rgba(41,36,30,.12)` | Quiet card and table boundaries |
+| Ink canvas | `#101711` | App canvas and page background |
+| Forest panel | `#171F18` | Cards, forms, menus, and raised panels |
+| Deep raise | `#202B22` | Hover surfaces and nested controls |
+| Soft white | `#F2F4EC` | Primary text |
+| Sage grey | `#B4C0B5` | Supporting copy and metadata |
+| Forest | `#31583E` | Primary action and navigation selection |
+| Sand | `#D8B26E` | Generate CTA, focus, and selected/active states only |
+| Hairline | `rgba(242,244,236,.10)` | Quiet card and table boundaries |
 
-The public, account, and library surfaces use the light paper palette. The
-generation canvas may use a contained dark work area for image legibility; the
-global shell remains light. Avoid fluorescent lime, full-page black gradients,
+Every route uses the dark forest/ink palette, including marketing, account,
+library, and admin surfaces. Use forest for steady primary actions and reserve
+sand for Generate and active states. Avoid full-page black gradients,
 oversized all-caps display type, and glow-heavy glass effects.
 
 ### Typography and shape
 
-- Editorial serif display headings; readable sans-serif interface and body copy.
+- Space Grotesk display headings; readable sans-serif interface and body copy.
 - Sentence case for headings, labels, navigation, and buttons.
-- Warm neutrals, generous margins, thin borders, and soft 20–28 px card corners.
+- Restrained sage accents, generous margins, thin borders, and soft 20–28 px card
+  corners.
 - Use photography as product context, not a full-viewport background behind
   every headline.
 - Keep controls compact and explicit; avoid model-brand badges as the primary
@@ -64,6 +66,7 @@ oversized all-caps display type, and glow-heavy glass effects.
 | `/audio` | Reserved for the first audio catalog entry | Same contained workspace, only shown when an audio model is available |
 | `/effects` | Seller browsing repeatable art direction | Filterable looks grouped by outcome, product examples, “use this look” into the right workflow |
 | `/effects/[slug]` | Seller evaluating one look | Large example, what it changes, compatible workflow, one clear use action |
+| `/dashboard` | Signed-in seller deciding what to make next | 30-day production pulse, recent outputs, project shelves, and live credit balance |
 | `/assets` | Signed-in seller organizing outputs | Projects and output library, filters, batch actions, stable virtualized gallery |
 | `/projects/[id]` | Seller reviewing a campaign or listing batch | Project context, campaign assets, move/rename/delete actions, create-from-project path |
 | `/community` | Seller seeking practical inspiration | Shared product campaigns, image/video filters, useful prompt and model details |
@@ -75,7 +78,7 @@ oversized all-caps display type, and glow-heavy glass effects.
 | `/account` | Seller checking credits and activity | Balance split, plan status, ledger, next useful action |
 | `/account/billing` | Seller managing a paid plan | Billing state, portal, renewal/cancellation and top-up actions |
 | `/admin` | Operator managing the service | Dense but readable operational tables, moderation, pricing, generations and users |
-| `/legal/[doc]` | Customer reviewing policies | Accessible document navigation, clear placeholder notice until lawyer review |
+| `/legal/[doc]` | Customer reviewing draft policies | Accessible document navigation, explicit non-operative warning, no unverified legal promises |
 | not-found and error states | Anyone recovering from a bad route or failure | Plain-language explanation and a useful route back into the product |
 
 ## Shared shell
@@ -83,10 +86,11 @@ oversized all-caps display type, and glow-heavy glass effects.
 - **Marketing:** wordmark, workflow navigation (“Product photos”, “Product
   video”, “Looks”, “Work gallery”, “Pricing”), account actions, and a dark
   editorial footer with support/legal links.
-- **Studio:** the same light navigation, no promotional banner, and a dedicated
+- **Studio:** the same dark navigation, no promotional banner, and a dedicated
   generation work area below it.
-- **Signed-in pages:** the same navigation and account menu; do not constrain
-  dense admin tables to the marketing content width.
+- **Signed-in pages:** the same navigation and account menu; the dashboard
+  prioritizes seller activity and billing; do not constrain dense admin tables
+  to the marketing content width.
 - **Mobile:** a compact menu exposes the same destinations and account/library
   routes. No feature is desktop-only.
 

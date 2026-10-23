@@ -7,6 +7,7 @@ import {
   CreditCard,
   FolderOpen,
   Gem,
+  LayoutDashboard,
   LogOut,
   Menu,
   Shield,
@@ -42,7 +43,7 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 flex w-full shrink-0 items-center gap-4 border-b border-black/10 bg-page/95 px-4 backdrop-blur-sm md:px-7",
+        "sticky top-0 z-40 flex w-full shrink-0 items-center gap-4 border-b border-white/10 bg-page/95 px-4 backdrop-blur-sm md:px-7",
         compact ? "h-14" : "h-[68px]"
       )}
     >
@@ -59,10 +60,10 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
               href={link.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "rounded-full px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-colors duration-200",
+                "rounded-lg px-3 py-2 text-[13px] font-semibold whitespace-nowrap transition-colors duration-200",
                 active
-                  ? "bg-[#b94c32]/10 text-[#923b29]"
-                  : "text-[#665f57] hover:bg-black/5 hover:text-foreground"
+                  ? "bg-[#31583e] text-white"
+                  : "text-muted-foreground hover:bg-raised hover:text-foreground"
               )}
             >
               {link.label}
@@ -75,7 +76,7 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
         <button
           type="button"
           aria-label="Open menu"
-          className="flex size-9 items-center justify-center rounded-[10px] bg-black/5 text-foreground md:hidden"
+          className="flex size-9 items-center justify-center rounded-[10px] bg-white/5 text-foreground md:hidden"
           onClick={() => setMobileOpen(true)}
         >
           <Menu className="size-5" />
@@ -100,7 +101,7 @@ function AccountControls({ compact }: { compact: boolean }) {
           type="button"
           onClick={() => openAuth({ mode: "login" })}
           className={cn(
-            "hidden rounded-full border border-black/10 px-4 text-sm font-medium text-foreground transition-colors hover:bg-black/5 sm:block",
+            "hidden rounded-full border border-white/10 px-4 text-sm font-medium text-foreground transition-colors hover:bg-white/5 sm:block",
             height
           )}
         >
@@ -121,14 +122,17 @@ function AccountControls({ compact }: { compact: boolean }) {
   return (
     <>
       <Link
-        href="/account"
+        href="/dashboard"
         aria-label={`${credits ?? 0} credits — account`}
         className={cn(
-          "flex items-center gap-1.5 rounded-full bg-black/5 px-3 font-mono text-sm text-foreground tabular-nums transition-colors hover:bg-black/10",
+          "flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface px-3 font-mono text-sm text-foreground tabular-nums transition-colors hover:bg-raised",
           height
         )}
       >
-        <Sparkle className="size-3.5 fill-sand text-sand" aria-hidden />
+        <Sparkle
+          className="size-3.5 fill-forest-soft text-forest-soft"
+          aria-hidden
+        />
         {credits === null ? "—" : credits.toLocaleString("en-US")}
       </Link>
       <button
@@ -154,7 +158,7 @@ function UserMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label="Account menu"
-        className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-raised text-sm font-semibold text-foreground ring-1 ring-black/10 transition hover:ring-black/25"
+        className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-raised text-sm font-semibold text-foreground ring-1 ring-white/10 transition hover:ring-white/25"
       >
         {user.image ? (
           // eslint-disable-next-line @next/next/no-img-element -- avatar from the auth provider
@@ -168,6 +172,9 @@ function UserMenu() {
           {user.email}
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem render={<Link href="/dashboard" />}>
+          <LayoutDashboard /> Workspace
+        </DropdownMenuItem>
         <DropdownMenuItem render={<Link href="/assets" />}>
           <FolderOpen /> Assets
         </DropdownMenuItem>
@@ -206,7 +213,7 @@ function MobileSheet({
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/35 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
-        <DialogPrimitive.Popup className="fixed inset-y-0 right-0 z-50 flex w-[min(330px,88vw)] flex-col gap-2 border-l border-black/10 bg-panel p-4 duration-200 outline-none data-open:animate-in data-open:slide-in-from-right data-closed:animate-out data-closed:slide-out-to-right">
+        <DialogPrimitive.Popup className="fixed inset-y-0 right-0 z-50 flex w-[min(330px,88vw)] flex-col gap-2 border-l border-white/10 bg-panel p-4 duration-200 outline-none data-open:animate-in data-open:slide-in-from-right data-closed:animate-out data-closed:slide-out-to-right">
           <div className="flex items-center justify-between">
             <DialogPrimitive.Title className="sr-only">
               Menu
@@ -214,7 +221,7 @@ function MobileSheet({
             <Logo compact />
             <DialogPrimitive.Close
               aria-label="Close menu"
-              className="flex size-9 items-center justify-center rounded-full bg-black/5"
+              className="flex size-9 items-center justify-center rounded-full bg-white/5"
             >
               <X className="size-4" />
             </DialogPrimitive.Close>
@@ -229,8 +236,8 @@ function MobileSheet({
                 className={cn(
                   "rounded-xl px-3 py-3 text-base font-medium",
                   link.match(pathname)
-                    ? "bg-[#b94c32]/10 text-[#923b29]"
-                    : "text-foreground hover:bg-black/5"
+                    ? "bg-[#31583e] text-white"
+                    : "text-foreground hover:bg-raised"
                 )}
               >
                 {link.label}
@@ -239,16 +246,23 @@ function MobileSheet({
             {user ? (
               <>
                 <Link
+                  href="/dashboard"
+                  onClick={close}
+                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-raised"
+                >
+                  Workspace
+                </Link>
+                <Link
                   href="/assets"
                   onClick={close}
-                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-black/5"
+                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-raised"
                 >
                   Assets
                 </Link>
                 <Link
                   href="/account"
                   onClick={close}
-                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-black/5"
+                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-raised"
                 >
                   Account
                 </Link>
@@ -281,7 +295,7 @@ function MobileSheet({
                 </button>
                 <button
                   type="button"
-                  className="h-12 rounded-xl border border-black/10 text-base font-medium"
+                  className="h-12 rounded-xl border border-white/10 text-base font-medium"
                   onClick={() => {
                     close()
                     openAuth({ mode: "login" })

@@ -40,7 +40,7 @@ export default function ErrorBoundary({
         </Link>
         <p
           aria-hidden
-          className="font-display text-[96px] leading-none text-sand md:text-[140px]"
+          className="font-display text-[96px] leading-none text-forest-soft md:text-[140px]"
         >
           500
         </p>
@@ -66,7 +66,7 @@ export default function ErrorBoundary({
           </button>
           <Link
             href="/"
-            className="inline-flex h-12 items-center justify-center rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-surface px-6 text-base font-medium transition-colors hover:bg-raised"
           >
             Go home
           </Link>

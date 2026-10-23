@@ -29,7 +29,7 @@ export function EmptyCard({
       )}
     >
       <Atmosphere glow="top" className="-z-10" />
-      <span className="flex size-12 items-center justify-center rounded-2xl bg-[#b94c32]/10 text-[#923b29] ring-1 ring-[#b94c32]/15">
+      <span className="flex size-12 items-center justify-center rounded-2xl bg-forest-soft/10 text-forest-soft ring-1 ring-forest-soft/15">
         {icon}
       </span>
       <div className="flex flex-col gap-1.5">

@@ -148,7 +148,7 @@ export function LibraryView({
             className={cn(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm",
               !project
-                ? "bg-black/5 text-foreground"
+                ? "bg-white/5 text-foreground"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -164,7 +164,7 @@ export function LibraryView({
               <button
                 type="button"
                 aria-label="New project"
-                className="flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-black/5 hover:text-foreground"
+                className="flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-white/5 hover:text-foreground"
               >
                 <Plus className="size-4" />
               </button>
@@ -190,8 +190,8 @@ export function LibraryView({
                 className={cn(
                   "group flex shrink-0 items-center gap-2 rounded-lg pr-1",
                   project?.id === item.id
-                    ? "bg-black/5"
-                    : "hover:bg-black/[0.03]"
+                    ? "bg-white/5"
+                    : "hover:bg-white/[0.03]"
                 )}
               >
                 <Link
@@ -239,11 +239,11 @@ export function LibraryView({
 
       <section
         aria-label={project ? project.name : "Library"}
-        className="flex min-h-[70vh] min-w-0 flex-1 flex-col gap-3 overflow-hidden rounded-[24px] border border-black/10 bg-white/35 p-3 md:min-h-0"
+        className="flex min-h-[70vh] min-w-0 flex-1 flex-col gap-3 overflow-hidden rounded-[24px] border border-white/10 bg-panel p-3 md:min-h-0"
       >
         <header className="flex flex-wrap items-center gap-2">
           <h1 className="mr-2 flex items-center gap-2 text-xl font-medium">
-            <FolderClosed className="size-5 text-sand" />
+            <FolderClosed className="size-5 text-forest-soft" />
             {project ? project.name : "Library"}
           </h1>
           <div
@@ -416,7 +416,7 @@ function BulkButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "flex h-8 items-center gap-1.5 rounded-full border border-black/10 bg-white/70 px-3 text-xs font-medium hover:bg-white disabled:opacity-40",
+        "flex h-8 items-center gap-1.5 rounded-full border border-white/10 bg-surface px-3 text-xs font-medium hover:bg-raised disabled:opacity-40",
         danger && "text-[#ff6b6b]"
       )}
     >
@@ -428,8 +428,8 @@ function BulkButton({
 function EmptyLibrary({ project }: { project: boolean }) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-      <span className="flex size-14 items-center justify-center rounded-2xl bg-sand/10">
-        <FolderClosed className="size-7 text-sand" />
+      <span className="flex size-14 items-center justify-center rounded-2xl bg-forest-soft/10">
+        <FolderClosed className="size-7 text-forest-soft" />
       </span>
       <p className="text-base font-semibold">
         {project
@@ -503,7 +503,7 @@ function UploadsGrid() {
               />
             ) : (
               <span className="flex size-full items-center justify-center">
-                <AudioLines className="size-8 text-sand" />
+                <AudioLines className="size-8 text-forest-soft" />
               </span>
             )}
           </div>

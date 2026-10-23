@@ -18,9 +18,7 @@ the component here, backward compatible.
   **`GenerationDetailModal`** (lightbox) render one generation.
 - **`ScreenEmptyState`**, **`ProjectCreateModal` / `ProjectActions`**.
 
-Design invariants: studio pages use the paper/ink product-workbench shell from
-`docs/ui-inventory.md`. A contained dark canvas is appropriate for reviewing
-media; form panels and account/library surfaces should remain readable in the
-paper palette. Use terracotta for primary actions/selected states, mineral blue
-for secondary information, and sentence-case labels. Icons are `lucide-react`;
+Design invariants: studio pages use the dark forest/ink commerce-control shell
+from `docs/ui-inventory.md`. Use forest for primary actions and sand only for
+Generate and active states. Keep labels sentence case. Icons are `lucide-react`;
 every visible control works end to end.

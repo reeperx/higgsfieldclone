@@ -180,9 +180,9 @@ function AudioMedia({ item }: { item: GalleryItem }) {
   const [playing, setPlaying] = useState(false)
   const bars = Array.from({ length: 28 }, (_, i) => 20 + ((i * 37) % 70))
   return (
-    <span className="absolute inset-0 flex flex-col justify-between bg-gradient-to-br from-[#1e1a16] to-[#232019] p-4">
+    <span className="absolute inset-0 flex flex-col justify-between bg-gradient-to-br from-[#171f18] to-[#202b22] p-4">
       <span className="flex items-center gap-2 text-xs text-muted-foreground">
-        <AudioLines className="size-3.5 text-sand" aria-hidden />{" "}
+        <AudioLines className="size-3.5 text-forest-soft" aria-hidden />{" "}
         {item.modelLabel}
       </span>
       <span className="flex h-12 items-end gap-[3px]" aria-hidden>
@@ -202,7 +202,7 @@ function AudioMedia({ item }: { item: GalleryItem }) {
         <button
           type="button"
           aria-label={playing ? "Pause audio" : "Play audio"}
-          className="flex size-9 items-center justify-center rounded-full bg-sand text-white"
+          className="flex size-9 items-center justify-center rounded-full bg-[#31583e] text-white"
           onClick={(event) => {
             event.stopPropagation()
             const audio = ref.current

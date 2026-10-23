@@ -129,7 +129,7 @@ export function CommunityFeed({
               className={cn(
                 "h-8 rounded-lg px-4 text-sm font-medium transition-colors duration-200",
                 active
-                  ? "bg-[#fffdf8] text-foreground shadow-sm"
+                  ? "bg-raised text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -162,7 +162,7 @@ export function CommunityFeed({
               <button
                 type="button"
                 onClick={() => void load(filter, null)}
-                className="h-10 rounded-full border border-black/10 bg-white/55 px-4 text-sm font-medium hover:bg-white"
+                className="h-10 rounded-full border border-white/10 bg-surface px-4 text-sm font-medium hover:bg-raised"
               >
                 Try again
               </button>

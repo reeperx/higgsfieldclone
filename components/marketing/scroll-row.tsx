@@ -69,7 +69,7 @@ export function ScrollRow({
           aria-label={`Scroll ${label} left`}
           onClick={() => scroll(-1)}
           disabled={edges.start}
-          className="pointer-events-auto flex size-10 items-center justify-center rounded-full border border-black/10 bg-white/85 text-foreground shadow-sm backdrop-blur-md transition-opacity hover:bg-white disabled:pointer-events-none disabled:opacity-0"
+          className="pointer-events-auto flex size-10 items-center justify-center rounded-full border border-white/10 bg-panel/90 text-foreground shadow-sm backdrop-blur-md transition-opacity hover:bg-raised disabled:pointer-events-none disabled:opacity-0"
         >
           <ChevronLeft className="size-5" />
         </button>
@@ -80,7 +80,7 @@ export function ScrollRow({
           aria-label={`Scroll ${label} right`}
           onClick={() => scroll(1)}
           disabled={edges.end}
-          className="pointer-events-auto flex size-10 items-center justify-center rounded-full border border-black/10 bg-white/85 text-foreground shadow-sm backdrop-blur-md transition-opacity hover:bg-white disabled:pointer-events-none disabled:opacity-0"
+          className="pointer-events-auto flex size-10 items-center justify-center rounded-full border border-white/10 bg-panel/90 text-foreground shadow-sm backdrop-blur-md transition-opacity hover:bg-raised disabled:pointer-events-none disabled:opacity-0"
         >
           <ChevronRight className="size-5" />
         </button>

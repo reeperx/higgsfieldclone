@@ -86,7 +86,7 @@ export function GenerationDetailModal({
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Trigger render={trigger} />
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-[#161310] duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/60 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Popup className="fixed inset-0 z-50 flex flex-col duration-150 outline-none md:flex-row data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0">
           <DialogPrimitive.Title className="sr-only">
             Generation

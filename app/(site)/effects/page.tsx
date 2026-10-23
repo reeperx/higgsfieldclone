@@ -21,13 +21,13 @@ export default async function EffectsPage() {
     <div className="flex flex-col">
       <section
         aria-labelledby="effects-title"
-        className="relative isolate overflow-hidden bg-gradient-to-b from-[#ebe5da]/70 from-30% to-page"
+        className="relative isolate overflow-hidden bg-gradient-to-b from-[#202b22] from-30% to-page"
       >
         <Atmosphere glow="top" className="-z-10" />
         <div className="mx-auto flex max-w-[1440px] flex-col items-start gap-5 px-4 pt-12 pb-10 md:items-center md:pt-20 md:pb-14 md:text-center">
           <Link
             href="/video"
-            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-[#b94c32]/20 bg-[#b94c32]/10 px-3 text-[13px] font-semibold text-[#923b29] transition-colors hover:bg-[#b94c32]/15"
+            className="btn-keycap inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold"
           >
             <Sparkles className="size-3.5" aria-hidden /> Try for free
           </Link>

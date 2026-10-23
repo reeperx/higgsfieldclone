@@ -34,7 +34,7 @@ export function GeneratorView({
       </div>
     )
   return (
-    <div data-theme="studio-dark" className="dark flex min-h-0 flex-1 flex-col">
+    <div className="dark flex min-h-0 flex-1 flex-col">
       {surface === "image" ? (
         <ImageLayout generator={generator} />
       ) : (

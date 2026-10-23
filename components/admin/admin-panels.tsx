@@ -38,11 +38,11 @@ import type { PresetView } from "@/lib/presets"
 import { cn } from "@/lib/utils"
 
 const input =
-  "h-9 rounded-lg border border-black/10 bg-surface px-3 text-sm outline-none focus:border-sand/50"
+  "h-9 rounded-lg border border-white/10 bg-surface px-3 text-sm outline-none focus:border-sand/50"
 
 function Table({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-black/10 bg-white/45">
+    <div className="overflow-x-auto rounded-2xl border border-white/10 bg-panel">
       <table className="w-full min-w-[720px] text-sm">{children}</table>
     </div>
   )
@@ -107,7 +107,7 @@ export function AdminUsers({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id} className="border-t border-black/10">
+            <tr key={row.id} className="border-t border-white/10">
               <td className="px-3 py-2.5">
                 <span className="flex items-center gap-2">
                   {row.email}
@@ -368,7 +368,7 @@ export function AdminGenerations({
         </thead>
         <tbody>
           {page.items.map((row) => (
-            <tr key={row.id} className="border-t border-black/10 align-top">
+            <tr key={row.id} className="border-t border-white/10 align-top">
               <td className="px-3 py-2.5">
                 {row.thumb ? (
                   row.kind === "video" ? (
@@ -492,7 +492,7 @@ export function AdminModels({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id} className="border-t border-black/10 align-top">
+            <tr key={row.id} className="border-t border-white/10 align-top">
               <td className="px-3 py-2.5">
                 <div className="font-medium">{row.label}</div>
                 <div className="text-xs text-muted-foreground">
@@ -522,7 +522,7 @@ export function AdminModels({
                   }}
                   className={cn(
                     "relative h-5 w-9 rounded-full",
-                    row.enabled ? "bg-sand" : "bg-[#9c9081]"
+                    row.enabled ? "bg-sand" : "bg-[#465647]"
                   )}
                 >
                   <span
@@ -864,7 +864,7 @@ export function AdminPresets({
                       type="checkbox"
                       checked={form.active}
                       onChange={(event) => set("active", event.target.checked)}
-                      className="accent-[#a63f2b]"
+                      className="accent-[#d8b26e]"
                     />
                     Visible in the gallery
                   </label>

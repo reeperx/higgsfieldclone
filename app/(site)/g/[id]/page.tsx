@@ -121,7 +121,7 @@ export default async function PublicGenerationPage({
     <div className="mx-auto flex max-w-[1440px] flex-col gap-6 px-4 pt-6 md:px-8 md:pt-8">
       <Link
         href="/community"
-        className="inline-flex h-9 w-fit items-center gap-1 rounded-full border border-black/10 bg-white/60 pr-4 pl-2 text-sm transition-colors hover:bg-white"
+        className="inline-flex h-9 w-fit items-center gap-1 rounded-full border border-white/10 bg-surface pr-4 pl-2 text-sm transition-colors hover:bg-raised"
       >
         <ChevronLeft className="size-4" aria-hidden /> Community
       </Link>
@@ -239,7 +239,7 @@ export default async function PublicGenerationPage({
                 generationId={item.id}
                 className="h-11 w-full text-sm"
               />
-              <span className="flex h-11 items-center justify-center rounded-xl bg-black/5 transition-colors hover:bg-black/10">
+              <span className="flex h-11 items-center justify-center rounded-xl bg-white/5 transition-colors hover:bg-white/10">
                 <CopyButton
                   link
                   label="Copy link"

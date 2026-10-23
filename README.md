@@ -1,26 +1,32 @@
-# Vendo — AI product photo & video studio
+# Vendo — commerce content control room
 
-Vendo is a production-grade studio for **e-commerce product photography and
-video** on the [Higgsfield REST API](https://docs.higgsfield.ai). The catalog is
-pruned to the models that matter for product work — studio packshots, AI-model
-lifestyle scenes, product video and re-composites — **17 picker entries covering
-the endpoints they use**. Sellers sign in with a magic link, pay with Bachs
-credits priced in **South African rand (ZAR)**, and keep everything in a
-personal library. The interface is an editorial product workbench: warm paper surfaces, ink
-typography, terracotta actions, and product-first workflows. Generation tools
-sit inside that commerce-specific experience instead of leading with a model
-directory.
+Vendo is a commerce production workspace for **e-commerce product photos and
+video**. Sellers create listing sets, lifestyle scenes, and short product
+films, then organize the outputs by campaign. The distinct control-room UI
+includes a production dashboard, shared asset library, and seller-focused
+billing. The active shortlist is Qwen Image 3 for product imagery/editing and
+Wan 3.0 for product video. Customer prices are in **South African rand (ZAR)**
+through Bachs.
+
+The current generation adapter targets the [Higgsfield hosted API](https://docs.higgsfield.ai),
+but live requests are deliberately blocked until written authorization for this
+customer-facing SaaS use is recorded. Public SDKs or other open-source
+Higgsfield repositories do not grant API resale rights. Local development uses
+the mock server and is unaffected. See [`docs/legal-risk-register.md`](docs/legal-risk-register.md)
+before considering a production launch.
 
 | Concern | Choice |
 |---|---|
 | Framework | Next.js 16 (App Router, Turbopack), React 19, TypeScript strict |
-| UI | Tailwind v4 + shadcn (Base UI), Quanta tokens, lucide, zustand, @tanstack/react-virtual — scaffolded from [`higgsfield-ai/app-templates`](https://github.com/higgsfield-ai/app-templates) |
+| UI | Tailwind v4 + shadcn (Base UI), Quanta tokens, lucide, zustand, @tanstack/react-virtual |
 | Auth | Auth.js v5 (`next-auth@5`), magic links via Resend, database sessions |
 | Email | Resend + React Email (`emails/`) |
 | Database | MongoDB (Atlas replica set) — one client shared by the Auth.js adapter and the app |
 | Payments | Bachs Checkout, subscriptions, customer portal, webhooks ([docs.bachs.io](https://docs.bachs.io)) |
-| Generation | Higgsfield REST API, one server-side key |
+| Generation | Server-side Higgsfield adapter with written-authorization gate |
 | Media | Cloudflare R2 (every output is copied; the platform keeps outputs ≥ 7 days) |
+| Request protection | Arcjet IP limits plus existing per-user MongoDB limits |
+| Data contracts | MongoDB with Zod validation at generation, ledger, and project write boundaries |
 
 ## Quick start (fully offline)
 
@@ -59,6 +65,11 @@ captured in the local mailbox described below (no Resend key needed). Media is
 stored under `.data/media`; the reconciler runs in-process every 5 s because
 there is no cron or webhook tunnel.
 
+Arcjet is optional locally. Set `ARCJET_KEY` to exercise IP-based limits;
+production requires it. Its proxy limits are 10 auth requests per 10 minutes,
+120 API reads per minute, and 60 API writes per minute per IP. Existing
+per-user limits still apply.
+
 ### Sign in as the local test seller
 
 The `--test-user` option creates or reuses `seller@vendo.test` on a loopback
@@ -73,9 +84,10 @@ disabled in production; no production account or real email is created.
 
 Vendo presents commerce tasks first: build a listing set, place a product in a
 lifestyle scene, create a short product film, then organize and publish those
-assets. The shared public and account shell uses a paper-and-ink palette;
-generation canvases can use a contained dark work area. Route intent, page
-design, and interaction rules are documented in [`docs/ui-inventory.md`](docs/ui-inventory.md).
+assets. Signed-in sellers start at `/dashboard` for production activity,
+project shelves, recent outputs, and credit balance. The shared shell uses a
+dark forest-and-ink palette with sand Generate states. Route intent, page design,
+and interaction rules are documented in [`docs/ui-inventory.md`](docs/ui-inventory.md).
 
 ### Offline checkout
 
@@ -94,7 +106,8 @@ Product prices are inferred from the `BACHS_PRICE_*` ids in `.env.local`.
 |---|---|---|
 | MongoDB Atlas | `MONGODB_URI`, `MONGODB_DB` | Any replica set (Atlas M0 works). Run `pnpm db:init` against it. |
 | Resend | `AUTH_RESEND_KEY`, `EMAIL_FROM` | Verify the sending domain first. |
-| Higgsfield | `HF_API_BASE_URL=https://api.higgsfield.ai`, `HF_CREDENTIALS=key_id:key_secret` | Keys from [console.higgsfield.ai](https://console.higgsfield.ai). Then run `pnpm pricing:sync`. |
+| Higgsfield | `HF_API_BASE_URL=https://api.higgsfield.ai`, `HF_CREDENTIALS=key_id:key_secret`, `HF_SAAS_APPROVAL_REFERENCE` | Do not set the authorization reference until written permission explicitly covers this SaaS use. Live requests are blocked without it. Keys from [console.higgsfield.ai](https://console.higgsfield.ai). |
+| Arcjet | `ARCJET_KEY` | Required in production. Local development logs one warning and skips Arcjet limits when absent. |
 | Webhooks | `HF_WEBHOOK_SECRET`, `HF_WEBHOOK_BASE_URL` | Public HTTPS origin. Locally: `cloudflared tunnel --url http://localhost:3000` and put the URL here. |
 | Bachs | `BACHS_API_URL`, `BACHS_SECRET_KEY`, `BACHS_WEBHOOK_SECRET`, `BACHS_PRICE_*` | Create 6 recurring products (3 plans × month/year) and 3 one-time top-up products in the Bachs dashboard **in rands (ZAR)**, amounts matching `lib/billing/plans.ts`, then put their `prod_…` ids in the env. Sandbox: `https://sandbox-api.bachs.io` + `sk_sandbox_…`; production: `https://api.bachs.io` + `sk_live_…` (a key swap). |
 | R2 | `R2_*` | Public bucket or custom domain for `R2_PUBLIC_BASE_URL`; CORS: allow GET from your origin. |
@@ -106,19 +119,25 @@ localhost:3000/api/webhooks/bachs` (amounts are decimal strings like
 ### Pricing
 
 `credits = ceil(platform USD × CREDIT_MARKUP / CREDIT_USD_VALUE)`. Prices
-come from the platform's estimate endpoint:
+come from the platform's estimate endpoint, but exact production access remains
+subject to written provider authorization:
 
 ```bash
 pnpm pricing:sync            # calls POST /estimate/{path} for every endpoint
 ```
 
-It writes `lib/billing/pricing.generated.json` (commit it). Token-metered
-models (Seedance, Cinema Studio, Wan 3.0, …) return a pricing description
-instead; their rules are derived from it in `lib/billing/pricing-table.ts`.
-Endpoints with no verified price are not sold on the live API until an admin
-sets one in **Admin → Models & pricing**, and a price guard compares each
-submit against the live estimate (`HF_PRICE_GUARD`). Details:
+It writes `lib/billing/pricing.generated.json` (commit it). Wan 3.0 returns a
+pricing description instead of a fixed estimate; its rules are derived from it
+in `lib/billing/pricing-table.ts`.
+Endpoints with no verified price are not sold until an admin sets one in
+**Admin → Models & pricing**, and a price guard compares each submit against the
+live estimate (`HF_PRICE_GUARD`). No public API evidence guarantees latency,
+reliability, or account-specific rate limits. Details:
 `docs/runbook.md` → Pricing.
+
+Annual plan equivalents are R159, R439, and R1,119 per month, billed as
+R1,908, R5,268, and R13,428 per year respectively. Bachs annual products must
+be configured to those exact totals before enabling checkout.
 
 ## Commands
 
@@ -181,5 +200,7 @@ Key files: `lib/generations/{submit,finalize,reconcile,cancel}.ts`,
 See `docs/runbook.md` for operations, `docs/decisions.md` for every default and
 docs-vs-template disagreement, and `docs/model-catalog.md` for the model table.
 
-The Studio UI is adapted from `higgsfield-ai/app-templates` (no LICENSE file
-as of 2026-09-26 — re-check before launch; see `docs/decisions.md`).
+The Studio UI contains adaptations from `higgsfield-ai/app-templates`, which did
+not report a license in GitHub metadata when checked 2026-10-23. Do not assume
+public availability grants reuse permission; resolve the source-license issue
+before distribution. See [`docs/legal-risk-register.md`](docs/legal-risk-register.md).

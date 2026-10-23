@@ -103,7 +103,7 @@ export function EffectTile({
         <span className="font-display text-[26px] leading-[1.05] text-white lg:text-[28px]">
           {effect.title}
         </span>
-        <span className="inline-flex h-9 items-center gap-1.5 rounded-[10px] bg-sand/15 px-3 text-sm font-medium text-sand backdrop-blur-sm">
+        <span className="inline-flex h-9 items-center gap-1.5 rounded-[10px] bg-[#31583e]/90 px-3 text-sm font-medium text-white backdrop-blur-sm">
           <Sparkles className="size-4" /> {cta}
         </span>
       </span>

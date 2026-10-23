@@ -67,14 +67,14 @@ export default async function EffectPage({ params }: { params: Params }) {
     <div className="flex flex-col gap-16 md:gap-24">
       <section
         aria-labelledby="effect-title"
-        className="relative isolate overflow-hidden bg-gradient-to-b from-[#ebe5da]/70 from-30% to-page"
+        className="relative isolate overflow-hidden bg-gradient-to-b from-[#202b22] from-30% to-page"
       >
         <Atmosphere glow="top" className="-z-10" />
         <div className="mx-auto grid max-w-[1440px] gap-8 px-4 pt-8 pb-4 md:px-8 md:pt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] lg:grid-rows-[1fr_auto_1fr] lg:gap-x-16 lg:gap-y-6">
           <div className="flex flex-col items-start gap-5 lg:col-start-1 lg:row-start-2">
             <Link
               href="/effects"
-              className="inline-flex h-9 items-center gap-1 rounded-full border border-black/10 bg-white/60 pr-4 pl-2 text-sm text-foreground transition-colors hover:bg-white"
+              className="inline-flex h-9 items-center gap-1 rounded-full border border-white/10 bg-surface pr-4 pl-2 text-sm text-foreground transition-colors hover:bg-raised"
             >
               <ChevronLeft className="size-4" aria-hidden /> Back
             </Link>
@@ -88,14 +88,14 @@ export default async function EffectPage({ params }: { params: Params }) {
               {effect.description}
             </p>
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black/5 px-3 text-foreground/85">
+              <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-white/5 px-3 text-foreground/85">
                 <SurfaceIcon className="size-3.5" aria-hidden />
                 {effect.surface === "video" ? "Video effect" : "Image effect"}
               </span>
-              <span className="inline-flex h-7 items-center rounded-full bg-black/5 px-3 text-foreground/85">
+              <span className="inline-flex h-7 items-center rounded-full bg-white/5 px-3 text-foreground/85">
                 Runs on {effect.modelLabel}
               </span>
-              <span className="inline-flex h-7 items-center rounded-full bg-black/5 px-3 text-muted-foreground">
+              <span className="inline-flex h-7 items-center rounded-full bg-white/5 px-3 text-muted-foreground">
                 {effect.category}
               </span>
             </div>
@@ -125,7 +125,7 @@ export default async function EffectPage({ params }: { params: Params }) {
             ].map(([step, title, body]) => (
               <li
                 key={step}
-                className="flex flex-col gap-1 rounded-2xl border border-black/10 bg-white/60 p-4"
+                className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-panel p-4"
               >
                 <span className="text-[11px] font-medium text-muted-foreground">
                   Step {step}
@@ -138,7 +138,7 @@ export default async function EffectPage({ params }: { params: Params }) {
             ))}
           </ol>
           <div
-            className="relative mx-auto overflow-hidden rounded-[28px] border border-black/10 bg-surface shadow-[0_24px_80px_-24px_rgba(37,35,31,0.38)] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:self-center"
+            className="relative mx-auto overflow-hidden rounded-[28px] border border-white/10 bg-surface shadow-[0_24px_80px_-24px_rgba(0,0,0,0.65)] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:self-center"
             style={{
               aspectRatio: String(heroAspect),
               // Full width, but never taller than ~78% of the viewport.
@@ -168,7 +168,7 @@ export default async function EffectPage({ params }: { params: Params }) {
             action={
               <Link
                 href="/effects"
-                className="inline-flex h-10 items-center rounded-full border border-black/10 bg-white/65 px-4 text-sm font-medium transition-colors hover:bg-white"
+                className="inline-flex h-10 items-center rounded-full border border-white/10 bg-surface px-4 text-sm font-medium transition-colors hover:bg-raised"
               >
                 See all effects
               </Link>

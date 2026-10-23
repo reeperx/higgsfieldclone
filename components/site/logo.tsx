@@ -3,27 +3,32 @@ import Link from "next/link"
 import { BRAND } from "@/lib/brand"
 import { cn } from "@/lib/utils"
 
-/** A product label motif, drawn to stay legible down to the favicon size. */
+/** A parcel mark, drawn to stay legible down to the favicon size. */
 export function LogoMark({
   className,
   inverted = false,
 }: {
   className?: string
-  /** On terracotta surfaces: ink tile with paper glyph. */
+  /** On dark surfaces: ink tile with sand glyph. */
   inverted?: boolean
 }) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden className={cn("size-8", className)}>
-      <rect width="32" height="32" rx="9" fill={inverted ? "#25231F" : "#B94C32"} />
+      <rect
+        width="32"
+        height="32"
+        rx="9"
+        fill={inverted ? "#17231D" : "#24543F"}
+      />
       <path
-        d="M8 8h16v16H8z"
+        d="m7.5 11.5 8.5-4.5 8.5 4.5v9L16 25l-8.5-4.5z"
         fill="none"
-        stroke={inverted ? "#F4F0E8" : "#FFFDF8"}
+        stroke={inverted ? "#D8B26E" : "#F2F4EC"}
         strokeWidth="2"
       />
       <path
-        d="M12 14h8M12 18h5"
-        stroke={inverted ? "#F4F0E8" : "#FFFDF8"}
+        d="m8 12 8 4.5 8-4.5M16 17v7"
+        stroke="#F2F4EC"
         strokeLinecap="round"
         strokeWidth="2"
       />

@@ -75,7 +75,7 @@ function families(): { lead: ModelEntry; count: number }[] {
 function SurfaceChip({ surface }: { surface: ModelEntry["surface"] }) {
   const Icon = surface === "video" ? Video : ImageIcon
   return (
-    <span className="inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-black/5 px-2 text-xs text-foreground/80">
+    <span className="inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-white/5 px-2 text-xs text-foreground/80">
       <Icon className="size-3.5" aria-hidden />
       {surface === "video" ? "Video" : "Image"}
     </span>
@@ -103,8 +103,8 @@ export default async function ExplorePage() {
       >
         <div className="mx-auto grid max-w-[1320px] items-center gap-10 px-4 py-12 md:grid-cols-[0.9fr_1.1fr] md:gap-14 md:py-20">
           <div className="flex flex-col items-start gap-6">
-            <span className="inline-flex h-8 items-center gap-2 rounded-full border border-black/10 bg-white/55 px-3 text-[11px] font-semibold tracking-[0.12em] text-[#665f57]">
-              <span className="size-2 rounded-full bg-[#b94c32]" />
+            <span className="inline-flex h-8 items-center gap-2 rounded-full border border-white/10 bg-surface px-3 text-[11px] font-semibold tracking-[0.12em] text-muted-foreground">
+              <span className="size-2 rounded-full bg-sand" />
               Product content workspace
             </span>
             <h1
@@ -112,32 +112,33 @@ export default async function ExplorePage() {
               className="font-display max-w-[660px] text-[48px] leading-[0.98] tracking-[-0.055em] sm:text-[64px] md:text-[76px]"
             >
               Your next product shoot starts{" "}
-              <span className="text-[#a63f2b]">here.</span>
+              <span className="text-forest-soft">here.</span>
             </h1>
-            <p className="max-w-[520px] text-base leading-7 text-[#665f57] md:text-lg">
+            <p className="max-w-[520px] text-base leading-7 text-muted-foreground md:text-lg">
               Create listing photos, lifestyle scenes and short product films
-              from one workspace. Keep every take, compare the set, and ship
-              the assets your store needs.
+              from one workspace. Keep every take, compare the set, and ship the
+              assets your store needs.
             </p>
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Link
-              href="/image"
-              className="btn-keycap inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-base font-semibold sm:w-auto"
-            >
-              <Sparkles className="size-4" aria-hidden /> Create product photos
-            </Link>
-            <Link
-              href="/assets"
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white sm:w-auto"
-            >
-              Explore the workspace
-            </Link>
-          </div>
-            <p className="text-xs text-[#766d62]">
+              <Link
+                href="/image"
+                className="btn-keycap inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-base font-semibold sm:w-auto"
+              >
+                <Sparkles className="size-4" aria-hidden /> Create product
+                photos
+              </Link>
+              <Link
+                href="/assets"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-surface px-6 text-base font-medium transition-colors hover:bg-raised sm:w-auto"
+              >
+                Explore the workspace
+              </Link>
+            </div>
+            <p className="text-xs text-muted-foreground">
               One place for product photos, campaign variations and video.
             </p>
           </div>
-          <figure className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-black/10 bg-[#e7dfd2] p-2 shadow-[0_24px_70px_-40px_rgba(37,35,31,0.45)] md:min-h-[520px]">
+          <figure className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-white/10 bg-panel p-2 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.65)] md:min-h-[520px]">
             <img
               src={HERO.image}
               alt="A model wearing a mustard coat in a fashion campaign"
@@ -146,16 +147,16 @@ export default async function ExplorePage() {
               fetchPriority="high"
               className="absolute inset-2 size-[calc(100%-1rem)] rounded-[22px] object-cover object-top"
             />
-            <figcaption className="absolute right-5 bottom-5 left-5 flex items-center justify-between gap-4 rounded-2xl border border-white/35 bg-[#fffdf8]/90 p-4 shadow-lg backdrop-blur-md">
+            <figcaption className="absolute right-5 bottom-5 left-5 flex items-center justify-between gap-4 rounded-2xl border border-white/15 bg-panel/95 p-4 shadow-lg backdrop-blur-md">
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.14em] text-[#766d62]">
+                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted-foreground">
                   Campaign set · 4 assets
                 </p>
-                <p className="mt-1 text-sm font-semibold text-[#25231f]">
+                <p className="mt-1 text-sm font-semibold text-foreground">
                   Summer collection
                 </p>
               </div>
-              <span className="rounded-full bg-[#b94c32]/10 px-3 py-1.5 text-xs font-semibold text-[#923b29]">
+              <span className="rounded-full bg-sand/10 px-3 py-1.5 text-xs font-semibold text-sand">
                 Ready to publish
               </span>
             </figcaption>
@@ -176,28 +177,28 @@ export default async function ExplorePage() {
             <Link
               key={model.id}
               href={generatorHref(model)}
-              className="group flex min-h-[260px] flex-col justify-between rounded-[24px] border border-black/10 bg-white/65 p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_40px_-28px_rgba(37,35,31,0.55)]"
+              className="group flex min-h-[260px] flex-col justify-between rounded-[24px] border border-white/10 bg-panel p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-raised hover:shadow-[0_18px_40px_-28px_rgba(0,0,0,0.7)]"
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="flex size-11 items-center justify-center rounded-2xl bg-[#b94c32]/10 text-[#a63f2b]">
+                <span className="flex size-11 items-center justify-center rounded-2xl bg-forest-soft/10 text-forest-soft">
                   <Icon className="size-5" aria-hidden />
                 </span>
-                <span className="font-mono text-xs text-[#8c8175]">
+                <span className="font-mono text-xs text-muted-foreground">
                   {label}
                 </span>
               </div>
               <div>
-                <p className="mb-2 font-mono text-xs text-[#a63f2b]">
+                <p className="mb-2 font-mono text-xs text-forest-soft">
                   Workflow 0{index + 1}
                 </p>
-                <h3 className="font-display text-3xl text-[#25231f]">
+                <h3 className="font-display text-3xl text-foreground">
                   {title}
                 </h3>
-                <p className="mt-3 max-w-sm text-sm leading-6 text-[#665f57]">
+                <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
                   {body}
                 </p>
               </div>
-              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#25231f]">
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                 Open workflow <ArrowUpRight className="size-4" aria-hidden />
               </span>
             </Link>
@@ -310,7 +311,7 @@ export default async function ExplorePage() {
             community.items.length > 0 ? (
               <Link
                 href="/community"
-                className="inline-flex h-10 items-center gap-1.5 rounded-full border border-black/10 bg-white/55 px-4 text-sm font-medium transition-colors hover:bg-white"
+                className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 bg-surface px-4 text-sm font-medium transition-colors hover:bg-raised"
               >
                 Explore community{" "}
                 <ArrowUpRight className="size-4" aria-hidden />
@@ -368,20 +369,20 @@ export default async function ExplorePage() {
         aria-labelledby="cta-title"
         className="mx-auto w-full max-w-[1320px] px-4"
       >
-        <div className="grid min-h-[360px] items-center gap-8 overflow-hidden rounded-[28px] border border-black/10 bg-[#e3e8e4] p-6 md:grid-cols-[1fr_0.85fr] md:p-12">
+        <div className="grid min-h-[360px] items-center gap-8 overflow-hidden rounded-[28px] border border-white/10 bg-panel p-6 md:grid-cols-[1fr_0.85fr] md:p-12">
           <div className="flex flex-col items-start gap-5">
-            <p className="font-mono text-xs tracking-[0.14em] text-[#476b82]">
+            <p className="font-mono text-xs tracking-[0.14em] text-forest-soft">
               Ready for your next product drop?
             </p>
             <h2
               id="cta-title"
-              className="font-display max-w-[600px] text-[38px] leading-[0.98] text-[#25231f] md:text-[56px]"
+              className="font-display max-w-[600px] text-[38px] leading-[0.98] text-foreground md:text-[56px]"
             >
               Make the asset set. Keep the brand consistent.
             </h2>
-            <p className="max-w-[440px] text-sm leading-6 text-[#514b43] md:text-base">
-              Start from one product, build a library of useful variations,
-              then bring the finished work into your store.
+            <p className="max-w-[440px] text-sm leading-6 text-muted-foreground md:text-base">
+              Start from one product, build a library of useful variations, then
+              bring the finished work into your store.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
@@ -392,7 +393,7 @@ export default async function ExplorePage() {
               </Link>
               <Link
                 href="/pricing"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-surface px-6 text-base font-medium transition-colors hover:bg-raised"
               >
                 See pricing
               </Link>

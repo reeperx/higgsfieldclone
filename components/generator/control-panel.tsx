@@ -106,10 +106,8 @@ export function ModelCard({ generator }: { generator: Generator }) {
 const PLACEHOLDER: Record<GeneratorTab, string> = {
   create:
     "Describe your product, surface, composition, lighting, and where this image will be used…",
-  edit:
-    "Describe the retouch or variation. Keep the product shape, label, and key details accurate…",
-  motion:
-    "Describe the product movement, camera path, and campaign mood…",
+  edit: "Describe the retouch or variation. Keep the product shape, label, and key details accurate…",
+  motion: "Describe the product movement, camera path, and campaign mood…",
 }
 
 export function PromptCard({ generator }: { generator: Generator }) {
@@ -134,7 +132,11 @@ export function PromptCard({ generator }: { generator: Generator }) {
         htmlFor={`prompt-${generator.surface}`}
         className="text-sm text-muted-foreground"
       >
-        {preset ? "Product brief" : generator.tab === "edit" ? "Edit direction" : "Product brief"}
+        {preset
+          ? "Product brief"
+          : generator.tab === "edit"
+            ? "Edit direction"
+            : "Product brief"}
         {model.requirePrompt ? "" : preset ? "" : " (optional)"}
       </label>
       <textarea
@@ -269,7 +271,7 @@ export function GenerateButton({
             ? `generate-reason-${generator.surface}`
             : undefined
         }
-        className="btn-keycap btn-keycap-generate flex h-12 w-full items-center justify-center gap-2 rounded-xl text-base font-semibold text-[#14151a]"
+        className="btn-keycap btn-keycap-generate flex h-12 w-full items-center justify-center gap-2 rounded-xl text-base font-semibold text-[#17231d]"
       >
         {submitting ? <Loader2 className="size-4 animate-spin" /> : null}
         Generate

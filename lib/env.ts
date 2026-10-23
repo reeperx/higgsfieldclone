@@ -29,6 +29,7 @@ const schema = z.object({
 
   AUTH_SECRET: optionalString,
   AUTH_RESEND_KEY: optionalString,
+  ARCJET_KEY: optionalString,
   EMAIL_FROM: z.string().default("Vendo <login@vendo.studio>"),
   SUPPORT_EMAIL: z.email().default("support@vendo.studio"),
   SIGNUP_BONUS_CREDITS: z.coerce.number().int().min(0).default(0),
@@ -52,6 +53,8 @@ const schema = z.object({
     (value) => value === undefined || /^[^:\s]+:[^:\s]+$/.test(value),
     "HF_CREDENTIALS must be key_id:key_secret"
   ),
+  /** Record the provider's written authorization before enabling its live API. */
+  HF_SAAS_APPROVAL_REFERENCE: optionalString,
   HF_WEBHOOK_SECRET: optionalString,
   HF_WEBHOOK_BASE_URL: optionalString,
   HF_PRICE_GUARD: bool(true),
@@ -85,8 +88,10 @@ export type Env = z.infer<typeof schema>
 const REQUIRED_IN_PRODUCTION = [
   "AUTH_SECRET",
   "AUTH_RESEND_KEY",
+  "ARCJET_KEY",
   "MONGODB_URI",
   "HF_CREDENTIALS",
+  "HF_SAAS_APPROVAL_REFERENCE",
   "HF_WEBHOOK_SECRET",
   "HF_WEBHOOK_BASE_URL",
   "BACHS_SECRET_KEY",
@@ -135,8 +140,12 @@ export function env(): Env {
         "MONGODB_URI unset → run `pnpm db:dev` for a local replica set",
       !value.AUTH_RESEND_KEY &&
         "AUTH_RESEND_KEY unset → magic links are printed to this log",
+      !value.ARCJET_KEY &&
+        "ARCJET_KEY unset → Arcjet request limits are disabled locally",
       !value.HF_CREDENTIALS &&
         "HF_CREDENTIALS unset → generation is disabled (use `pnpm mock:higgsfield` + HF_CREDENTIALS=mock:mock)",
+      !value.HF_SAAS_APPROVAL_REFERENCE &&
+        "HF_SAAS_APPROVAL_REFERENCE unset → live Higgsfield API calls are blocked; local mock remains available",
       !r2Configured(value) &&
         "R2 unset → media is stored under .data/media and served by /api/media",
       !value.BACHS_SECRET_KEY &&

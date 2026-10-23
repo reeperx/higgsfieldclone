@@ -78,7 +78,7 @@ function Preview({ item }: { item: MediaItem }) {
   if (kind === "audio")
     return (
       <span className="flex size-full items-center justify-center bg-raised">
-        <AudioLines className="size-5 text-sand" />
+        <AudioLines className="size-5 text-forest-soft" />
       </span>
     )
   return (

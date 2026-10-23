@@ -1,13 +1,9 @@
-// Wan 3.0 and Wan 3.0 Prime — text / image / reference to video.
+// Wan 3.0 — text / image / reference to video.
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/wan-3
 //   https://docs.higgsfield.ai/docs/models/wan-3/text-to-video
 //   https://docs.higgsfield.ai/docs/models/wan-3/image-to-video
 //   https://docs.higgsfield.ai/docs/models/wan-3/reference-to-video
-//   https://docs.higgsfield.ai/docs/models/wan-3-prime
-//   https://docs.higgsfield.ai/docs/models/wan-3-prime/text-to-video
-//   https://docs.higgsfield.ai/docs/models/wan-3-prime/image-to-video
-//   https://docs.higgsfield.ai/docs/models/wan-3-prime/reference-to-video
 // All three workflows share prompt (required), duration, resolution,
 // aspect_ratio, generate_audio and enable_thinking. Not exposed: seed,
 // file_url, link_url.
@@ -42,12 +38,12 @@ const settings = {
   resolution: {
     type: "enum",
     values: ["480p", "720p", "1080p"],
-    default: "1080p",
+    default: "720p",
     label: "Resolution",
   },
   generateAudio: {
     type: "boolean",
-    default: true,
+    default: false,
     label: "Generate audio",
     hint: "Native soundtrack and effects.",
   },

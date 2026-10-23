@@ -52,7 +52,7 @@ export function ViewAllPill({
   return (
     <Link
       href={href}
-      className="inline-flex h-10 items-center gap-1.5 rounded-full border border-black/10 bg-white/70 px-4 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-white"
+      className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 bg-surface px-4 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-raised"
     >
       {children} <ArrowUpRight className="size-4" aria-hidden />
     </Link>

@@ -50,17 +50,18 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   /* Vendo surface steps: page → panel → card → raised → hover. */
-  --color-page: #f4f0e8;
-  --color-panel: var(--hf-color-background-primary);
-  --color-surface: var(--hf-color-background-secondary);
-  --color-raised: var(--hf-color-cool-250);
-  --color-hover: var(--hf-color-cool-200);
-  /* Legacy utility name retained with a darker shade for text contrast. */
-  --color-sand: var(--hf-color-text-brand);
-  --color-gold-soft: #476b82;
-  --color-pink: #b94c32;
-  --color-pink-strong: #8e3828;
-  --color-hairline: rgba(41, 36, 30, 0.12);
+  --color-page: #101711;
+  --color-panel: var(--hf-color-background-secondary);
+  --color-surface: var(--hf-color-background-tertiary);
+  --color-raised: var(--hf-color-cool-200);
+  --color-hover: var(--hf-color-cool-150);
+  --color-sand: #d8b26e;
+  --color-lime: #d8b26e;
+  --color-forest-soft: #9fbea5;
+  --color-gold-soft: #e7c989;
+  --color-pink: #dd8a85;
+  --color-pink-strong: #f0a39d;
+  --color-hairline: rgba(242, 244, 236, 0.1);
 }
 
 @layer base {
@@ -77,27 +78,27 @@
 
 /* Studio primitives that plain utilities cannot express. */
 @layer components {
-  /* Editorial display type replaces the template's all-caps geometric style. */
+  /* A compact, confident grotesk gives the seller workspace a utility-first voice. */
   .font-display {
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 0.98;
+    font-family: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
   }
-  /* Editorial terracotta action. */
+  /* Forest is the steady action color; sand is reserved for generation. */
   .btn-keycap {
-    background-color: var(--color-sand);
-    color: #fffdf8;
-    box-shadow: 0 2px 0 #8e3828;
+    background-color: #31583e;
+    color: #f2f4ec;
+    box-shadow: 0 2px 0 #203e2b;
     transition:
       background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
       transform 80ms ease-out;
   }
   .btn-keycap:hover:not(:disabled) {
-    background-color: color-mix(in oklab, var(--color-sand) 88%, white);
+    background-color: color-mix(in oklab, #31583e 88%, white);
   }
   .btn-keycap:active:not(:disabled) {
-    box-shadow: 0 1px 0 #8e3828;
+    box-shadow: 0 1px 0 #203e2b;
     transform: translateY(1px);
   }
   .btn-keycap:disabled {
@@ -105,18 +106,20 @@
     cursor: not-allowed;
   }
   .btn-keycap-generate {
-    background-image: linear-gradient(135deg, #c65e3f, #a63f2b);
+    background: var(--color-sand);
+    color: #17231d;
+    box-shadow: 0 2px 0 #947440;
   }
-  .btn-keycap-white {
-    background-color: #fffdf8;
-    color: #25231f;
-    box-shadow: 0 1px 0 rgba(37, 35, 31, 0.12);
+  .btn-keycap-secondary {
+    background-color: #202b22;
+    color: #f2f4ec;
+    box-shadow: 0 1px 0 rgba(242, 244, 236, 0.1);
   }
   .glass {
-    background-color: rgba(255, 253, 248, 0.94);
+    background-color: rgba(20, 28, 21, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(37, 35, 31, 0.12);
+    border: 1px solid rgba(242, 244, 236, 0.1);
   }
   .fade-bottom {
     mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
@@ -131,9 +134,9 @@
   .shimmer {
     background: linear-gradient(
       100deg,
-      rgba(37, 35, 31, 0.02) 20%,
-      rgba(37, 35, 31, 0.07) 40%,
-      rgba(37, 35, 31, 0.02) 60%
+      rgba(242, 244, 236, 0.02) 20%,
+      rgba(242, 244, 236, 0.07) 40%,
+      rgba(242, 244, 236, 0.02) 60%
     );
     background-size: 200% 100%;
     animation: vireo-shimmer 1.6s linear infinite;
@@ -141,8 +144,8 @@
   .studio-glow {
     background-image: radial-gradient(
       120% 100% at 50% 0%,
-      var(--hf-color-transparent-lime-40) 0%,
-      var(--hf-color-transparent-lime-15) 45%,
+      rgba(159, 190, 165, 0.4) 0%,
+      rgba(159, 190, 165, 0.15) 45%,
       transparent 82%
     );
     animation: studio-breathe 4200ms ease-in-out infinite;

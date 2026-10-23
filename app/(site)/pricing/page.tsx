@@ -170,7 +170,7 @@ export default function PricingPage() {
             id="ready-title"
             className="font-display text-[36px] leading-none md:text-[48px]"
           >
-            Ready to <span className="text-sand">create?</span>
+            Ready to <span className="text-forest-soft">create?</span>
           </h2>
           <p className="max-w-[440px] text-sm text-muted-foreground">
             Open the studio, pick a model and make your first shot. You can
@@ -185,7 +185,7 @@ export default function PricingPage() {
             </Link>
             <Link
               href="#plans"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-surface px-6 text-base font-medium transition-colors hover:bg-raised"
             >
               Back to plans
             </Link>

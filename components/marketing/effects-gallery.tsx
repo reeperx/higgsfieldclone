@@ -54,15 +54,15 @@ export function EffectsGallery({
               className={cn(
                 "flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-medium transition-colors duration-200",
                 pressed
-                  ? "border-[#b94c32]/30 bg-[#b94c32]/10 text-[#923b29]"
-                  : "border-black/10 bg-white/55 text-[#665f57] hover:bg-white"
+                  ? "border-sand/30 bg-sand/10 text-sand"
+                  : "border-white/10 bg-surface text-muted-foreground hover:bg-raised"
               )}
             >
               {chip}
               <span
                 className={cn(
                   "text-xs tabular-nums",
-                  pressed ? "text-[#923b29]/70" : "text-[#766d62]"
+                  pressed ? "text-sand/70" : "text-muted-foreground"
                 )}
               >
                 {count}

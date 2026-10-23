@@ -1,116 +1,112 @@
 "use client"
 
 import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 
 import { BRAND } from "@/lib/brand"
 
-import { LogoMark } from "./logo"
+import { Logo, LogoMark } from "./logo"
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
-    title: "Create",
+    title: "Make",
     links: [
-      { label: "Product photos", href: "/image" },
-      { label: "Product video", href: "/video" },
-      { label: "AI model shoots", href: "/image?model=soul-2" },
-      { label: "Shot presets", href: "/effects" },
+      { label: "Product photography", href: "/image" },
+      { label: "Product films", href: "/video" },
+      { label: "Art direction", href: "/effects" },
     ],
   },
   {
-    title: "Video models",
+    title: "Manage",
     links: [
-      { label: "Seedance 2.5", href: "/video?model=seedance-2.5" },
-      { label: "Kling 3.0 Pro", href: "/video?model=kling-3-pro" },
-      { label: "Cinema Studio 4.0", href: "/video?model=cinema-studio-4" },
-      { label: "Wan 3.0", href: "/video?model=wan-3" },
-      { label: "MiniMax H3", href: "/video?model=minimax-h3" },
-    ],
-  },
-  {
-    title: "Image models",
-    links: [
-      { label: "Marketing Studio", href: "/image?model=marketing-image-flare" },
-      { label: "Soul 2", href: "/image?model=soul-2" },
-      { label: "Ideogram 4.0", href: "/image?model=ideogram-4" },
-      { label: "Qwen Image 3", href: "/image?model=qwen-image-3" },
-      { label: "Grok Image 2.0", href: "/image?model=grok-image-2" },
+      { label: "Work gallery", href: "/community" },
+      { label: "Plans and credits", href: "/pricing" },
+      { label: "Your library", href: "/assets" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Pricing", href: "/pricing" },
-      { label: "Community", href: "/community" },
-      { label: "Support", href: `mailto:${BRAND.supportEmail}` },
-      { label: "Refund policy", href: "/legal/refunds" },
+      { label: "Contact", href: `mailto:${BRAND.supportEmail}` },
       { label: "Terms", href: "/legal/terms" },
       { label: "Privacy", href: "/legal/privacy" },
+      { label: "Refunds", href: "/legal/refunds" },
     ],
   },
 ]
 
 export function Footer() {
   return (
-    <footer className="mt-24">
-      <div className="bg-[#252d2b] px-6 py-14 text-[#fffdf8] md:px-12">
-        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[1.1fr_2fr]">
-          <div className="flex flex-col gap-6">
+    <footer className="mt-20 px-3 pb-3 md:px-6 md:pb-6">
+      <div className="overflow-hidden rounded-[28px] bg-[#14221a] text-[#f2f4ec]">
+        <div className="grid gap-12 border-b border-white/10 px-6 py-10 md:px-10 md:py-14 lg:grid-cols-[1.1fr_1fr]">
+          <div className="flex flex-col items-start gap-8">
             <LogoMark inverted className="size-10" />
-            <p className="font-display text-4xl leading-[0.95] md:text-5xl">
-              Shoot every
-              <br />
-              product yourself
-            </p>
+            <div className="max-w-[540px]">
+              <p className="font-mono text-[11px] font-medium tracking-[0.16em] text-forest-soft">
+                YOUR NEXT PRODUCT DROP
+              </p>
+              <h2 className="mt-3 max-w-[480px] text-4xl leading-[1.02] font-bold tracking-[-0.05em] md:text-6xl">
+                Make the whole set. Keep the brand yours.
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-white/65 md:text-base">
+                Build listing-ready photos and product films, then keep every
+                approved take together in one production space.
+              </p>
+            </div>
+            <Link
+              href="/image"
+              className="btn-keycap inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold transition"
+            >
+              Start a product set <ArrowUpRight className="size-4" />
+            </Link>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+
+          <div className="grid grid-cols-2 content-start gap-x-6 gap-y-10 sm:grid-cols-3">
             {COLUMNS.map((column) => (
-              <div key={column.title} className="flex flex-col gap-3">
-                <p className="text-sm font-medium text-[#fffdf8]/60">
+              <nav key={column.title} aria-label={column.title}>
+                <h3 className="text-xs font-semibold tracking-[0.12em] text-white/45 uppercase">
                   {column.title}
-                </p>
-                {column.links.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="text-[15px] font-medium text-[#fffdf8]/85 transition-colors hover:text-[#e9a17f]"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+                </h3>
+                <ul className="mt-4 flex flex-col gap-3">
+                  {column.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-white/80 transition hover:text-forest-soft"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             ))}
           </div>
         </div>
-      </div>
-      <div className="flex flex-col items-start justify-between gap-3 px-6 py-5 text-sm text-muted-foreground md:flex-row md:items-center md:px-12">
-        <p>
-          © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
-        </p>
-        <div className="flex flex-wrap gap-4 text-foreground">
-          <Link href="/legal/terms" className="hover:text-[#b94c32]">
-            Terms
-          </Link>
-          <Link href="/legal/refunds" className="hover:text-[#b94c32]">
-            Refunds
-          </Link>
-          <Link href="/legal/privacy" className="hover:text-[#b94c32]">
-            Privacy
-          </Link>
-          <Link href="/legal/cookies" className="hover:text-[#b94c32]">
-            Cookies
-          </Link>
-          <Link href="/legal/acceptable-use" className="hover:text-[#b94c32]">
-            Acceptable use
-          </Link>
-          <button
-            type="button"
-            className="hover:text-[#b94c32]"
-            onClick={() =>
-              window.dispatchEvent(new Event("vireo:cookie-preferences"))
-            }
-          >
-            Cookie settings
-          </button>
+
+        <div className="flex flex-col gap-4 px-6 py-5 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <Logo compact className="[&>span]:text-white/80" />
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link href="/legal/cookies" className="hover:text-white">
+              Cookies
+            </Link>
+            <Link href="/legal/acceptable-use" className="hover:text-white">
+              Acceptable use
+            </Link>
+            <button
+              type="button"
+              className="hover:text-white"
+              onClick={() =>
+                window.dispatchEvent(new Event("vireo:cookie-preferences"))
+              }
+            >
+              Cookie settings
+            </button>
+            <span>
+              © {new Date().getFullYear()} {BRAND.name}
+            </span>
+          </div>
         </div>
       </div>
     </footer>

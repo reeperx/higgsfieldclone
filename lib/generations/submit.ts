@@ -29,6 +29,7 @@ import {
   IN_FLIGHT,
   type GenerationDoc,
 } from "@/lib/db/collections"
+import { generationDocumentSchema } from "@/lib/db/schemas"
 import { env } from "@/lib/env"
 import {
   AmbiguousSubmitError,
@@ -275,7 +276,9 @@ export async function submitGeneration(
         doc.cost,
         session
       )
-      await generations.insertOne(doc, { session })
+      await generations.insertOne(generationDocumentSchema.parse(doc), {
+        session,
+      })
     })
   } catch (caught) {
     if (isDuplicateKey(caught)) {

@@ -56,9 +56,8 @@ const { submitGeneration } = await import("@/lib/generations/submit")
 const { generationStatuses } = await import("@/lib/generations/library")
 const { webhookToken } = await import("@/lib/higgsfield/webhook")
 const { collections } = await import("@/lib/db/collections")
-const { POST: higgsfieldWebhook } = await import(
-  "@/app/api/webhooks/higgsfield/route"
-)
+const { POST: higgsfieldWebhook } =
+  await import("@/app/api/webhooks/higgsfield/route")
 const { ObjectId } = await import("mongodb")
 type BachsEvent = Parameters<typeof handleBachsEvent>[0]
 
@@ -112,9 +111,9 @@ describe("Bachs webhooks", () => {
       topup: 2420,
     })
     const { users } = await collections()
-    expect(
-      (await users.findOne({ _id: user.objectId }))!.bachsCustomerId
-    ).toBe("cust_123")
+    expect((await users.findOne({ _id: user.objectId }))!.bachsCustomerId).toBe(
+      "cust_123"
+    )
   })
 
   it("re-reads the checkout session when the event metadata is missing", async () => {
@@ -247,9 +246,9 @@ describe("Bachs webhooks", () => {
       "evt_cancel"
     )
     await handleBachsEvent(cancel)
-    expect(
-      (await users.findOne({ _id: user.objectId }))!.planStatus
-    ).toBe("canceling")
+    expect((await users.findOne({ _id: user.objectId }))!.planStatus).toBe(
+      "canceling"
+    )
     // The same subscription state from before the cancel event is stale.
     const stale = {
       ...sub,
@@ -261,9 +260,9 @@ describe("Bachs webhooks", () => {
       ...event("customer.subscription.created", stale, "evt_late"),
       created_at: new Date(Date.now() - 60_000).toISOString(),
     })
-    expect(
-      (await users.findOne({ _id: user.objectId }))!.planStatus
-    ).toBe("canceling")
+    expect((await users.findOne({ _id: user.objectId }))!.planStatus).toBe(
+      "canceling"
+    )
   })
 
   it("ends a canceled subscription: back to Free, plan credits lapse", async () => {
@@ -365,7 +364,11 @@ describe("Bachs webhook signatures", () => {
     const t = timestamp()
     expect(
       verifyBachsWebhook({
-        body: JSON.stringify({ id: "evt_other", type: "invoice.paid", data: {} }),
+        body: JSON.stringify({
+          id: "evt_other",
+          type: "invoice.paid",
+          data: {},
+        }),
         v2: `t=${t},v1=${sign(body, t)}`,
         legacySignature: null,
         legacyTimestamp: null,
@@ -399,7 +402,7 @@ describe("Higgsfield webhook route", () => {
     const user = await createUser({ topup: 100 })
     const view = await submitGeneration(user, {
       submitKey: randomUUID(),
-      modelId: "soul-2",
+      modelId: "qwen-image-3",
       prompt: "A lighthouse at dusk",
       settings: {},
       media: [],

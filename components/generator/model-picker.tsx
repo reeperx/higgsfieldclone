@@ -30,7 +30,7 @@ export function ModelIcon({
 }
 
 const BADGE_CLASS: Record<ModelBadge, string> = {
-  NEW: "bg-sand text-white",
+  NEW: "bg-sand text-[#17231d]",
   TOP: "bg-[#476B82] text-white",
   FAST: "bg-foreground/80 text-background",
   "4K": "bg-foreground/80 text-background",
@@ -139,7 +139,8 @@ export function ModelPicker({
             {!query && featured.length ? (
               <section className="mb-6">
                 <h3 className="mb-3 flex items-center gap-1.5 text-xs font-medium tracking-wide text-muted-foreground">
-                  <Sparkle className="size-3 fill-sand text-sand" /> Featured
+                  <Sparkle className="size-3 fill-forest-soft text-forest-soft" />{" "}
+                  Featured
                 </h3>
                 <div className="grid gap-3 sm:grid-cols-3">
                   {featured.map((model) => (
@@ -200,7 +201,7 @@ export function ModelPicker({
                             selected && "bg-accent"
                           )}
                         >
-                          <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#25231F]">
+                          <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-raised">
                             <ModelIcon model={model} />
                           </span>
                           <span className="min-w-0 flex-1">

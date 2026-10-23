@@ -171,7 +171,7 @@ export function JustifiedGallery({
                         className={cn(
                           "absolute top-2 left-2 flex size-6 items-center justify-center rounded-full border",
                           selected
-                            ? "border-sand bg-sand text-white"
+                            ? "border-sand bg-sand text-[#17231d]"
                             : "border-white/40 bg-black/40 text-transparent"
                         )}
                       >

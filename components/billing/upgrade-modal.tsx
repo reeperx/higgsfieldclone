@@ -35,7 +35,7 @@ export function UpgradeModal() {
             </div>
             <DialogPrimitive.Close
               aria-label="Close"
-              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-black/5 hover:bg-black/10"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/5 hover:bg-white/10"
             >
               <X className="size-4" />
             </DialogPrimitive.Close>

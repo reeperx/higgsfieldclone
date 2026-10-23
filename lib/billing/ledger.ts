@@ -8,6 +8,7 @@ import {
   type Credits,
   type LedgerReason,
 } from "@/lib/db/collections"
+import { ledgerDocumentSchema } from "@/lib/db/schemas"
 import { mongoClient } from "@/lib/db/mongo"
 
 import { BILLING_FLAGS } from "./config"
@@ -146,7 +147,13 @@ export async function applyDeltas(
       ...(entry.actorId ? { actorId: entry.actorId } : {}),
       createdAt: new Date(),
     }))
-  if (rows.length) await ledger.insertMany(rows, { session })
+  if (rows.length)
+    await ledger.insertMany(
+      rows.map((row) => ledgerDocumentSchema.parse(row)),
+      {
+        session,
+      }
+    )
   return { applied: true, balance }
 }
 

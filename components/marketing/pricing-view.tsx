@@ -14,6 +14,7 @@ import { useApp } from "@/components/providers/app-providers"
 import { activeSurfaces } from "@/generation/catalog"
 import { zar } from "@/lib/billing/money"
 import {
+  annualTotalPrice,
   PLANS,
   type BillingInterval,
   type Plan,
@@ -101,7 +102,7 @@ function CellValue({ value }: { value: Cell }) {
   if (value === true)
     return (
       <>
-        <Check className="size-4 text-sand" aria-hidden />
+        <Check className="size-4 text-forest-soft" aria-hidden />
         <span className="sr-only">Included</span>
       </>
     )
@@ -134,7 +135,7 @@ function FreeCta({ className }: { className?: string }) {
     return (
       <Link
         href="/video"
-        className={cn(base, "btn-keycap-white hover:bg-white/90", className)}
+        className={cn(base, "btn-keycap-secondary hover:bg-hover", className)}
       >
         Start creating
       </Link>
@@ -143,7 +144,7 @@ function FreeCta({ className }: { className?: string }) {
     <button
       type="button"
       onClick={() => openAuth({ mode: "signup" })}
-      className={cn(base, "btn-keycap-white hover:bg-white/90", className)}
+      className={cn(base, "btn-keycap-secondary hover:bg-hover", className)}
     >
       Create free account
     </button>
@@ -153,7 +154,7 @@ function FreeCta({ className }: { className?: string }) {
 function FreeCard() {
   const free = PLANS.free
   return (
-    <div className="flex flex-col gap-5 rounded-[24px] border border-black/10 bg-white/70 p-6 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-5 rounded-[24px] border border-white/10 bg-panel p-6 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-col gap-1">
         <h3 className="font-display text-2xl">{free.name}</h3>
         <p className="text-sm text-muted-foreground">
@@ -166,9 +167,9 @@ function FreeCard() {
           .map((feature) => (
             <li
               key={feature.label}
-              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black/5 px-3 text-foreground/85"
+              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white/5 px-3 text-foreground/85"
             >
-              <Check className="size-3.5 text-sand" aria-hidden />{" "}
+              <Check className="size-3.5 text-forest-soft" aria-hidden />{" "}
               {feature.label}
             </li>
           ))}
@@ -221,7 +222,7 @@ function CompareTable({ interval }: { interval: BillingInterval }) {
                 key={id}
                 scope="col"
                 className={cn(
-                  "border-b border-black/10 bg-panel px-1.5 pt-5 pb-4 align-bottom font-normal md:px-3",
+                  "border-b border-white/10 bg-panel px-1.5 pt-5 pb-4 align-bottom font-normal md:px-3",
                   index === ORDER.length - 1 && "rounded-tr-3xl"
                 )}
               >
@@ -239,6 +240,11 @@ function CompareTable({ interval }: { interval: BillingInterval }) {
                       "Free"
                     )}
                   </span>
+                  {interval === "year" && value ? (
+                    <span className="hidden text-[10px] text-muted-foreground md:inline">
+                      {zar(annualTotalPrice(plan))} / year
+                    </span>
+                  ) : null}
                   <span className="mt-2 hidden md:block">
                     {id === "free" ? (
                       <FreeCta className="h-9 w-full px-3 text-sm" />
@@ -292,7 +298,7 @@ function CompareTable({ interval }: { interval: BillingInterval }) {
               <tr key={row.label}>
                 <th
                   scope="row"
-                  className="border-b border-black/10 px-3 py-3 align-middle font-normal md:px-6"
+                  className="border-b border-white/10 px-3 py-3 align-middle font-normal md:px-6"
                 >
                   <span className="block text-foreground">{row.label}</span>
                   {row.hint ? (
@@ -304,7 +310,7 @@ function CompareTable({ interval }: { interval: BillingInterval }) {
                 {ORDER.map((id) => (
                   <td
                     key={id}
-                    className="border-b border-black/10 px-1.5 py-3 align-middle text-foreground/90 md:px-3"
+                    className="border-b border-white/10 px-1.5 py-3 align-middle text-foreground/90 md:px-3"
                   >
                     <CellValue value={row.values(PLANS[id])} />
                   </td>
@@ -342,7 +348,7 @@ export function PricingView() {
           from Account → Billing, and see our{" "}
           <Link
             href="/legal/refunds"
-            className="underline underline-offset-2 hover:text-sand"
+            className="underline underline-offset-2 hover:text-forest-soft"
           >
             refund policy
           </Link>{" "}
@@ -390,7 +396,7 @@ export function PricingView() {
           aria-expanded={compareOpen}
           aria-controls="compare-table"
           onClick={() => setCompareOpen((open) => !open)}
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-black/10 bg-white/50 px-5 text-sm font-semibold transition-colors hover:bg-white"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-surface px-5 text-sm font-semibold transition-colors hover:bg-raised"
         >
           {compareOpen ? "Hide comparison" : "Compare features"}
           <ChevronDown

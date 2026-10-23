@@ -12,6 +12,7 @@ import {
   IN_FLIGHT,
   type GenerationDoc,
 } from "@/lib/db/collections"
+import { projectDocumentSchema } from "@/lib/db/schemas"
 import { deleteObjects } from "@/lib/storage"
 
 import { toGenerationView, toProjectView } from "./serialize"
@@ -64,6 +65,54 @@ export async function listGenerations(
       docs.length > query.limit && last
         ? `${last.createdAt.getTime()}:${last._id.toHexString()}`
         : null,
+  }
+}
+
+export async function getWorkspaceOverview(userId: ObjectId): Promise<{
+  total: number
+  completedThisMonth: number
+  inFlight: number
+  failedThisMonth: number
+  projectCount: number
+  recent: GenerationView[]
+}> {
+  const { generations, projects } = await collections()
+  const since = new Date()
+  since.setDate(since.getDate() - 30)
+  const [
+    total,
+    completedThisMonth,
+    inFlight,
+    failedThisMonth,
+    projectCount,
+    recent,
+  ] = await Promise.all([
+    generations.countDocuments({ userId }),
+    generations.countDocuments({
+      userId,
+      status: "completed",
+      createdAt: { $gte: since },
+    }),
+    generations.countDocuments({ userId, status: { $in: [...IN_FLIGHT] } }),
+    generations.countDocuments({
+      userId,
+      status: { $in: ["failed", "nsfw", "canceled"] },
+      createdAt: { $gte: since },
+    }),
+    projects.countDocuments({ userId }),
+    generations
+      .find({ userId })
+      .sort({ createdAt: -1, _id: -1 })
+      .limit(6)
+      .toArray(),
+  ])
+  return {
+    total,
+    completedThisMonth,
+    inFlight,
+    failedThisMonth,
+    projectCount,
+    recent: recent.map(toGenerationView),
   }
 }
 
@@ -256,7 +305,7 @@ export async function createProject(
     createdAt: now,
     updatedAt: now,
   }
-  await projects.insertOne(doc)
+  await projects.insertOne(projectDocumentSchema.parse(doc))
   return toProjectView(doc, { count: 0 })
 }
 

@@ -78,12 +78,13 @@ test("cancel a queued run on the platform and get the credits back", async ({
 test("not enough credits opens the upgrade modal", async ({ page }) => {
   await signIn(page, uniqueEmail("broke"), "/video")
   await dismissCookies(page)
-  await page.getByRole("button", { name: "Change" }).first().click()
-  await page.getByRole("textbox", { name: "Search models" }).fill("Cinema")
+  await page.getByRole("combobox", { name: "Resolution" }).click()
+  await page.getByRole("option", { name: "1080p" }).click()
+  await page.getByRole("button", { name: /^Duration:/ }).click()
   await page
-    .getByRole("button", { name: /Cinema Studio 4\.0/ })
-    .first()
-    .click()
+    .getByRole("group", { name: "Duration" })
+    .getByRole("slider")
+    .press("End")
   await page
     .getByRole("textbox", { name: /Prompt|Describe|Product brief/ })
     .first()

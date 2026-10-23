@@ -7,7 +7,7 @@ Newest decisions go at the bottom of each section.
 
 | Placeholder | Value | Why |
 |---|---|---|
-| `BRAND_NAME` | **Vendo** | Renamed 2026-10 when the product was re-scoped to e-commerce product photos & videos: a selling word (vendo = "I sell"), short and ownable. The October 2026 UI redesign establishes a paper/ink palette with terracotta and mineral-blue accents. |
+| `BRAND_NAME` | **Vendo** | Renamed 2026-10 when the product was re-scoped to e-commerce product photos & videos: a selling word (vendo = "I sell"), short and ownable. The October 2026 UI redesign establishes a dark forest/ink commerce-control palette with sand accents. |
 | `APP_SLUG` | `vendo-studio` | |
 | `PRODUCTION_URL` | `https://vendo.studio` | Placeholder domain; change in env (`APP_URL`, `AUTH_URL`). |
 | `EMAIL_FROM` | `Vendo <login@vendo.studio>` | Domain must be verified in Resend before launch. |
@@ -26,10 +26,26 @@ Newest decisions go at the bottom of each section.
    so we don't depend on it.
 4. **CLI `MODELS.md` names are job-set types**, not REST paths (brief §1a). It
    was not used as a source for any REST path.
-5. **License:** `higgsfield-ai/app-templates` has no LICENSE file as of
-   2026-09-26 (commit `b29cdab`). Higgsfield publishes it as a public shadcn
-   registry for scaffolding apps on its API, which is our use. Template
-   attribution comments are kept. **Re-check for a LICENSE before launch.**
+5. **License:** GitHub did not report a license for
+   `higgsfield-ai/app-templates` when checked 2026-10-23. Public availability,
+   attribution, and its registry format do not establish permission to adapt
+   its source. Resolve the adapted-code license with the owner/counsel or
+   replace affected code before launch; see `docs/legal-risk-register.md`.
+
+## Higgsfield API authorization (2026-10)
+
+- Higgsfield open-sourced some tooling and client SDKs, but not the hosted
+  generation API. The Apache-2.0 Python SDK does not grant hosted API resale
+  rights; GitHub did not report licenses for the JS SDK or app templates.
+- The hosted [API Terms](https://open.higgsfield.ai/terms-of-service) §4.2
+  prohibit reselling or making the API available as a substantially similar or
+  competing generation/model-access service without prior written consent.
+  Sections 4.1 and 4.4 add material-functionality and end-user flow-down
+  requirements. Vendo's commerce workflow may add functionality but is not
+  proof that the SaaS use is approved.
+- `HF_SAAS_APPROVAL_REFERENCE` gates every live request in the shared
+  Higgsfield client. Keep it unset until written permission explicitly covers
+  this customer-facing SaaS use. Local mock requests remain enabled.
 
 ## Docs vs template (docs win)
 
@@ -87,9 +103,10 @@ Newest decisions go at the bottom of each section.
 
 - Auth.js v5, Resend provider (magic link only), MongoDB adapter, database
   sessions, session exposes `user.id` + `user.role` only.
-- Rate limits (Mongo TTL collection `rate_limits`): 5 magic-link sends / email /
-  hour, 20 / IP / hour; disposable-domain blocklist on (small static list,
-  config flag `BLOCK_DISPOSABLE_EMAIL`).
+- Rate limits: Arcjet IP windows (10 auth/10 min, 120 API reads/min, 60 writes
+  and server actions/min) plus the Mongo TTL `rate_limits` checks on sensitive
+  user operations; disposable-domain blocklist on (small static list, config
+  flag `BLOCK_DISPOSABLE_EMAIL`).
 - Signed-out users can browse and open generators; Generate/Upload opens the
   auth modal and the dock state is preserved in localStorage (it already is).
 
@@ -98,25 +115,13 @@ Newest decisions go at the bottom of each section.
 - `credits = ceil(hfUsd × CREDIT_MARKUP / CREDIT_USD_VALUE)`, min 1.
 - `priceFor(modelId, settings, media)` is pure, shared by UI and server, unit
   tested. Rules per model: `per_image` (× batch), `per_second` (× duration,
-  optional per-resolution multipliers), `flat`, and `per_second_of_source`
-  (edit/motion endpoints whose duration follows the source video; billed on a
-  declared max — see below).
-- **Source-duration models** (Seedance Edit, Kling Motion Control, Genjutsu,
-  Kling O3/Omni edit): output length follows the uploaded video, which we can't
-  measure before submit without ffprobe. v1 charges for the documented
-  **maximum** (e.g. 30 s) up front and **refunds the difference** at finalize
-  when the platform reports a shorter output (duration probed from the MP4
-  `mvhd` box). Recorded as a `generation_refund` partial with `refType:
-  "generation-adjust"`.
+  optional per-resolution multipliers), `flat`, and source-duration rules for
+  any future edit models that require them.
 - **Three price sources** (`PriceRule.source`): `estimate` (synced from
-  `POST /estimate`), `description` (hand-derived from the pricing text that
-  token-metered endpoints return instead of numbers — e.g. Seedance 2.5 at
-  $0.0214 per 1,000 video tokens, i.e. $0.4622/s at 720p 16:9) and
+  `POST /estimate`), `description` (derived from the pricing text returned by
+  token-metered endpoints, currently Wan 3.0) and
   `placeholder` (unverified; priced for the local mock only and **not sold on
-  the live API** until an admin sets a price). Token-metered models also bill
-  input videos: `inputVideo` adds their seconds and applies the 0.6× with-video
-  rate; unknown input lengths count as the rule's maximum. MiniMax H3's extra
-  reference images use `perItem`.
+  the live API** until an admin sets a price).
 - **Estimate guard:** before submitting, the server calls
   `POST /estimate/{path}` with the exact body (1.5 s timeout). If the live USD
   would make our price a loss (`liveUsd > credits × CREDIT_USD_VALUE`), the
@@ -130,13 +135,20 @@ Newest decisions go at the bottom of each section.
 - `SIGNUP_BONUS_CREDITS` default **0** in `.env.example` per the brief; our
   suggested launch value is 50 (enough for ~2 images to try the product).
 
-## Plans (suggested ZAR prices)
+## Plans (owner-selected ZAR prices)
 
 Vendo offers Free / Starter / Plus / Ultra plans with monthly and annual
-billing, plus three top-up packs. The suggested rand amounts, credit
-allowances, and concurrency limits live in `lib/billing/plans.ts`; final
-amounts still need owner confirmation. Each plan product id comes from env
-(`BACHS_PRICE_*`), and matching products must be configured in Bachs in ZAR.
+billing, plus three top-up packs. Monthly plans are Starter R199, Plus R549,
+and Ultra R1,399. Annual monthly equivalents are R159, R439, and R1,119,
+billed yearly at R1,908, R5,268, and R13,428 respectively. These owner-selected
+prices are in `lib/billing/plans.ts`; annual Bachs products must match the
+annual totals exactly. Top-ups are R99 / R399 / R899.
+
+The 2× internal USD markup is a starting rule, not a verified profit margin.
+Final contribution margin depends on plan credit utilization, FX, Bachs fees,
+refunds, VAT/tax treatment, provider pricing, and account-specific limits.
+Public Higgsfield docs do not establish latency, consistency, or guaranteed
+rate limits; benchmark the authorized account before making those claims.
 
 ## Payments — Bachs (replaced Stripe, 2026-10)
 
@@ -184,23 +196,22 @@ integration relies on:
   `reference` to the `chk_…` checkout session id; a null/unmatched reference
   flags the account instead of silently skipping.
 
-## Catalog scope (pruned to product work, 2026-10)
+## Catalog scope (shortlist, 2026-10)
 
-The picker was re-scoped from "every documented model" (81 endpoints) to the
-17-entry e-commerce keep-list in `docs/model-catalog.md`. Rationale: faster
-picker review, fewer placeholder-priced units to vet, and every remaining entry
-maps to a concrete product job (packshot, model-in-scene, product video,
-re-composite). Pruned families (Kling O3/Omni/motion/legacy tiers, Wan
-2.6/2.7/Prime, Happy Horse, Hailuo, LTX Pro, Recraft, Z-Image Turbo, Marketing
-Image 2.0, Seedance edit/extend) stay documented there — restoring one is one
-file + `pnpm models` + a price rule. Internal `vireo:*` identifiers
-(localStorage keys, dev replica-set name, test fixtures) are deliberately not
-renamed.
+The picker is now limited to Qwen Image 3 and Wan 3.0. Qwen covers product
+imagery and reference-led edits; Wan covers text/image/reference-to-video. The
+selection favors documented commerce workflows and available public price
+evidence, not unverified claims about speed, consistency, or rate limits. The
+estimate endpoint and authorized-account benchmarks remain authoritative.
+Removed model families are documented in `docs/model-catalog.md`; restoring
+one requires authorization, current docs, reviewed pricing and tests. Internal
+`vireo:*` identifiers (localStorage keys, dev replica-set name, test fixtures)
+are deliberately not renamed.
 
 ## UI
 
-- Paper-and-ink workbench shell, with terracotta actions and mineral-blue
-  secondary accents; the generation canvas may use a contained dark surface.
+- Dark forest/ink control-room shell, with forest actions and sand only for
+  Generate and active states.
 - Top navigation added (the template's "no app header" rule is overridden by
   the brief: the site's layout is the source of truth for page structure).
 - The template's projects-first sidebar moves into `/assets` (Projects rail);
@@ -208,14 +219,13 @@ renamed.
 - **Audio nav item hidden** while the catalog has no audio models (see
   `model-catalog.md`); appears automatically when one is added.
 
-## Theme — commerce workbench (2026-10)
+## Theme — commerce control room (2026-10)
 
-Vendo's product UI uses warm paper (`#F4F0E8`), white paper (`#FFFDF8`), ink
-(`#25231F`), terracotta (`#B94C32`), and mineral blue (`#476B82`). Editorial
-serif display type, sentence-case labels, and product workflows distinguish the
-experience from a generic model directory. Public, account, and library pages
-use the light theme; a contained dark generation canvas may use the lighter
-terracotta variant (`#E58B70`) for contrast.
+Vendo uses dark forest/ink surfaces (`#101711`, `#171F18`, `#202B22`), forest
+actions (`#31583E`), and sand (`#D8B26E`) reserved for Generate and active
+states. Space Grotesk display type, sentence-case labels, and seller-production
+flows distinguish the experience from a generic model directory. Every route
+uses this dark theme.
 
 Token overrides in `styles/theme.css` re-map Quanta's semantic roles; the
 vendored `styles/quanta/**` source remains untouched. The published design
@@ -225,7 +235,8 @@ in `docs/ui-inventory.md`.
 ## Currency — rand (2026-10)
 
 - **Customer-facing money is ZAR**: plans (Starter R199 / Plus R549 /
-  Ultra R1 399 per month, annual −20 %; top-ups R99 / R399 / R899) in
+  Ultra R1,399 monthly; annual per-month R159 / R439 / R1,119 and annual totals
+  R1,908 / R5,268 / R13,428; top-ups R99 / R399 / R899) in
   `lib/billing/plans.ts`, formatted by `zar()` in `lib/billing/money.ts`
   (`en-ZA`, decimal comma). Bachs products in the dashboard must be created in
   rands with matching amounts; `billing_currency: "ZAR"` flows through checkout.
@@ -237,26 +248,27 @@ in `docs/ui-inventory.md`.
 ## Policies (2026-10)
 
 Five legal documents live in `app/(site)/legal/[doc]/page.tsx` — terms,
-privacy, **refunds**, **cookies** and acceptable-use — framed for South African
-law (POPIA for privacy; the CPA cooling-off and s55 defect rights inform the
-refund policy). They are honest placeholders describing actual product
-behavior (automatic refunds for failed/canceled generations, claw-back on
-purchase refunds) but must be lawyer-reviewed before launch; the placeholder
-banner stays. Footer + cookie-consent link to all of them.
+privacy, **refunds**, **cookies** and acceptable-use. They are non-operative
+drafts; remove unsupported promises and do not infer legal conclusions from
+the prior copy. South African counsel must review the operator identity,
+POPIA disclosures, CPA/ECTA consumer rights, provider flow-down, output rights,
+and actual billing/data flows. See `docs/legal-risk-register.md`. Footer and
+cookie-consent links must stay in sync.
 
 ## Logo (2026-10)
 
-The wordmark + product mark uses a terracotta tile with a product-label glyph,
-inverted (ink tile, paper glyph) on terracotta surfaces (`LogoMark inverted`).
+The wordmark + product mark uses a forest tile with a parcel glyph, inverted
+(ink tile, sand glyph) on dark surfaces (`LogoMark inverted`).
 Set in components (`components/site/logo.tsx`) as UI and as `app/icon.svg` /
 `public/icon.svg` for favicon. The wordmark renders lowercase Space Grotesk
 instead of the uppercase display face.
 
 ## Implementation decisions (build)
 
-- **Scaffold:** the shadcn init command was blocked by the tool sandbox, so the
-  project was created by copying the cloned template (`b29cdab`) — same files,
-  owner-approved.
+- **Scaffold provenance:** the project includes adaptations from
+  `higgsfield-ai/app-templates`, for which GitHub reported no license at the
+  latest check. Treat this as an unresolved distribution risk; see
+  `docs/legal-risk-register.md`.
 - **Ledger idempotency key** is `{reason, refType, refId, bucket}` (the brief's
   key plus `bucket`), because one charge can split across the subscription and
   top-up buckets. Refunds return credits to the buckets that paid, top-up first.
@@ -300,7 +312,8 @@ instead of the uppercase display face.
 - **CSP** allows HTTPS in `connect-src` because presigned upload hosts aren't
   pinned by the docs; narrow it with `CSP_CONNECT_SRC` once known.
 - **Plan prices** in `lib/billing/plans.ts` are suggested defaults
-  (Starter R199 / Plus R549 / Ultra R1,399 monthly, 20 % off annual; 1,000 /
+  (Starter R199 / Plus R549 / Ultra R1,399 monthly; annual monthly equivalents
+  R159 / R439 / R1,119, billed at R1,908 / R5,268 / R13,428; 1,000 /
   3,500 / 9,000 credits; top-ups 500 / 2,200 / 6,000 credits for R99 / R399 /
   R899) — **owner to confirm** before launch.
 - **Marketing media** (hero, auth carousel, model covers, preset covers, loops)
@@ -318,7 +331,8 @@ instead of the uppercase display face.
   `subscribe`). The `X-Webhook-Secret-Key` header belongs to the legacy v1
   job-set API. So v2 deliveries carry no signature; we rely on the HMAC token in
   the URL plus re-fetching the status. Revisit if the docs add a signature.
-- **Accessibility:** secondary text uses the paper palette's `#665F57`;
+- **Accessibility:** secondary text uses the dark palette's sage grey
+  `#B4C0B5`;
   validate text and focus contrast when changing theme tokens.
 
 ## Product-workbench redesign (2026-10-23)
@@ -327,11 +341,9 @@ instead of the uppercase display face.
   lifestyle imagery, campaign variations, and short product films. The home
   page and primary navigation lead with those jobs; model choice stays inside
   the workflow.
-- **Visual system:** warm paper (`#F4F0E8`), white paper (`#FFFDF8`), ink
-  (`#25231F`), terracotta (`#B94C32`), and mineral blue (`#476B82`); editorial
-  serif display type; sentence case. Public, account, and library pages use the
-  light theme. The generation canvas may retain a contained dark surface where
-  it improves media review.
+- **Visual system:** dark forest/ink (`#101711`, `#171F18`, `#202B22`), forest
+  actions (`#31583E`) and sand (`#D8B26E`) for Generate/active states; Space
+  Grotesk display type; sentence case. All routes use the dark theme.
 - **Distinctiveness:** remove fluorescent lime, full-bleed black hero
   gradients, all-caps display headings, and model-first navigation. Product
   photos and assets take priority over platform/model branding.
@@ -339,6 +351,11 @@ instead of the uppercase display face.
   change. Auth, billing, generation lifecycle, model schemas, credit pricing,
   media ownership, and publication behavior remain unchanged. Route-by-route
   expectations live in `docs/ui-inventory.md`.
+- **Authorization and legal launch gates:** live Higgsfield calls require
+  written SaaS authorization. The legal risk register documents the API terms,
+  unlicensed scaffold provenance, South African consumer/privacy disclosures,
+  and unresolved output-rights questions. Legal-page copy is explicitly
+  non-operative pending review.
 - **Local tester:** `pnpm db:init --test-user=seller@vendo.test` creates or
   reuses a passwordless user only when MongoDB is loopback and the process is
   not in production. Welcome credits are granted through the ledger and magic

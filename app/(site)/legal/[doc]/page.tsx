@@ -53,8 +53,8 @@ const DOCS: Record<string, LegalDoc> = {
         id: "content",
         title: "4. What you create",
         body: [
-          "You keep your rights in the prompts and files you upload. Subject to these terms and your plan, you may use the images and videos you generate, including commercially on paid plans.",
-          "If you publish a generation to Community, you allow other visitors to view it and to reuse its prompt and settings to make their own work.",
+          "You remain responsible for the prompts and files you upload. Rights in generated outputs and any commercial use depend on applicable law, the upstream model terms, and written permissions Vendo has not yet confirmed. These draft pages do not grant commercial-use rights.",
+          "Publishing makes a generation visible to other visitors and may expose its prompt and settings. The final license, reuse permissions, and limits on copies or cached content have not been reviewed.",
           "You are responsible for making sure the product photos and videos you create are accurate and lawful — don't present AI-generated results in a way that misleads your customers about what you're selling.",
         ],
       },
@@ -110,11 +110,8 @@ const DOCS: Record<string, LegalDoc> = {
         id: "cooling",
         title: "2. Cooling-off on a purchase",
         body: [
-          "Buying online is a distance agreement under the Consumer Protection Act 68 of 2008, which gives you the right to cancel a purchase within 5 business days (the “cooling-off period”).",
-          "Within the cooling-off period you can cancel in writing to " +
-            mail +
-            " and receive a refund — provided the credits from the purchase are entirely unused.",
-          "If you have used some of the credits, the purchase is considered consumed to that extent and the refund covers only the unused balance.",
+          "The application of statutory cancellation and cooling-off rights to digital credits, subscriptions, and generated services has not been reviewed by South African counsel.",
+          "Do not rely on this draft to determine eligibility, deadlines, deductions, or refund amounts. Vendo must publish a reviewed policy and configure matching billing practices before accepting paid customers.",
         ],
       },
       {
@@ -130,18 +127,14 @@ const DOCS: Record<string, LegalDoc> = {
         id: "subscriptions",
         title: "4. Plans and renewals",
         body: [
-          "Plans renew automatically; cancel any time from Account → Billing and the plan runs to the end of the period you already paid for. We don't pro-rate the remainder of a canceled period.",
-          "If we bill you in error, double-charge you, or bill after you canceled before a renewal date, we refund the full charge.",
-          "If the service has a defect as contemplated by section 55 of the Consumer Protection Act, you may return it within 6 months and we will refund or credit at our cost.",
+          "Renewal, cancellation, digital-service quality, and statutory remedy language has not been reviewed by South African counsel. The final policy must match the actual billing provider configuration and applicable consumer law.",
         ],
       },
       {
         id: "how",
         title: "5. How refunds are paid",
         body: [
-          "Refunds go back to the original payment method through Bachs and typically arrive within 5–10 business days of approval, depending on your bank.",
-          "When a refund is granted the credits it carried are reversed from your balance automatically. If some were already spent, we'll flag the account for review and reach out to settle the difference, rather than surprise you with a negative balance.",
-          "Repeated chargebacks without first contacting us put accounts under review; talk to us first — we mean it when we say refunds are easy.",
+          "Refund timing, payment method, credit reversals, chargebacks, and the handling of already-spent credits require confirmation with Bachs and legal review. This draft does not promise a processing period or limit any statutory right.",
         ],
       },
     ],
@@ -154,24 +147,22 @@ const DOCS: Record<string, LegalDoc> = {
         id: "types",
         title: "1. What we set",
         body: [
-          "Session cookies (essential): keep you signed in and protect the session against attacks. They are set when you sign in and expire when you sign out or after a fixed period. Nothing works without them.",
-          "Cookie consent cookie (essential): remembers what you chose in Cookie settings so we don't have to annoy you again.",
-          "Preference cookies (essential): things like your last-used generator tab, stored only on your device.",
+          "Authentication/session cookies are used for sign-in. The exact cookie names, lifetimes, security attributes, and any preference storage must be inventoried against the production deployment before this policy is published.",
+          "The consent banner stores a preference on the device. Verify its storage mechanism and whether any analytics or marketing technologies are enabled before launch.",
         ],
       },
       {
         id: "analytics",
         title: "2. Optional cookies",
         body: [
-          "Analytics and any marketing cookies are only set after you allow them in Cookie settings. If you say no, we don't set them, and you can change your mind any time from the footer's Cookie settings.",
+          "This draft does not confirm whether analytics or marketing technologies are used or whether consent controls block them. Do not rely on this statement until the production stack is audited.",
         ],
       },
       {
         id: "thirds",
         title: "3. Third parties",
         body: [
-          "Our payment provider (Bachs) sets cookies on its own checkout pages to process your payment securely; its privacy policy governs those pages.",
-          "Email delivery (Resend) does not set tracking cookies in our magic-link emails.",
+          "Bachs hosts checkout and portal experiences; Resend delivers sign-in emails. Their applicable privacy and cookie practices, along with hosting and analytics providers, must be checked and described before publication.",
         ],
       },
       {
@@ -210,9 +201,9 @@ const DOCS: Record<string, LegalDoc> = {
         id: "sharing",
         title: "3. Who we share it with (operators and processors)",
         body: [
-          "Model providers receive the prompts and files needed to produce each generation.",
-          "Infrastructure providers host our database, media storage and email delivery. Our payment provider (Bachs) processes checkout and refunds on our behalf.",
-          "We do not sell your personal information, and we don't send unsolicited marketing emails.",
+          "The service is designed to send prompts, settings, and reference media to Higgsfield for generation. The hosted API terms and any provider-specific retention or excluded-model rules must be confirmed before customer data is sent.",
+          "Bachs handles checkout; Resend handles email; MongoDB and Cloudflare R2 are used for database and media storage. The production hosting provider, processing locations, subprocessors, cross-border safeguards, and data-processing agreements remain to be documented.",
+          "This draft does not establish the final purposes, lawful bases, operator/Responsible Party identity, or complete recipient list. Those details require review before account creation or paid use.",
         ],
       },
       {
@@ -233,11 +224,8 @@ const DOCS: Record<string, LegalDoc> = {
         id: "rights",
         title: "6. Retention and your POPIA rights",
         body: [
-          "We keep your data while your account is active and delete it within a reasonable period after you close it, except where the law requires us to keep records such as invoices.",
-          "Under POPIA you can ask for: the personal information we hold about you, correction of it, deletion of it, and a record of who we have shared it with. Email "
-            + mail +
-            " and we will respond within a reasonable time (usually 30 days at most).",
-          "If you're unhappy with how we handled your information, you can complain to the Information Regulator of South Africa.",
+          "Retention periods for accounts, prompts, uploads, generated media, billing records, logs, backups, and provider copies have not been finalized. The production policy must state the actual retention and deletion process, including third-party copies and legal holds.",
+          "POPIA rights, request verification, response timelines, complaint routes, and cross-border processing disclosures must be finalized with the identified Responsible Party and South African counsel. Contact details listed here are not a substitute for those disclosures.",
         ],
       },
     ],
@@ -332,8 +320,10 @@ export default async function LegalPage({ params }: { params: Params }) {
           <strong className="font-semibold">
             Placeholder — replace before launch.
           </strong>{" "}
-          This text outlines how {name} works but has not been reviewed by a
-          lawyer.
+          This is not an operative policy or legal advice. The operator&apos;s
+          identity, rights, consumer terms, retention periods, and South African
+          disclosures still require review. Do not rely on this draft before
+          launch.
         </p>
       </div>
 
@@ -345,8 +335,8 @@ export default async function LegalPage({ params }: { params: Params }) {
             aria-current={slug === doc ? "page" : undefined}
             className={
               slug === doc
-                ? "inline-flex h-9 items-center rounded-full bg-[#b94c32]/10 px-4 text-sm font-medium text-[#923b29]"
-                : "inline-flex h-9 items-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-black/5 hover:text-foreground"
+                ? "inline-flex h-9 items-center rounded-full bg-sand/10 px-4 text-sm font-medium text-sand"
+                : "inline-flex h-9 items-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
             }
           >
             {DOCS[slug]!.title}
@@ -397,7 +387,7 @@ export default async function LegalPage({ params }: { params: Params }) {
               >
                 {section.title}
               </h2>
-              <div className="flex flex-col gap-3 text-[15px] leading-7 text-[#514b43]">
+              <div className="flex flex-col gap-3 text-[15px] leading-7 text-muted-foreground">
                 {section.body.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
