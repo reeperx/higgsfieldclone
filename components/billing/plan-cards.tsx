@@ -76,7 +76,7 @@ export function IntervalToggle({
         onClick={() => onChange(value === "year" ? "month" : "year")}
         className={cn(
           "relative h-5 w-9 rounded-full transition-colors",
-          value === "year" ? "bg-sand" : "bg-[#3a352d]"
+          value === "year" ? "bg-sand" : "bg-[#9c9081]"
         )}
       >
         <span
@@ -94,16 +94,16 @@ export function IntervalToggle({
         Annual
       </span>
       <span className="font-display rounded bg-pink-strong px-1.5 py-0.5 text-[11px] text-white italic">
-        20% OFF
+        20% off
       </span>
     </div>
   )
 }
 
 const TONE: Record<string, string> = {
-  starter: "from-white/[0.06] to-transparent",
-  plus: "from-sand/[0.14] to-transparent",
-  ultra: "from-pink/[0.16] to-transparent",
+  starter: "from-[#476b82]/[0.08] to-white/80",
+  plus: "from-sand/[0.14] to-white/80",
+  ultra: "from-pink/[0.12] to-white/80",
 }
 
 function price(plan: Plan, interval: BillingInterval): string {
@@ -131,24 +131,24 @@ export function PlanCard({
   return (
     <div
       className={cn(
-        "relative flex flex-col gap-5 overflow-hidden rounded-[20px] border border-white/10 bg-gradient-to-b p-6",
+        "relative flex flex-col gap-5 overflow-hidden rounded-[24px] border border-black/10 bg-white/80 bg-gradient-to-b p-6",
         TONE[plan.id] ?? "from-white/[0.03] to-transparent",
-        plan.badge === "MOST POPULAR" && "border-sand/40"
+        plan.badge === "Most popular" && "border-sand/40"
       )}
     >
       <div className="flex flex-wrap items-center gap-2">
         <h3 className="font-display text-2xl">{plan.name}</h3>
         {interval === "year" && savings ? (
           <span className="font-display rounded bg-pink-strong px-1.5 py-0.5 text-[11px] text-white italic">
-            {savings}% OFF
+            {savings}% off
           </span>
         ) : null}
         {plan.badge ? (
           <span
             className={cn(
               "font-display rounded px-1.5 py-0.5 text-[11px] italic",
-              plan.badge === "MOST POPULAR"
-                ? "bg-sand text-[#17130b]"
+              plan.badge === "Most popular"
+                ? "bg-sand text-white"
                 : "bg-[#33475a] text-white"
             )}
           >
@@ -157,7 +157,7 @@ export function PlanCard({
         ) : null}
       </div>
       <p className="-mt-3 text-sm text-muted-foreground">{plan.tagline}</p>
-      <div className="rounded-xl bg-black/20 p-4">
+      <div className="rounded-2xl bg-[#ebe5da] p-4">
         <p className="flex items-center gap-1.5 text-[15px] font-semibold">
           <Sparkle className="size-4 fill-sand text-sand" />{" "}
           {plan.monthlyCredits.toLocaleString("en-US")} credits/mo.
@@ -194,7 +194,7 @@ export function PlanCard({
           plan.id === "plus"
             ? "btn-keycap"
             : plan.id === "ultra"
-              ? "bg-gradient-to-b from-[#5e4a26] to-[#46371b] text-[#f5efe3] shadow-[inset_0_-3px_0_rgba(0,0,0,0.3)]"
+              ? "bg-[#33475a] text-white hover:bg-[#3d566b]"
               : "btn-keycap-white"
         )}
       >

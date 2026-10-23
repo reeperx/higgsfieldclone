@@ -34,7 +34,7 @@ export function NotFoundContent({ logo = false }: { logo?: boolean }) {
           </Link>
           <Link
             href="/effects"
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-white/15 px-6 text-base font-medium transition-colors hover:bg-white/5"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white"
           >
             Browse effects
           </Link>

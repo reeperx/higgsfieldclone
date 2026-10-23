@@ -59,7 +59,7 @@ export default async function LoginErrorPage({
     <div className="mx-auto flex w-full max-w-[560px] px-4 py-12 md:py-20">
       <div className="relative isolate flex w-full flex-col items-center gap-5 overflow-hidden rounded-3xl border border-hairline bg-panel px-6 py-12 text-center md:px-12">
         <Atmosphere glow="top" className="-z-10" />
-        <span className="flex size-14 items-center justify-center rounded-2xl bg-white/5 text-foreground ring-1 ring-white/10">
+        <span className="flex size-14 items-center justify-center rounded-2xl bg-black/5 text-foreground ring-1 ring-black/10">
           <Icon className="size-7" aria-hidden />
         </span>
         <div className="flex flex-col gap-2">
@@ -77,7 +77,7 @@ export default async function LoginErrorPage({
           </Link>
           <Link
             href="/"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-white/5 px-5 text-sm font-medium transition-colors hover:bg-white/10"
+            className="inline-flex h-11 items-center justify-center rounded-full border border-black/10 bg-white/60 px-5 text-sm font-medium transition-colors hover:bg-white"
           >
             Go home
           </Link>
@@ -91,7 +91,7 @@ export default async function LoginErrorPage({
             {BRAND.supportEmail}
           </a>
           {code ? (
-            <span className="block pt-1 text-white/30">Error code: {code}</span>
+            <span className="block pt-1 text-muted-foreground/70">Error code: {code}</span>
           ) : null}
         </p>
       </div>

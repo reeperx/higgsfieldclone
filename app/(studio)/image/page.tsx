@@ -5,9 +5,9 @@ import { GeneratorView } from "@/components/generator/generator-view"
 import { listPresets, type PresetView } from "@/lib/presets"
 
 export const metadata: Metadata = {
-  title: "Image generator",
+  title: "Product photo studio",
   description:
-    "Generate images with Soul, Grok, Recraft, Ideogram, Qwen and more.",
+    "Build a product photo set, create lifestyle scenes, and refine listing imagery.",
 }
 
 async function presets(): Promise<PresetView[]> {

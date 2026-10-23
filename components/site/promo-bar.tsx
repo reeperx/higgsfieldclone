@@ -13,12 +13,12 @@ export function PromoBar() {
   const [dismissed, setDismissed, hydrated] = useLocalFlag(KEY)
   if (!BRAND.promo || !hydrated || dismissed === "1") return null
   return (
-    <div className="relative flex min-h-11 items-center justify-center gap-3 bg-sand px-10 py-2 text-center text-sm font-medium text-[#17130b] shadow-[0_0_20px_rgba(216,178,110,0.3)]">
+    <div className="relative flex min-h-10 items-center justify-center gap-3 border-b border-black/10 bg-[#ebe5da] px-10 py-2 text-center text-sm font-medium text-[#393630]">
       <Tag className="hidden size-4 sm:block" aria-hidden />
       <span>{BRAND.promo}</span>
       <Link
         href={BRAND.promoHref}
-        className="rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-[#17130b] hover:bg-white/90"
+        className="rounded-full bg-[#b94c32] px-3 py-1 text-xs font-semibold text-white hover:bg-[#923b29]"
       >
         See offer
       </Link>

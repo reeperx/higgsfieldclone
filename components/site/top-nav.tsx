@@ -31,9 +31,8 @@ import { Logo } from "./logo"
 import { navLinks } from "./nav-links"
 
 /**
- * The site header: logo · Explore · Image · Video · (Audio) · Effects ·
- * Community · Pricing, then the credit pill, Upgrade and the avatar menu
- * (or Login / Sign up). `compact` is the 36 px app-page variant.
+ * The Vendo header: logo · product workflows · looks · work gallery · pricing,
+ * followed by account actions.
  */
 export function TopNav({ compact = false }: { compact?: boolean }) {
   const pathname = usePathname()
@@ -43,14 +42,14 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 flex w-full shrink-0 items-center gap-4 bg-page/95 px-4 backdrop-blur-sm",
-        compact ? "h-12" : "h-[60px]"
+        "sticky top-0 z-40 flex w-full shrink-0 items-center gap-4 border-b border-black/10 bg-page/95 px-4 backdrop-blur-sm md:px-7",
+        compact ? "h-14" : "h-[68px]"
       )}
     >
       <Logo compact={compact} />
       <nav
         aria-label="Main"
-        className="hidden min-w-0 flex-1 items-center gap-1 md:flex"
+        className="hidden min-w-0 flex-1 items-center justify-center gap-1 md:flex"
       >
         {links.map((link) => {
           const active = link.match(pathname)
@@ -60,10 +59,10 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
               href={link.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "rounded-lg px-2 py-1 text-sm font-medium whitespace-nowrap transition-colors duration-200",
+                "rounded-full px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-colors duration-200",
                 active
-                  ? "text-sand"
-                  : "text-[#a8a8a8] hover:bg-white/5 hover:text-white"
+                  ? "bg-[#b94c32]/10 text-[#923b29]"
+                  : "text-[#665f57] hover:bg-black/5 hover:text-foreground"
               )}
             >
               {link.label}
@@ -76,7 +75,7 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
         <button
           type="button"
           aria-label="Open menu"
-          className="flex size-9 items-center justify-center rounded-[10px] bg-white/5 text-foreground md:hidden"
+          className="flex size-9 items-center justify-center rounded-[10px] bg-black/5 text-foreground md:hidden"
           onClick={() => setMobileOpen(true)}
         >
           <Menu className="size-5" />
@@ -101,7 +100,7 @@ function AccountControls({ compact }: { compact: boolean }) {
           type="button"
           onClick={() => openAuth({ mode: "login" })}
           className={cn(
-            "hidden rounded-[10px] bg-sand/10 px-3 text-sm font-medium text-sand transition-colors hover:bg-sand/15 sm:block",
+            "hidden rounded-full border border-black/10 px-4 text-sm font-medium text-foreground transition-colors hover:bg-black/5 sm:block",
             height
           )}
         >
@@ -111,7 +110,7 @@ function AccountControls({ compact }: { compact: boolean }) {
           type="button"
           onClick={() => openAuth({ mode: "signup" })}
           className={cn(
-            "btn-keycap rounded-[10px] px-3 text-sm font-semibold",
+            "btn-keycap rounded-full px-4 text-sm font-semibold",
             height
           )}
         >
@@ -125,7 +124,7 @@ function AccountControls({ compact }: { compact: boolean }) {
         href="/account"
         aria-label={`${credits ?? 0} credits — account`}
         className={cn(
-          "flex items-center gap-1.5 rounded-full bg-white/5 px-3 font-mono text-sm text-foreground tabular-nums transition-colors hover:bg-white/10",
+          "flex items-center gap-1.5 rounded-full bg-black/5 px-3 font-mono text-sm text-foreground tabular-nums transition-colors hover:bg-black/10",
           height
         )}
       >
@@ -136,7 +135,7 @@ function AccountControls({ compact }: { compact: boolean }) {
         type="button"
         onClick={() => openUpgrade()}
         className={cn(
-          "btn-keycap hidden items-center gap-1.5 rounded-full px-3 text-sm font-semibold sm:flex",
+          "btn-keycap hidden items-center gap-1.5 rounded-full px-4 text-sm font-semibold sm:flex",
           height
         )}
       >
@@ -155,7 +154,7 @@ function UserMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label="Account menu"
-        className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-raised text-sm font-semibold text-foreground ring-1 ring-white/10 transition hover:ring-white/30"
+        className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-raised text-sm font-semibold text-foreground ring-1 ring-black/10 transition hover:ring-black/25"
       >
         {user.image ? (
           // eslint-disable-next-line @next/next/no-img-element -- avatar from the auth provider
@@ -206,8 +205,8 @@ function MobileSheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/60 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
-        <DialogPrimitive.Popup className="fixed inset-y-0 right-0 z-50 flex w-[min(330px,88vw)] flex-col gap-2 border-l border-white/5 bg-panel p-4 duration-200 outline-none data-open:animate-in data-open:slide-in-from-right data-closed:animate-out data-closed:slide-out-to-right">
+        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/35 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Popup className="fixed inset-y-0 right-0 z-50 flex w-[min(330px,88vw)] flex-col gap-2 border-l border-black/10 bg-panel p-4 duration-200 outline-none data-open:animate-in data-open:slide-in-from-right data-closed:animate-out data-closed:slide-out-to-right">
           <div className="flex items-center justify-between">
             <DialogPrimitive.Title className="sr-only">
               Menu
@@ -215,7 +214,7 @@ function MobileSheet({
             <Logo compact />
             <DialogPrimitive.Close
               aria-label="Close menu"
-              className="flex size-9 items-center justify-center rounded-full bg-white/5"
+              className="flex size-9 items-center justify-center rounded-full bg-black/5"
             >
               <X className="size-4" />
             </DialogPrimitive.Close>
@@ -230,8 +229,8 @@ function MobileSheet({
                 className={cn(
                   "rounded-xl px-3 py-3 text-base font-medium",
                   link.match(pathname)
-                    ? "bg-white/5 text-sand"
-                    : "text-foreground hover:bg-white/5"
+                    ? "bg-[#b94c32]/10 text-[#923b29]"
+                    : "text-foreground hover:bg-black/5"
                 )}
               >
                 {link.label}
@@ -242,14 +241,14 @@ function MobileSheet({
                 <Link
                   href="/assets"
                   onClick={close}
-                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-white/5"
+                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-black/5"
                 >
                   Assets
                 </Link>
                 <Link
                   href="/account"
                   onClick={close}
-                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-white/5"
+                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-black/5"
                 >
                   Account
                 </Link>
@@ -282,7 +281,7 @@ function MobileSheet({
                 </button>
                 <button
                   type="button"
-                  className="h-12 rounded-xl bg-white/5 text-base font-medium"
+                  className="h-12 rounded-xl border border-black/10 text-base font-medium"
                   onClick={() => {
                     close()
                     openAuth({ mode: "login" })

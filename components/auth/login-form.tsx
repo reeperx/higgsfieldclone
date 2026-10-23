@@ -95,7 +95,7 @@ export function LoginForm({
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@example.com"
-          className="h-12 rounded-xl border border-white/10 bg-surface px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
+          className="h-12 rounded-xl border border-black/15 bg-surface px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
         />
       </label>
       {mode === "signup" ? (
@@ -105,7 +105,7 @@ export function LoginForm({
             aria-label="I agree to the Terms of Service and Privacy Policy"
             checked={consent}
             onChange={(event) => setConsent(event.target.checked)}
-            className="mt-0.5 size-5 shrink-0 accent-[#d8b26e]"
+            className="mt-0.5 size-5 shrink-0 accent-[#b94c32]"
           />
           <span>
             I agree to the{" "}

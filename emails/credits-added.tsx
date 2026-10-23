@@ -1,6 +1,6 @@
 import { Button, Text } from "@react-email/components"
 
-import { EmailFrame, heading, sandButton, paragraph } from "./components"
+import { EmailFrame, brandButton, heading, paragraph } from "./components"
 
 export interface CreditsAddedEmailProps {
   brand: string
@@ -31,13 +31,13 @@ export function CreditsAddedEmail({
       <Text style={heading}>Credits added</Text>
       <Text style={paragraph}>
         Thanks for your purchase ({amountLabel}). We added{" "}
-        <strong style={{ color: "#F7F7F8" }}>
+        <strong style={{ color: "#25231F" }}>
           ✦ {credits.toLocaleString("en-US")} credits
         </strong>{" "}
         to your account. Your balance is now ✦ {balance.toLocaleString("en-US")}
         .
       </Text>
-      <Button href={`${appUrl}/video`} style={sandButton}>
+      <Button href={`${appUrl}/video`} style={brandButton}>
         Start generating
       </Button>
     </EmailFrame>

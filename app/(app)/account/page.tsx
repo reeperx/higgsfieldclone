@@ -73,7 +73,7 @@ export default async function AccountPage() {
         <div className="flex gap-2">
           <Link
             href="/account/billing"
-            className="flex h-10 items-center gap-2 rounded-[10px] bg-white/5 px-4 text-sm font-medium hover:bg-white/10"
+            className="flex h-10 items-center gap-2 rounded-full border border-black/10 bg-white/60 px-4 text-sm font-medium hover:bg-white"
           >
             <CreditCard className="size-4" /> Billing
           </Link>

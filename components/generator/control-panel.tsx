@@ -29,12 +29,12 @@ export const TAB_LABEL: Record<
   Record<GeneratorTab, string>
 > = {
   video: {
-    create: "Create Video",
-    edit: "Edit Video",
-    motion: "Motion Control",
+    create: "Create product film",
+    edit: "Edit video",
+    motion: "Motion control",
   },
   image: { create: "Create", edit: "Edit", motion: "Motion" },
-  audio: { create: "Create Audio", edit: "Edit Audio", motion: "Voice" },
+  audio: { create: "Create audio", edit: "Edit audio", motion: "Voice" },
 }
 
 export function ModelCard({ generator }: { generator: Generator }) {
@@ -42,6 +42,16 @@ export function ModelCard({ generator }: { generator: Generator }) {
   if (!model) return null
   const loop = FAMILY_LOOPS[model.family]
   const cover = preset?.coverUrl ?? familyCover(model.family, model.surface)
+  const workflow =
+    model.surface === "image"
+      ? generator.tab === "edit"
+        ? "Product image · retouch"
+        : "Product image · studio"
+      : model.surface === "video"
+        ? generator.tab === "edit"
+          ? "Product video · edit"
+          : "Product video · campaign"
+        : "Campaign audio"
   return (
     <div className="relative h-[131px] shrink-0 overflow-hidden rounded-xl bg-surface">
       {(preset?.coverVideoUrl ?? (!preset ? loop : undefined)) ? (
@@ -59,8 +69,8 @@ export function ModelCard({ generator }: { generator: Generator }) {
       )}
       <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
       <div className="absolute right-3 bottom-3 left-3">
-        <p className="font-display text-xl text-sand">
-          {preset ? preset.title : (model.category ?? "GENERAL")}
+        <p className="font-mono text-[10px] font-medium tracking-[0.12em] text-white/75">
+          {preset ? `Look · ${preset.title}` : workflow}
         </p>
         <p className="mt-1 flex items-center gap-1.5 text-xs text-white/70">
           <ModelIcon model={model} className="size-3" /> {model.label}
@@ -94,9 +104,12 @@ export function ModelCard({ generator }: { generator: Generator }) {
 }
 
 const PLACEHOLDER: Record<GeneratorTab, string> = {
-  create: "Describe the scene you imagine — subject, action, camera, light…",
-  edit: "Describe the change — e.g. “make it snow”, “swap the jacket for red leather”…",
-  motion: "Optional: describe the scene or style for the result…",
+  create:
+    "Describe your product, surface, composition, lighting, and where this image will be used…",
+  edit:
+    "Describe the retouch or variation. Keep the product shape, label, and key details accurate…",
+  motion:
+    "Describe the product movement, camera path, and campaign mood…",
 }
 
 export function PromptCard({ generator }: { generator: Generator }) {
@@ -121,7 +134,7 @@ export function PromptCard({ generator }: { generator: Generator }) {
         htmlFor={`prompt-${generator.surface}`}
         className="text-sm text-muted-foreground"
       >
-        {preset ? "Your subject" : "Prompt"}
+        {preset ? "Product brief" : generator.tab === "edit" ? "Edit direction" : "Product brief"}
         {model.requirePrompt ? "" : preset ? "" : " (optional)"}
       </label>
       <textarea

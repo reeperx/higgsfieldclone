@@ -6,8 +6,10 @@ pruned to the models that matter for product work — studio packshots, AI-model
 lifestyle scenes, product video and re-composites — **17 picker entries covering
 the endpoints they use**. Sellers sign in with a magic link, pay with Bachs
 credits priced in **South African rand (ZAR)**, and keep everything in a
-personal library. The UX is our calm-dark identity (warm-ink surfaces, soft
-sand accent, glass panels); the brand, copy and media are ours.
+personal library. The interface is an editorial product workbench: warm paper surfaces, ink
+typography, terracotta actions, and product-first workflows. Generation tools
+sit inside that commerce-specific experience instead of leading with a model
+directory.
 
 | Concern | Choice |
 |---|---|
@@ -44,6 +46,7 @@ Once, after the database is up:
 
 ```bash
 pnpm db:init --admin=you@example.com   # indexes + shot presets (+ admin role)
+pnpm db:init --test-user=seller@vendo.test
 ```
 
 For offline development set in `.env.local`:
@@ -51,8 +54,28 @@ For offline development set in `.env.local`:
 `HF_API_BASE_URL=http://localhost:4010`, `HF_CREDENTIALS=mock:mock`,
 `BACHS_API_URL=http://localhost:4011`, `BACHS_SECRET_KEY=sk_sandbox_mock`,
 `SIGNUP_BONUS_CREDITS=200`, `E2E_TEST_MODE=true`. Magic links are printed to the
-dev-server log (no Resend key needed); media is stored under `.data/media`; the
-reconciler runs in-process every 5 s because there is no cron or webhook tunnel.
+dev-server log for ordinary local addresses; reserved `.test` addresses are
+captured in the local mailbox described below (no Resend key needed). Media is
+stored under `.data/media`; the reconciler runs in-process every 5 s because
+there is no cron or webhook tunnel.
+
+### Sign in as the local test seller
+
+The `--test-user` option creates or reuses `seller@vendo.test` on a loopback
+MongoDB only, with the configured welcome-credit bonus. It is an ordinary
+passwordless user, not an admin or an authentication bypass. Set
+`E2E_TEST_MODE=true` as in the offline configuration, enter that address at
+`/login`, then open the latest local magic link from
+`http://localhost:3000/api/test/mailbox?to=seller%40vendo.test`. The mailbox is
+disabled in production; no production account or real email is created.
+
+## Interface and route map
+
+Vendo presents commerce tasks first: build a listing set, place a product in a
+lifestyle scene, create a short product film, then organize and publish those
+assets. The shared public and account shell uses a paper-and-ink palette;
+generation canvases can use a contained dark work area. Route intent, page
+design, and interaction rules are documented in [`docs/ui-inventory.md`](docs/ui-inventory.md).
 
 ### Offline checkout
 

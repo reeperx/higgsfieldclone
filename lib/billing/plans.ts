@@ -25,7 +25,7 @@ export interface Plan {
   concurrency: Record<Surface, number>
   /** Top-up credits per rand multiplier (higher plans get more). */
   topupMultiplier: number
-  badge?: "MOST POPULAR" | "BEST VALUE"
+  badge?: "Most popular" | "Best value"
   features: { label: string; included: boolean; tag?: string }[]
   priceEnv?: { month: string; year: string }
 }
@@ -78,12 +78,12 @@ export const PLANS: Record<PlanId, Plan> = {
     priceAnnualPerMonth: 439.2,
     concurrency: { image: 8, video: 6, audio: 4 },
     topupMultiplier: 1.1,
-    badge: "MOST POPULAR",
+    badge: "Most popular",
     features: [
       { label: "3,500 credits every month", included: true },
       { label: "6 video + 8 image generations at once", included: true },
       { label: "Commercial use", included: true },
-      { label: "10% bonus on credit top-ups", included: true, tag: "BONUS" },
+      { label: "10% bonus on credit top-ups", included: true, tag: "Bonus" },
       { label: "Priority queue", included: true },
     ],
     priceEnv: {
@@ -100,12 +100,12 @@ export const PLANS: Record<PlanId, Plan> = {
     priceAnnualPerMonth: 1_119.2,
     concurrency: { image: 12, video: 8, audio: 6 },
     topupMultiplier: 1.2,
-    badge: "BEST VALUE",
+    badge: "Best value",
     features: [
       { label: "9,000 credits every month", included: true },
       { label: "8 video + 12 image generations at once", included: true },
       { label: "Commercial use", included: true },
-      { label: "20% bonus on credit top-ups", included: true, tag: "BONUS" },
+      { label: "20% bonus on credit top-ups", included: true, tag: "Bonus" },
       { label: "Priority queue", included: true },
     ],
     priceEnv: {

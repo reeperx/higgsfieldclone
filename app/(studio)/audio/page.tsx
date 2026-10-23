@@ -7,8 +7,8 @@ import { modelsFor } from "@/generation/catalog"
 import { listPresets, type PresetView } from "@/lib/presets"
 
 export const metadata: Metadata = {
-  title: "Audio generator",
-  description: "Generate voices, sound effects and music.",
+  title: "Campaign audio studio",
+  description: "Create voices, sound effects and music for product campaigns.",
 }
 
 async function presets(): Promise<PresetView[]> {

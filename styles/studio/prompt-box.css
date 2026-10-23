@@ -2,7 +2,7 @@
  * PromptBox presentation — the Studio prompt dock (Figma Marketing-Studio node
  * 7259:51362; generation-state dock 21768:60842). A horizontal bar composed of a
  * vertical mode rail plus one shared right-side shell. That shell contains the
- * prompt content, reference upload tiles, and the sand special CTA in a single
+ * prompt content, reference upload tiles, and the Generate CTA in a single
  * compact dock. Tokens only, save the branded sand CTA gradient, Figma's composite
  * prompt/CTA shadows (no matching shadow tokens), and two documented literal sizes
  * (70px rail / 112px CTA), which have no spacing-scale equivalent and are exposed
@@ -328,7 +328,7 @@
   white-space: nowrap;
   text-align: left;
   color: var(--hf-color-text-primary);
-  text-transform: uppercase;
+  text-transform: none;
   font-family: var(--hf-type-family-grotesk);
   font-size: var(--hf-type-size-050);
   font-weight: var(--hf-type-weight-bold);
@@ -336,7 +336,7 @@
   letter-spacing: var(--hf-type-letter-spacing-slight);
 }
 
-/* ── Generate (the branded sand CTA) ───────────────────────────────────────── */
+/* ── Generate ───────────────────────────────────────────────────────────────── */
 @utility q-prompt-box-generate {
   position: relative;
   display: flex;
@@ -351,10 +351,7 @@
   padding: var(--hf-space-500) var(--hf-space-500) var(--hf-space-600);
   overflow: clip;
   border-radius: var(--hf-radius-300);
-  /* Branded CTA fill — no gradient token exists for this marketing sand sheen. */
-  background-image:
-    linear-gradient(191deg, rgba(216, 178, 110, 0) 12.7%, rgb(236, 212, 164) 75.8%),
-    linear-gradient(90deg, rgb(216, 178, 110) 0%, rgb(216, 178, 110) 100%);
+  background: #e58b70;
   color: #1a1409;
   cursor: pointer;
   outline: none;
@@ -385,7 +382,7 @@
 }
 
 @utility q-prompt-box-generate-label {
-  text-transform: uppercase;
+  text-transform: none;
   text-align: center;
   font-family: var(--hf-type-family-grotesk);
   font-size: var(--hf-type-size-100);

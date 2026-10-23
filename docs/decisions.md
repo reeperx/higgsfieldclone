@@ -7,7 +7,7 @@ Newest decisions go at the bottom of each section.
 
 | Placeholder | Value | Why |
 |---|---|---|
-| `BRAND_NAME` | **Vendo** | Renamed 2026-10 when the product was re-scoped to e-commerce product photos & videos: a selling word (vendo = "I sell"), short and ownable; the lime accent stays as the brand accent. |
+| `BRAND_NAME` | **Vendo** | Renamed 2026-10 when the product was re-scoped to e-commerce product photos & videos: a selling word (vendo = "I sell"), short and ownable. The October 2026 UI redesign establishes a paper/ink palette with terracotta and mineral-blue accents. |
 | `APP_SLUG` | `vendo-studio` | |
 | `PRODUCTION_URL` | `https://vendo.studio` | Placeholder domain; change in env (`APP_URL`, `AUTH_URL`). |
 | `EMAIL_FROM` | `Vendo <login@vendo.studio>` | Domain must be verified in Resend before launch. |
@@ -130,15 +130,13 @@ Newest decisions go at the bottom of each section.
 - `SIGNUP_BONUS_CREDITS` default **0** in `.env.example` per the brief; our
   suggested launch value is 50 (enough for ~2 images to try the product).
 
-## Plans (amounts TBD — owner decision)
+## Plans (suggested ZAR prices)
 
-Structure mirrors higgsfield: Free / Starter / Plus / Ultra, monthly + annual
-("20% OFF"), plus three top-up packs. Credit allowances and prices are
-suggested defaults in `lib/billing/plans.ts` and the one thing still to confirm
-with the owner. Each plan product id comes from env (`BACHS_PRICE_*`); the
-price the user sees is ours, the catalog amounts are the owner's Bachs setup.
-Concurrency defaults (parallel generations): Free 1/1, Starter 2 video / 4
-image, Plus 6 / 8, Ultra 8 / 12.
+Vendo offers Free / Starter / Plus / Ultra plans with monthly and annual
+billing, plus three top-up packs. The suggested rand amounts, credit
+allowances, and concurrency limits live in `lib/billing/plans.ts`; final
+amounts still need owner confirmation. Each plan product id comes from env
+(`BACHS_PRICE_*`), and matching products must be configured in Bachs in ZAR.
 
 ## Payments — Bachs (replaced Stripe, 2026-10)
 
@@ -201,8 +199,8 @@ renamed.
 
 ## UI
 
-- Dark only, Quanta tokens, lime `#d1fe17` as `--primary`, reserved for the
-  Generate CTA and active states.
+- Paper-and-ink workbench shell, with terracotta actions and mineral-blue
+  secondary accents; the generation canvas may use a contained dark surface.
 - Top navigation added (the template's "no app header" rule is overridden by
   the brief: the site's layout is the source of truth for page structure).
 - The template's projects-first sidebar moves into `/assets` (Projects rail);
@@ -210,24 +208,19 @@ renamed.
 - **Audio nav item hidden** while the catalog has no audio models (see
   `model-catalog.md`); appears automatically when one is added.
 
-## Theme — calm dark identity (2026-10)
+## Theme — commerce workbench (2026-10)
 
-The template's lime-on-cool-grey look was rethemed to a relaxed "calm studio"
-identity. Everything routes through token overrides — components never hardcode
-the accent:
+Vendo's product UI uses warm paper (`#F4F0E8`), white paper (`#FFFDF8`), ink
+(`#25231F`), terracotta (`#B94C32`), and mineral blue (`#476B82`). Editorial
+serif display type, sentence-case labels, and product workflows distinguish the
+experience from a generic model directory. Public, account, and library pages
+use the light theme; a contained dark generation canvas may use the lighter
+terracotta variant (`#E58B70`) for contrast.
 
-- **Surfaces warmed to ink:** the cool grey ramp (`--hf-color-cool-*`) is
-  revalued in `styles/theme.css` (page → panel → card → raised all warm);
-  white text/buttons pick up a chalk tint (`--hf-color-grey-050`).
-- **Accent = sand:** every lime consumer (brand, focus, icons, links,
-  transparent-* tints) now points at `#D8B26E`. `bg-sand`/`text-sand`/`btn-keycap`
-  are the class names — nothing says lime any more outside vendored Quanta.
-- Point-of-rest details: display tracking −2 %, slower studio-glow breathe,
-  hard-cool hexes inside components warmed, email palette (`EMAIL_COLORS`)
-  updated, icons/OG theme color follow.
-- Vendored Quanta (`styles/quanta/**`) is intentionally untouched ("DO NOT
-  EDIT"); if tokens ever regenerate, the identity re-applies wholesale because
-  it lives in `styles/theme.css`.
+Token overrides in `styles/theme.css` re-map Quanta's semantic roles; the
+vendored `styles/quanta/**` source remains untouched. The published design
+tokens live in `docs/design-tokens.json`, and route-level behavior is recorded
+in `docs/ui-inventory.md`.
 
 ## Currency — rand (2026-10)
 
@@ -253,10 +246,10 @@ banner stays. Footer + cookie-consent link to all of them.
 
 ## Logo (2026-10)
 
-The wordmark + product mark: sand tile with a soft price-tag glyph and sparkle,
-inverted (ink tile, sand glyph) on sand surfaces (`LogoMark inverted`). Set in
-components (`components/site/logo.tsx`) as UI, and as `app/icon.svg` /
-`public/icon.svg` for favicon; the wordmark renders lowercase Space Grotesk
+The wordmark + product mark uses a terracotta tile with a product-label glyph,
+inverted (ink tile, paper glyph) on terracotta surfaces (`LogoMark inverted`).
+Set in components (`components/site/logo.tsx`) as UI and as `app/icon.svg` /
+`public/icon.svg` for favicon. The wordmark renders lowercase Space Grotesk
 instead of the uppercase display face.
 
 ## Implementation decisions (build)
@@ -307,9 +300,9 @@ instead of the uppercase display face.
 - **CSP** allows HTTPS in `connect-src` because presigned upload hosts aren't
   pinned by the docs; narrow it with `CSP_CONNECT_SRC` once known.
 - **Plan prices** in `lib/billing/plans.ts` are suggested defaults
-  (Starter $12 / Plus $35 / Ultra $89 monthly, 20 % off annual; 1,000 / 3,500 /
-  9,000 credits; top-ups 500 / 2,200 / 6,000 credits for $5 / $20 / $50) —
-  **owner to confirm** before launch.
+  (Starter R199 / Plus R549 / Ultra R1,399 monthly, 20 % off annual; 1,000 /
+  3,500 / 9,000 credits; top-ups 500 / 2,200 / 6,000 credits for R99 / R399 /
+  R899) — **owner to confirm** before launch.
 - **Marketing media** (hero, auth carousel, model covers, preset covers, loops)
   was generated with Soul 2 and Kling 3.0 through the owner's Higgsfield
   account (≈ 56 platform credits), because the app itself needs a platform key
@@ -325,5 +318,28 @@ instead of the uppercase display face.
   `subscribe`). The `X-Webhook-Secret-Key` header belongs to the legacy v1
   job-set API. So v2 deliveries carry no signature; we rely on the HMAC token in
   the URL plus re-fetching the status. Revisit if the docs add a signature.
-- **Accessibility:** secondary text is `#9a9b9d` (Quanta's `#828282` fails
-  4.5:1 on card surfaces). Lighthouse accessibility: 97+ on the generators.
+- **Accessibility:** secondary text uses the paper palette's `#665F57`;
+  validate text and focus contrast when changing theme tokens.
+
+## Product-workbench redesign (2026-10-23)
+
+- **Positioning:** Vendo is a commerce production desk for listing sets,
+  lifestyle imagery, campaign variations, and short product films. The home
+  page and primary navigation lead with those jobs; model choice stays inside
+  the workflow.
+- **Visual system:** warm paper (`#F4F0E8`), white paper (`#FFFDF8`), ink
+  (`#25231F`), terracotta (`#B94C32`), and mineral blue (`#476B82`); editorial
+  serif display type; sentence case. Public, account, and library pages use the
+  light theme. The generation canvas may retain a contained dark surface where
+  it improves media review.
+- **Distinctiveness:** remove fluorescent lime, full-bleed black hero
+  gradients, all-caps display headings, and model-first navigation. Product
+  photos and assets take priority over platform/model branding.
+- **Behavioral contract:** this is a presentation and information-architecture
+  change. Auth, billing, generation lifecycle, model schemas, credit pricing,
+  media ownership, and publication behavior remain unchanged. Route-by-route
+  expectations live in `docs/ui-inventory.md`.
+- **Local tester:** `pnpm db:init --test-user=seller@vendo.test` creates or
+  reuses a passwordless user only when MongoDB is loopback and the process is
+  not in production. Welcome credits are granted through the ledger and magic
+  link delivery remains the existing dev/E2E mailbox flow.

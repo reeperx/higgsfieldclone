@@ -79,13 +79,13 @@ test("not enough credits opens the upgrade modal", async ({ page }) => {
   await signIn(page, uniqueEmail("broke"), "/video")
   await dismissCookies(page)
   await page.getByRole("button", { name: "Change" }).first().click()
-  await page.getByRole("textbox", { name: "Search models" }).fill("4K")
+  await page.getByRole("textbox", { name: "Search models" }).fill("Cinema")
   await page
-    .getByRole("button", { name: /Kling 3\.0 4K/ })
+    .getByRole("button", { name: /Cinema Studio 4\.0/ })
     .first()
     .click()
   await page
-    .getByRole("textbox", { name: /Prompt|Describe/ })
+    .getByRole("textbox", { name: /Prompt|Describe|Product brief/ })
     .first()
     .fill("A drone shot over a glacier")
   await page

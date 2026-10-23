@@ -2,15 +2,14 @@
 import Link from "next/link"
 import {
   ArrowUpRight,
-  Check,
   ImageIcon,
+  PackageCheck,
   Sparkles,
   Users,
   Video,
 } from "lucide-react"
 
-import { Atmosphere } from "@/components/marketing/atmosphere"
-import { ModelBadge, ModelGlyph } from "@/components/marketing/badges"
+import { ModelGlyph } from "@/components/marketing/badges"
 import { CommunityWall } from "@/components/marketing/community-wall"
 import { loadEffects, loadPublic } from "@/components/marketing/data"
 import { EmptyCard } from "@/components/marketing/empty-card"
@@ -22,19 +21,32 @@ import {
   SectionHeader,
   ViewAllPill,
 } from "@/components/marketing/section-header"
-import { LoopVideo } from "@/components/media/loop-video"
 import { findModel, MODELS } from "@/generation/catalog"
 import type { ModelEntry } from "@/generation/catalog/types"
 import { FAMILY_LOOPS, familyCover, HERO } from "@/lib/showcase"
 
-/** Top-of-page tool cards (§3.2): the models we lead with. */
-const TOOL_IDS = [
-  "marketing-image-flare",
-  "soul-2",
-  "seedance-2.5",
-  "cinema-studio-4",
-  "genjutsu-swap",
-  "ideogram-4",
+const WORKFLOWS = [
+  {
+    modelId: "soul-2",
+    title: "Build a listing set",
+    body: "Create clean, consistent product photos in the ratios your storefront needs.",
+    label: "01 / Product photography",
+    icon: PackageCheck,
+  },
+  {
+    modelId: "soul",
+    title: "Show it in its world",
+    body: "Place your product into a considered lifestyle scene without booking a shoot.",
+    label: "02 / Lifestyle",
+    icon: ImageIcon,
+  },
+  {
+    modelId: "seedance-2.5",
+    title: "Give the listing motion",
+    body: "Turn a product image into a short, campaign-ready video.",
+    label: "03 / Product video",
+    icon: Video,
+  },
 ] as const
 
 function generatorHref(model: ModelEntry): string {
@@ -63,7 +75,7 @@ function families(): { lead: ModelEntry; count: number }[] {
 function SurfaceChip({ surface }: { surface: ModelEntry["surface"] }) {
   const Icon = surface === "video" ? Video : ImageIcon
   return (
-    <span className="inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-white/5 px-2 text-xs text-white/80">
+    <span className="inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-black/5 px-2 text-xs text-foreground/80">
       <Icon className="size-3.5" aria-hidden />
       {surface === "video" ? "Video" : "Image"}
     </span>
@@ -75,128 +87,121 @@ export default async function ExplorePage() {
     loadEffects(),
     loadPublic({ limit: 12 }),
   ])
-  const tools = TOOL_IDS.map((id) => findModel(id)).filter(
-    (model): model is ModelEntry => Boolean(model)
-  )
+  const workflows: ((typeof WORKFLOWS)[number] & { model: ModelEntry })[] =
+    WORKFLOWS.flatMap((workflow) => {
+      const model = findModel(workflow.modelId)
+      return model ? [{ ...workflow, model }] : []
+    })
   const modelFamilies = families()
 
   return (
-    <div className="flex flex-col gap-16 md:gap-24">
+    <div className="flex flex-col gap-16 pb-8 md:gap-24">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section
         aria-labelledby="hero-title"
-        className="relative isolate -mt-px overflow-hidden"
+        className="relative isolate overflow-hidden"
       >
-        <div className="absolute inset-0 -z-20">
-          <LoopVideo
-            src={HERO.video}
-            poster="/media/loops/hero.jpg"
-            className="absolute inset-0 size-full object-[50%_70%]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-page/75 via-transparent via-45% to-page" />
-          <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_40%,transparent_55%,rgba(17,16,13,0.9)_100%)]" />
-        </div>
-        <Atmosphere glow="top" className="-z-10" />
-        <div className="mx-auto flex min-h-[600px] max-w-[1440px] flex-col items-center justify-start gap-6 px-4 pt-20 pb-44 text-center md:min-h-[min(90svh,820px)] md:pt-28">
-          <span className="inline-flex h-8 items-center gap-1.5 rounded-full border border-white/10 bg-black/30 px-3 text-xs font-medium text-white/85 backdrop-blur-md">
-            <Sparkles className="size-3.5 text-sand" aria-hidden />
-            Product photos &amp; video for online sellers
-          </span>
-          <h1
-            id="hero-title"
-            className="font-display text-[44px] leading-[0.92] text-white sm:text-[60px] md:text-[80px] lg:text-[96px]"
-          >
-            Studio shots.
-            <br />
-            <span className="text-sand">No studio.</span>
-          </h1>
-          <p className="max-w-[560px] text-base text-white/80 [text-shadow:0_1px_14px_rgba(0,0,0,0.7)] md:text-lg">
-            Turn a packshot and a sentence into product photos, lifestyle
-            scenes and scroll-stopping video. One credit balance, one
-            library, listings in minutes.
-          </p>
-          <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
+        <div className="mx-auto grid max-w-[1320px] items-center gap-10 px-4 py-12 md:grid-cols-[0.9fr_1.1fr] md:gap-14 md:py-20">
+          <div className="flex flex-col items-start gap-6">
+            <span className="inline-flex h-8 items-center gap-2 rounded-full border border-black/10 bg-white/55 px-3 text-[11px] font-semibold tracking-[0.12em] text-[#665f57]">
+              <span className="size-2 rounded-full bg-[#b94c32]" />
+              Product content workspace
+            </span>
+            <h1
+              id="hero-title"
+              className="font-display max-w-[660px] text-[48px] leading-[0.98] tracking-[-0.055em] sm:text-[64px] md:text-[76px]"
+            >
+              Your next product shoot starts{" "}
+              <span className="text-[#a63f2b]">here.</span>
+            </h1>
+            <p className="max-w-[520px] text-base leading-7 text-[#665f57] md:text-lg">
+              Create listing photos, lifestyle scenes and short product films
+              from one workspace. Keep every take, compare the set, and ship
+              the assets your store needs.
+            </p>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Link
               href="/image"
-              className="btn-keycap inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold sm:w-auto"
+              className="btn-keycap inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-base font-semibold sm:w-auto"
             >
-              <Sparkles className="size-4" aria-hidden /> Start a shoot
+              <Sparkles className="size-4" aria-hidden /> Create product photos
             </Link>
             <Link
-              href="/effects"
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white/10 sm:w-auto"
+              href="/assets"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white sm:w-auto"
             >
-              Browse presets
+              Explore the workspace
             </Link>
           </div>
+            <p className="text-xs text-[#766d62]">
+              One place for product photos, campaign variations and video.
+            </p>
+          </div>
+          <figure className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-black/10 bg-[#e7dfd2] p-2 shadow-[0_24px_70px_-40px_rgba(37,35,31,0.45)] md:min-h-[520px]">
+            <img
+              src={HERO.image}
+              alt="A model wearing a mustard coat in a fashion campaign"
+              width={1800}
+              height={1012}
+              fetchPriority="high"
+              className="absolute inset-2 size-[calc(100%-1rem)] rounded-[22px] object-cover object-top"
+            />
+            <figcaption className="absolute right-5 bottom-5 left-5 flex items-center justify-between gap-4 rounded-2xl border border-white/35 bg-[#fffdf8]/90 p-4 shadow-lg backdrop-blur-md">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.14em] text-[#766d62]">
+                  Campaign set · 4 assets
+                </p>
+                <p className="mt-1 text-sm font-semibold text-[#25231f]">
+                  Summer collection
+                </p>
+              </div>
+              <span className="rounded-full bg-[#b94c32]/10 px-3 py-1.5 text-xs font-semibold text-[#923b29]">
+                Ready to publish
+              </span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
       {/* ── Promo + tool cards ───────────────────────────────────────────── */}
       <section
         aria-labelledby="tools-title"
-        className="relative z-10 mx-auto -mt-32 w-full max-w-[1440px] px-4 md:-mt-36"
+        className="mx-auto w-full max-w-[1320px] px-4"
       >
         <h2 id="tools-title" className="sr-only">
-          Start with a top model
+          Start with a product workflow
         </h2>
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,640px)_minmax(0,1fr)]">
-          <div className="relative isolate flex min-h-[272px] flex-col justify-center gap-4 overflow-hidden rounded-[20px] border border-hairline p-6 md:p-8">
-            <img
-              src={HERO.mark}
-              alt=""
-              width={1200}
-              height={675}
-              className="absolute inset-0 -z-20 size-full -scale-x-100 object-cover object-[35%_center]"
-            />
-            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/90 via-black/65 to-black/0" />
-            <p className="font-display text-[30px] leading-[1.05] text-white md:text-[36px]">
-              One balance.
-              <br />
-              <span className="text-sand">Every shot.</span>
-            </p>
-            <ul className="flex flex-col gap-1.5 text-[13px] text-white/75">
-              {[
-                "Packshots, model scenes and video — one balance",
-                "Failed runs are refunded automatically",
-                "Top-up credits never expire",
-              ].map((line) => (
-                <li key={line} className="flex items-center gap-2">
-                  <Check className="size-3.5 text-sand" aria-hidden /> {line}
-                </li>
-              ))}
-            </ul>
+        <div className="grid gap-3 md:grid-cols-3">
+          {workflows.map(({ model, title, body, label, icon: Icon }, index) => (
             <Link
-              href="/pricing"
-              className="btn-keycap-white inline-flex h-11 w-fit items-center gap-2 rounded-xl px-5 text-sm font-semibold transition-colors hover:bg-white/90"
+              key={model.id}
+              href={generatorHref(model)}
+              className="group flex min-h-[260px] flex-col justify-between rounded-[24px] border border-black/10 bg-white/65 p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_40px_-28px_rgba(37,35,31,0.55)]"
             >
-              See plans &amp; credits
+              <div className="flex items-start justify-between gap-4">
+                <span className="flex size-11 items-center justify-center rounded-2xl bg-[#b94c32]/10 text-[#a63f2b]">
+                  <Icon className="size-5" aria-hidden />
+                </span>
+                <span className="font-mono text-xs text-[#8c8175]">
+                  {label}
+                </span>
+              </div>
+              <div>
+                <p className="mb-2 font-mono text-xs text-[#a63f2b]">
+                  Workflow 0{index + 1}
+                </p>
+                <h3 className="font-display text-3xl text-[#25231f]">
+                  {title}
+                </h3>
+                <p className="mt-3 max-w-sm text-sm leading-6 text-[#665f57]">
+                  {body}
+                </p>
+              </div>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#25231f]">
+                Open workflow <ArrowUpRight className="size-4" aria-hidden />
+              </span>
             </Link>
-          </div>
-          <ul role="list" className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {tools.map((model) => (
-              <li key={model.id}>
-                <Link
-                  href={generatorHref(model)}
-                  className="group flex h-full min-h-[124px] flex-col justify-between gap-4 rounded-2xl border border-hairline bg-surface p-4 transition-colors duration-200 hover:bg-raised"
-                >
-                  <span className="flex items-start justify-between gap-2">
-                    <ModelGlyph model={model} />
-                    <SurfaceChip surface={model.surface} />
-                  </span>
-                  <span className="flex flex-col gap-1">
-                    <span className="flex flex-wrap items-center gap-1.5 text-[15px] leading-5 font-semibold text-white">
-                      {model.label}
-                      <ModelBadge model={model} />
-                    </span>
-                    <span className="line-clamp-2 text-[13px] leading-[18px] text-muted-foreground sm:line-clamp-1">
-                      {model.bestFor ?? model.description}
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          ))}
         </div>
       </section>
 
@@ -204,7 +209,7 @@ export default async function ExplorePage() {
       {effects.length > 0 ? (
         <section
           aria-labelledby="effects-title"
-          className="mx-auto w-full max-w-[1440px] px-4"
+          className="mx-auto w-full max-w-[1320px] px-4"
         >
           <SectionHeader
             id="effects-title"
@@ -238,14 +243,14 @@ export default async function ExplorePage() {
       {/* ── Models strip ─────────────────────────────────────────────────── */}
       <section
         aria-labelledby="models-title"
-        className="mx-auto w-full max-w-[1440px] px-4"
+        className="mx-auto w-full max-w-[1320px] px-4"
       >
         <SectionHeader
           id="models-title"
-          title="Models"
-          description="Image and video models picked for product work. Pick a family to open it in the generator."
+          title="The tools behind the shoot"
+          description="A focused set of image and video engines, selected for common product-content jobs."
         />
-        <ScrollRow label="Model families">
+        <ScrollRow label="Available generation engines">
           {modelFamilies.map(({ lead, count }) => {
             const loop =
               lead.surface === "video" ? FAMILY_LOOPS[lead.family] : undefined
@@ -271,7 +276,7 @@ export default async function ExplorePage() {
                     <span className="flex items-center justify-between gap-2">
                       <span className="flex min-w-0 items-center gap-2">
                         <ModelGlyph model={lead} className="size-4" />
-                        <span className="truncate text-[15px] font-semibold text-white">
+                        <span className="truncate text-[15px] font-semibold text-foreground">
                           {lead.family}
                         </span>
                       </span>
@@ -280,7 +285,7 @@ export default async function ExplorePage() {
                     <span className="line-clamp-2 text-[13px] leading-[18px] text-muted-foreground">
                       {lead.bestFor ?? lead.description}
                     </span>
-                    <span className="mt-auto pt-1 text-xs text-white/50">
+                    <span className="mt-auto pt-1 text-xs text-muted-foreground">
                       {count} {count === 1 ? "model" : "models"} · starts with{" "}
                       {lead.label}
                     </span>
@@ -295,7 +300,7 @@ export default async function ExplorePage() {
       {/* ── Community ────────────────────────────────────────────────────── */}
       <section
         aria-labelledby="community-title"
-        className="mx-auto w-full max-w-[1440px] px-4"
+        className="mx-auto w-full max-w-[1320px] px-4"
       >
         <SectionHeader
           id="community-title"
@@ -305,7 +310,7 @@ export default async function ExplorePage() {
             community.items.length > 0 ? (
               <Link
                 href="/community"
-                className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-white/5 px-4 text-sm font-medium transition-colors hover:bg-white/10"
+                className="inline-flex h-10 items-center gap-1.5 rounded-full border border-black/10 bg-white/55 px-4 text-sm font-medium transition-colors hover:bg-white"
               >
                 Explore community{" "}
                 <ArrowUpRight className="size-4" aria-hidden />
@@ -361,46 +366,47 @@ export default async function ExplorePage() {
       {/* ── Closing banner ───────────────────────────────────────────────── */}
       <section
         aria-labelledby="cta-title"
-        className="mx-auto w-full max-w-[1440px] px-4"
+        className="mx-auto w-full max-w-[1320px] px-4"
       >
-        <div className="relative isolate flex min-h-[380px] flex-col justify-end gap-5 overflow-hidden rounded-3xl border border-hairline p-6 md:min-h-[440px] md:justify-center md:p-14">
+        <div className="grid min-h-[360px] items-center gap-8 overflow-hidden rounded-[28px] border border-black/10 bg-[#e3e8e4] p-6 md:grid-cols-[1fr_0.85fr] md:p-12">
+          <div className="flex flex-col items-start gap-5">
+            <p className="font-mono text-xs tracking-[0.14em] text-[#476b82]">
+              Ready for your next product drop?
+            </p>
+            <h2
+              id="cta-title"
+              className="font-display max-w-[600px] text-[38px] leading-[0.98] text-[#25231f] md:text-[56px]"
+            >
+              Make the asset set. Keep the brand consistent.
+            </h2>
+            <p className="max-w-[440px] text-sm leading-6 text-[#514b43] md:text-base">
+              Start from one product, build a library of useful variations,
+              then bring the finished work into your store.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/image"
+                className="btn-keycap inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold"
+              >
+                <Sparkles className="size-4" aria-hidden /> Start a product set
+              </Link>
+              <Link
+                href="/pricing"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-black/15 bg-white/55 px-6 text-base font-medium transition-colors hover:bg-white"
+              >
+                See pricing
+              </Link>
+            </div>
+          </div>
           <img
-            src={HERO.image}
-            alt=""
-            width={1800}
-            height={1012}
+            src={HERO.mark}
+            alt="Product campaign art direction example"
+            width={1200}
+            height={675}
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 -z-20 size-full object-cover object-[60%_70%]"
+            className="h-64 w-full rounded-[22px] object-cover md:h-[300px]"
           />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/50 to-black/10 md:bg-gradient-to-r md:from-black/85 md:via-black/45 md:to-transparent" />
-          <h2
-            id="cta-title"
-            className="font-display text-[36px] leading-[0.95] text-white md:text-[56px]"
-          >
-            Your next product
-            <br />
-            <span className="text-sand">shoots itself.</span>
-          </h2>
-          <p className="max-w-[440px] text-sm text-white/75 md:text-base">
-            Upload a packshot, describe the scene, press Generate. Photos,
-            model scenes and video for every listing — keep the best takes in
-            your library.
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/image"
-              className="btn-keycap inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold"
-            >
-              <Sparkles className="size-4" aria-hidden /> Start a shoot
-            </Link>
-            <Link
-              href="/pricing"
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-white/15 bg-black/30 px-6 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-black/50"
-            >
-              See pricing
-            </Link>
-          </div>
         </div>
       </section>
     </div>
