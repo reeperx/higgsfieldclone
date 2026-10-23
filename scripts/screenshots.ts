@@ -17,7 +17,33 @@ const PAGES: [name: string, path: string][] = [
   ["login", "/login"],
 ]
 
-const browser = await chromium.launch({ channel: "chrome" })
+/**
+ * Tries the Chrome brand channel, then CHROMIUM_PATH (a pinned cache build or
+ * system chromium), then Playwright's own chromium — the npm package's browser
+ * revision does not always match what a machine has cached.
+ */
+async function launch() {
+  const candidates: Parameters<typeof chromium.launch>[0][] = [
+    { channel: "chrome" },
+    ...(process.env.CHROMIUM_PATH
+      ? [{ executablePath: process.env.CHROMIUM_PATH }]
+      : []),
+    { channel: "chromium" },
+  ]
+  const failures: string[] = []
+  for (const options of candidates) {
+    try {
+      return await chromium.launch(options)
+    } catch (error) {
+      failures.push(String(error))
+    }
+  }
+  throw new Error(
+    `No usable browser; install Chrome or set CHROMIUM_PATH.\n${failures.join("\n")}`
+  )
+}
+
+const browser = await launch()
 for (const width of [1440, 390]) {
   const context = await browser.newContext({
     viewport: { width, height: width === 390 ? 844 : 900 },

@@ -46,3 +46,63 @@
     --sidebar-ring: var(--hf-color-border-focus);
     color-scheme: dark;
 }
+
+/**
+ * Vendo "calm studio" identity (2026-10): relaxed warm-ink surfaces and a soft
+ * sand accent replacing the template's lime, blur-the-lights studio feel.
+ * Overrides sit here (not in the vendored codegen files — they say DO NOT EDIT):
+ * the unlayered block beats @layer quanta-theme, so every consumer of the
+ * overwritten names follows, including the q-* utilities.
+ */
+:root[data-theme="default-dark"] {
+    /* — Surfaces: cool blue-cast greys warmed to quiet charcoal. — */
+    --hf-color-cool-400: #161310; /* background-primary */
+    --hf-color-cool-350: #1a1714; /* background-elevated-end */
+    --hf-color-cool-300: #1e1a16; /* background-secondary (cards) */
+    --hf-color-cool-250: #232019; /* raised surfaces, secondary buttons */
+    --hf-color-cool-200: #2a2620; /* background-tertiary, hovers */
+    --hf-color-cool-150: #35302a; /* background-elevated-start */
+    --hf-color-cool-100: #4b443a; /* disabled icons/text */
+    --hf-color-cool-050: #5f5749;
+
+    /* Text + white buttons pick up a chalk warmth (was pure #fff). */
+    --hf-color-grey-050: #f7f4ec;
+    --hf-color-grey-150: #d0cac0;
+    --hf-color-grey-200: #a9a49b;
+    --hf-color-grey-250: #7f7a71;
+    --hf-color-grey-300: #847e75;
+    --hf-color-grey-325: #635e55;
+    --hf-color-grey-350: #585349;
+    --hf-color-grey-400: #454038;
+    --hf-color-grey-450: #322e27;
+    --hf-color-grey-500: #292520;
+    --hf-color-grey-550: #191510;
+
+    --hf-color-glass-dark: #232019bf;
+
+    /* — Accent: sand replaces lime everywhere lime was wired. — */
+    --hf-color-border-focus: #d8b26e;
+    --hf-color-brand-primary: #d8b26e;
+    --hf-color-button-brand: #d8b26e;
+    --hf-color-icon-accent: #d8b26e;
+    --hf-color-icon-brand: #d8b26e;
+    --hf-color-text-brand: #d8b26e;
+    --hf-color-text-link: #d8b26e;
+    /* Dark, warm label on sand buttons (contrast ≥ 9:1). */
+    --hf-color-button-label-brand: #1a1409;
+
+    /* Transparent accents (focus tints, indicator fills, glows) → sand alphas.
+       Keep the *-lime names: consumers elsewhere still read them. */
+    --hf-color-transparent-lime-05: #d8b26e0d;
+    --hf-color-transparent-lime-10: #d8b26e1a;
+    --hf-color-transparent-lime-15: #d8b26e26;
+    --hf-color-transparent-lime-20: #d8b26e33;
+    --hf-color-transparent-lime-30: #d8b26e4d;
+    --hf-color-transparent-lime-40: #d8b26e66;
+    --hf-color-transparent-lime-50: #d8b26e80;
+    --hf-color-transparent-lime-60: #d8b26e99;
+    --hf-color-transparent-lime-70: #d8b26eb2;
+    --hf-color-transparent-lime-80: #d8b26ecc;
+    --hf-color-transparent-lime-90: #d8b26ee5;
+    --hf-color-transparent-lime-100: #d8b26e;
+}

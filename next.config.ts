@@ -37,14 +37,12 @@ function contentSecurityPolicy(): string {
     `'self' https:${isDev ? " http://localhost:4010 ws:" : ""}`
   return [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://js.stripe.com`,
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
     `img-src ${media.join(" ")}`,
     `media-src ${media.join(" ")}`,
     "font-src 'self' data:",
     `connect-src ${connect}`,
-    "frame-src https://js.stripe.com https://checkout.stripe.com",
-    "form-action 'self' https://checkout.stripe.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "object-src 'none'",

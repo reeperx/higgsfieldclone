@@ -3,16 +3,37 @@ import Link from "next/link"
 import { BRAND } from "@/lib/brand"
 import { cn } from "@/lib/utils"
 
-/** Vireo mark: a lime tile with a wing-shaped V. Placeholder wordmark until brand assets arrive. */
-export function LogoMark({ className }: { className?: string }) {
+/**
+ * Vendo mark: a sand tile carrying a soft price-tag glyph and a four-point
+ * sparkle — "products, priced, made intelligent". Drawn to stay legible down to
+ * a 16 px favicon; glyph colour is the warm ink the wordmark is set in.
+ */
+export function LogoMark({
+  className,
+  inverted = false,
+}: {
+  className?: string
+  /** On sand surfaces: ink tile with sand glyph. */
+  inverted?: boolean
+}) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden className={cn("size-8", className)}>
-      <rect width="32" height="32" rx="8" fill="#D1FE17" />
+      <rect width="32" height="32" rx="9" fill={inverted ? "#17130B" : "#D8B26E"} />
+      <g transform="rotate(-12 14 17.5)">
+        <rect
+          x="6"
+          y="12"
+          width="15.5"
+          height="11.5"
+          rx="3.6"
+          fill={inverted ? "#D8B26E" : "#17130B"}
+        />
+        <circle cx="10" cy="15.1" r="1.5" fill={inverted ? "#17130B" : "#D8B26E"} />
+      </g>
       <path
-        d="M7.5 9.5c2.6 0 4.4 1.3 5.6 3.9L16 19.6l4.3-9.2c.5-1 1.4-1.6 2.5-1.6h1.7L17.6 23.5h-3.2L9.2 12.4c-.4-.9-1-1.4-1.7-1.6V9.5z"
-        fill="#131517"
+        d="M24.2 4l1.15 3.05L28.4 8.2l-3.05 1.15L24.2 12.4l-1.15-3.05L20 8.2l3.05-1.15L24.2 4z"
+        fill={inverted ? "#D8B26E" : "#17130B"}
       />
-      <circle cx="23.6" cy="8.6" r="1.3" fill="#131517" />
     </svg>
   )
 }
@@ -31,9 +52,10 @@ export function Logo({
       className={cn("flex shrink-0 items-center gap-2", className)}
     >
       <LogoMark className={compact ? "size-6" : "size-8"} />
+      {/* Calm lowercase wordmark — the display face's uppercase plays no part here. */}
       <span
         className={cn(
-          "font-display text-foreground",
+          "font-heading font-bold tracking-[-0.03em] text-foreground",
           compact ? "text-base" : "text-lg"
         )}
       >

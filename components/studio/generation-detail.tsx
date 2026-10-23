@@ -86,7 +86,7 @@ export function GenerationDetailModal({
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Trigger render={trigger} />
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-[#131416] duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-[#161310] duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Popup className="fixed inset-0 z-50 flex flex-col duration-150 outline-none md:flex-row data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0">
           <DialogPrimitive.Title className="sr-only">
             Generation
@@ -144,7 +144,7 @@ export function GenerationDetailModal({
               <div className="flex items-center justify-between gap-2">
                 {generation.author ? (
                   <div className="flex items-center gap-2">
-                    <span className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-lime text-sm font-semibold text-[#131517]">
+                    <span className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-sand text-sm font-semibold text-[#17130b]">
                       {generation.author.image ? (
                         <img
                           src={generation.author.image}
@@ -200,7 +200,7 @@ export function GenerationDetailModal({
                         }
                       >
                         {copied ? (
-                          <Check className="size-3 text-lime" />
+                          <Check className="size-3 text-sand" />
                         ) : (
                           <Copy className="size-3" />
                         )}
@@ -256,7 +256,7 @@ export function GenerationDetailModal({
                     className={cn(
                       "flex h-10 items-center justify-center gap-1.5 rounded-[10px] text-sm font-medium transition-colors",
                       index === 0
-                        ? "bg-lime text-[#1a1a1a] hover:bg-lime/85"
+                        ? "bg-sand text-[#1a1a1a] hover:bg-sand/85"
                         : action.danger
                           ? "bg-white/5 text-[#ff6b6b] hover:bg-white/10"
                           : "bg-white/5 text-foreground hover:bg-white/10"

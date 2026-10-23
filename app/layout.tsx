@@ -38,12 +38,12 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL ?? BRAND.productionUrl),
   title: {
-    default: `${BRAND.name} — AI image & video studio`,
+    default: `${BRAND.name} — AI product photo & video studio`,
     template: `%s · ${BRAND.name}`,
   },
   description: BRAND.description,
   openGraph: {
-    title: `${BRAND.name} — AI image & video studio`,
+    title: `${BRAND.name} — AI product photo & video studio`,
     description: BRAND.description,
     images: ["/media/hero/coast.jpg"],
     type: "website",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   icons: { icon: "/icon.svg" },
 }
 
-export const viewport: Viewport = { themeColor: "#0f1113", colorScheme: "dark" }
+export const viewport: Viewport = { themeColor: "#11100d", colorScheme: "dark" }
 
 /** Session, live balance and pricing for the client providers. Signed-out on DB errors. */
 async function bootstrap(): Promise<{
@@ -105,7 +105,7 @@ export default async function RootLayout({
       <body className="min-h-dvh bg-page text-foreground">
         <a
           href="#main"
-          className="sr-only z-[100] rounded-lg bg-lime px-3 py-2 text-[#131517] focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+          className="sr-only z-[100] rounded-lg bg-sand px-3 py-2 text-[#17130b] focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
         >
           Skip to content
         </a>

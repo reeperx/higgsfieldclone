@@ -10,7 +10,7 @@ import { PLANS } from "@/lib/billing/plans"
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: `Plans and credit top-ups for ${BRAND.name}. Every plan unlocks every image and video model.`,
+  description: `Plans and credit top-ups for ${BRAND.name}. Every plan unlocks every image and video model for product work.`,
 }
 
 const plus = PLANS.plus
@@ -123,7 +123,8 @@ export default function PricingPage() {
           </h1>
           <p className="max-w-[620px] text-sm text-muted-foreground md:text-base">
             Every plan unlocks every model. Choose how many credits you want
-            each month, and top up whenever a project needs more.
+            each month for your product shoots, and top up whenever a listing
+            needs more.
           </p>
         </header>
 
@@ -169,7 +170,7 @@ export default function PricingPage() {
             id="ready-title"
             className="font-display text-[36px] leading-none md:text-[48px]"
           >
-            Ready to <span className="text-lime">create?</span>
+            Ready to <span className="text-sand">create?</span>
           </h2>
           <p className="max-w-[440px] text-sm text-muted-foreground">
             Open the studio, pick a model and make your first shot. You can

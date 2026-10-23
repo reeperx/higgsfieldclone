@@ -4,7 +4,7 @@ import {
   EMAIL_COLORS,
   EmailFrame,
   heading,
-  limeButton,
+  sandButton,
   paragraph,
 } from "./components"
 
@@ -45,7 +45,7 @@ export function MagicLinkEmail({
       <Text style={paragraph}>
         Tap the button to sign in. No password needed.
       </Text>
-      <Button href={url} style={limeButton}>
+      <Button href={url} style={sandButton}>
         Sign in to {brand}
       </Button>
       <Text style={{ ...paragraph, fontSize: 13, margin: "24px 0 8px" }}>
@@ -60,7 +60,7 @@ export function MagicLinkEmail({
           wordBreak: "break-all",
         }}
       >
-        <Link href={url} style={{ color: EMAIL_COLORS.lime }}>
+        <Link href={url} style={{ color: EMAIL_COLORS.sand }}>
           {url}
         </Link>
       </Text>
@@ -89,11 +89,11 @@ export function magicLinkText({
 }
 
 MagicLinkEmail.PreviewProps = {
-  url: "https://vireo.studio/api/auth/callback/resend?token=preview",
-  brand: "Vireo",
-  host: "vireo.studio",
+  url: "https://vendo.studio/api/auth/callback/resend?token=preview",
+  brand: "Vendo",
+  host: "vendo.studio",
   expiresInMinutes: 60,
-  supportEmail: "support@vireo.studio",
+  supportEmail: "support@vendo.studio",
 } satisfies MagicLinkEmailProps
 
 export default MagicLinkEmail

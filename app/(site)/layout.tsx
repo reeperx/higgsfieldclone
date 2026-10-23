@@ -2,7 +2,7 @@ import { Footer } from "@/components/site/footer"
 import { PromoBar } from "@/components/site/promo-bar"
 import { TopNav } from "@/components/site/top-nav"
 
-/** Marketing pages: expanded nav, scrolling content, lime footer. */
+/** Marketing pages: expanded nav, scrolling content, sand footer. */
 export default function SiteLayout({
   children,
 }: {

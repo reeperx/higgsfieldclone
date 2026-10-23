@@ -10,9 +10,7 @@ if (!existsSync(STATIC)) {
 }
 
 const PATTERNS = [
-  /sk_(live|test)_[0-9a-zA-Z]{10,}/, // Stripe secret keys
-  /whsec_[0-9a-zA-Z]{10,}/, // Stripe webhook secrets
-  /rk_(live|test)_[0-9a-zA-Z]{10,}/, // Stripe restricted keys
+  /sk_(sandbox|live)_[0-9a-zA-Z]{10,}/, // Bachs secret keys
   /re_[0-9a-zA-Z]{8,}_[0-9a-zA-Z]{10,}/, // Resend keys
   /mongodb(\+srv)?:\/\/[^"'\s]*@/, // Mongo URIs with credentials
 ]
@@ -22,8 +20,8 @@ const SECRET_ENV = [
   "AUTH_RESEND_KEY",
   "HF_CREDENTIALS",
   "HF_WEBHOOK_SECRET",
-  "STRIPE_SECRET_KEY",
-  "STRIPE_WEBHOOK_SECRET",
+  "BACHS_SECRET_KEY",
+  "BACHS_WEBHOOK_SECRET",
   "R2_ACCESS_KEY_ID",
   "R2_SECRET_ACCESS_KEY",
   "CRON_SECRET",

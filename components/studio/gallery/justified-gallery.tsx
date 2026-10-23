@@ -157,7 +157,7 @@ export function JustifiedGallery({
                       className={cn(
                         "absolute z-[3] rounded-[var(--radius)] transition-colors",
                         selected
-                          ? "ring-2 ring-lime ring-inset"
+                          ? "ring-2 ring-sand ring-inset"
                           : "hover:bg-white/5"
                       )}
                       style={{
@@ -171,7 +171,7 @@ export function JustifiedGallery({
                         className={cn(
                           "absolute top-2 left-2 flex size-6 items-center justify-center rounded-full border",
                           selected
-                            ? "border-lime bg-lime text-[#131517]"
+                            ? "border-sand bg-sand text-[#17130b]"
                             : "border-white/40 bg-black/40 text-transparent"
                         )}
                       >

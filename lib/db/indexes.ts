@@ -24,8 +24,8 @@ export async function ensureIndexes(database: Db): Promise<string[]> {
   // Auth.js adapter collections.
   await add("users.email", { email: 1 }, { unique: true })
   await add(
-    "users.stripe",
-    { stripeCustomerId: 1 },
+    "users.bachs",
+    { bachsCustomerId: 1 },
     { unique: true, sparse: true }
   )
   await add("users.grants", { nextGrantAt: 1 }, { sparse: true })

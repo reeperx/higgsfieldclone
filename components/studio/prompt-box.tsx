@@ -26,7 +26,7 @@ import { cn as cx } from "@/lib/utils"
  *
  * COMPOSITION-FIRST (same rules as Composer / Sidebar / Modal). The component
  * owns the DESIGN — the two-layer prompt surface, the pill/tile/mode shells, the
- * lime CTA — and every control is CONTENT you compose:
+ * sand CTA — and every control is CONTENT you compose:
  *
  *   <PromptBox.Root>
  *     <PromptBox.ModeRail>
@@ -396,7 +396,7 @@ function PlusGlyph() {
   )
 }
 
-/* ── Generate (the special lime CTA) ───────────────────────────────────────── */
+/* ── Generate (the special sand CTA) ───────────────────────────────────────── */
 export type PromptBoxGenerateProps = Omit<
   ComponentPropsWithRef<"button">,
   "children"

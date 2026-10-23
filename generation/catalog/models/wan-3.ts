@@ -137,25 +137,5 @@ export const wan3: ModelEntry = {
   toPlatform: (plane) => mapWan3(plane, "alibaba/wan-3.0", "Wan 3.0"),
 }
 
-export const wan3Prime: ModelEntry = {
-  ...meta,
-  id: "wan-3-prime",
-  label: "Wan 3.0 Prime",
-  description:
-    "The Prime tier of Wan 3.0: the same text, frame and reference inputs and the same 30 s ceiling.",
-  bestFor: "Top-tier Wan 3.0 renders",
-  badges: ["NEW", "PRO"],
-  category: "CINEMATIC",
-  order: 131,
-  docs: [
-    `${DOCS}/wan-3-prime`,
-    `${DOCS}/wan-3-prime/text-to-video`,
-    `${DOCS}/wan-3-prime/image-to-video`,
-    `${DOCS}/wan-3-prime/reference-to-video`,
-  ],
-  toPlatform: (plane) =>
-    mapWan3(plane, "alibaba/wan-3.0-prime", "Wan 3.0 Prime"),
-}
-
-const models = [wan3, wan3Prime]
+const models = [wan3]
 export default models

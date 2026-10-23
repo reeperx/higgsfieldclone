@@ -24,6 +24,13 @@ const source = (seconds?: number): MediaItem => ({
   ...(seconds ? { durationSec: seconds } : {}),
 })
 
+const refImage = (): MediaItem => ({
+  id: "r",
+  role: "reference",
+  kind: "image",
+  url: "https://example.com/pack.png",
+})
+
 describe("priceFor", () => {
   it("applies the brief's formula: ceil(usd × markup / creditUsd)", () => {
     expect(creditsFromUsd(0.094, config)).toBe(19)
@@ -67,25 +74,25 @@ describe("priceFor", () => {
 
   it("prices source-length endpoints from the probed source duration", () => {
     const known = priceFor(
-      "seedance-2.5-edit",
+      "genjutsu-swap",
       {},
-      [source(8)],
+      [source(8), refImage()],
       table,
-      "make it snow"
+      "swap it"
     )
     const unknown = priceFor(
-      "seedance-2.5-edit",
+      "genjutsu-swap",
       {},
-      [source()],
+      [source(), refImage()],
       table,
-      "make it snow"
+      "swap it"
     )
-    // Edit bills input + generated seconds (both the source length) at 0.6×.
-    expect(known.units).toBeCloseTo(8 * 2 * 0.6)
+    // Object swap bills the source video's own seconds (output follows it).
+    expect(known.units).toBe(8)
     expect(known.provisional).toBe(false)
-    expect(unknown.units).toBeCloseTo(30 * 2 * 0.6)
+    expect(unknown.units).toBe(30)
     expect(unknown.provisional).toBe(true)
-    expect(unknown.unitScale).toBeCloseTo(1.2)
+    expect(unknown.unitScale).toBe(1)
     expect(unknown.credits).toBeGreaterThan(known.credits)
   })
 
@@ -135,7 +142,7 @@ describe("priceFor", () => {
   })
 
   it("returns null from tryPriceFor while inputs are incomplete", () => {
-    expect(tryPriceFor("kling-3-motion-std", {}, [], table)).toBeNull()
+    expect(tryPriceFor("genjutsu-swap", {}, [], table)).toBeNull()
   })
 
   it("rejects out-of-range settings instead of pricing them", () => {

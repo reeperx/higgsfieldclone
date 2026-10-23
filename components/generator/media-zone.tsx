@@ -78,7 +78,7 @@ function Preview({ item }: { item: MediaItem }) {
   if (kind === "audio")
     return (
       <span className="flex size-full items-center justify-center bg-raised">
-        <AudioLines className="size-5 text-lime" />
+        <AudioLines className="size-5 text-sand" />
       </span>
     )
   return (
@@ -281,7 +281,7 @@ export function MediaZone({ generator }: { generator: Generator }) {
           onDrop={(event) => void drop(event, "auto")}
           className={cn(
             "rounded-2xl border border-dashed border-white/12 transition-colors",
-            dragging && "border-lime/60 bg-lime/5"
+            dragging && "border-sand/60 bg-sand/5"
           )}
         >
           <AssetLibraryModal

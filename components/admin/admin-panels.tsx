@@ -38,7 +38,7 @@ import type { PresetView } from "@/lib/presets"
 import { cn } from "@/lib/utils"
 
 const input =
-  "h-9 rounded-lg border border-white/10 bg-surface px-3 text-sm outline-none focus:border-lime/50"
+  "h-9 rounded-lg border border-white/10 bg-surface px-3 text-sm outline-none focus:border-sand/50"
 
 function Table({ children }: { children: React.ReactNode }) {
   return (
@@ -112,7 +112,7 @@ export function AdminUsers({
                 <span className="flex items-center gap-2">
                   {row.email}
                   {row.role === "admin" ? (
-                    <span className="rounded bg-lime/15 px-1.5 text-xs text-lime">
+                    <span className="rounded bg-sand/15 px-1.5 text-xs text-sand">
                       admin
                     </span>
                   ) : null}
@@ -282,7 +282,7 @@ function AdjustDialog({
 /* ── Generations ───────────────────────────────────────────────────────── */
 
 const STATUS_TONE: Record<string, string> = {
-  completed: "text-lime",
+  completed: "text-sand",
   failed: "text-[#ff6b6b]",
   nsfw: "text-pink",
   canceled: "text-muted-foreground",
@@ -522,7 +522,7 @@ export function AdminModels({
                   }}
                   className={cn(
                     "relative h-5 w-9 rounded-full",
-                    row.enabled ? "bg-lime" : "bg-[#3a3d42]"
+                    row.enabled ? "bg-sand" : "bg-[#3a352d]"
                   )}
                 >
                   <span
@@ -554,7 +554,7 @@ export function AdminModels({
                             "rounded px-1.5 text-[11px]",
                             rule.source === "placeholder"
                               ? "bg-pink/15 text-pink"
-                              : "bg-lime/15 text-lime"
+                              : "bg-sand/15 text-sand"
                           )}
                         >
                           {SOURCE_LABEL[rule.source]}
@@ -864,7 +864,7 @@ export function AdminPresets({
                       type="checkbox"
                       checked={form.active}
                       onChange={(event) => set("active", event.target.checked)}
-                      className="accent-[#d1fe17]"
+                      className="accent-[#d8b26e]"
                     />
                     Visible in the gallery
                   </label>

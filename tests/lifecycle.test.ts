@@ -275,26 +275,41 @@ describe("finalize", () => {
       createdAt: new Date(),
     }
     await uploads.insertOne(upload)
+    const packUpload = {
+      _id: new ObjectId(),
+      userId: user.objectId,
+      kind: "image" as const,
+      url: "https://cdn.hf.test/uploads/pack.png",
+      platformUrl: "https://cdn.hf.test/uploads/pack.png",
+      contentType: "image/png",
+      bytes: 100,
+      name: "pack.png",
+      createdAt: new Date(),
+    }
+    await uploads.insertOne(packUpload)
     const view = await submitGeneration(user, {
       submitKey: randomUUID(),
-      modelId: "seedance-2.5-edit",
-      prompt: "Make it snow",
+      modelId: "genjutsu-swap",
+      prompt: "Swap the pack",
       settings: {},
-      media: [{ role: "source", url: upload.url }],
+      media: [
+        { id: "src", role: "source", kind: "video", url: upload.url },
+        { id: "ref", role: "reference", kind: "image", url: packUpload.url },
+      ],
     })
-    // Provisional: (30 s input + 30 s output) × 0.6 at $0.46224/s × 2 / $0.01.
-    expect(view.cost).toBe(3329)
+    // Provisional: 30 s (the documented max) × $0.681 × 2 / $0.01.
+    expect(view.cost).toBe(4086)
     const { generations } = await collections()
     const doc = await generations.findOne({ _id: new ObjectId(view.id) })
     fake.complete(doc!.hfRequestId!, "video") // 6-second output
     await finalizeGeneration(doc!._id)
     const [after] = await generationStatuses(user.objectId, [view.id])
     expect(after!.outputs[0]!.durationSec).toBe(6)
-    // Trued up to the real 6 s: (6 + 6) × 0.6 units.
-    expect(after!.cost - after!.refunded).toBe(666)
+    // Trued up to the real 6 s.
+    expect(after!.cost - after!.refunded).toBe(818)
     expect(await balanceOf(user.objectId)).toEqual({
       subscription: 0,
-      topup: 5000 - 666,
+      topup: 5000 - 818,
     })
   })
 })
@@ -419,28 +434,26 @@ describe("pricing on the live platform", () => {
       process.env.HF_API_BASE_URL = "https://api.higgsfield.ai"
       resetEnvForTests()
       const live = await pricingContext(true)
-      expect(live.credits["kling-video/motion-control/std"]).toBeUndefined()
-      expect(live.placeholderPaths).toContain("kling-video/motion-control/std")
+      expect(live.credits["minimax/h3/text-to-video"]).toBeUndefined()
+      expect(live.placeholderPaths).toContain("minimax/h3/text-to-video")
       expect(live.credits["bytedance/seedance-2.5/text-to-video"]).toBeDefined()
 
       const { modelPricing } = await collections()
       await modelPricing.insertOne({
         _id: new ObjectId(),
-        modelId: "kling-2.6-motion-std",
+        modelId: "minimax-h3",
         enabled: true,
         rules: {
-          "kling-video/motion-control/std": {
+          "minimax/h3/text-to-video": {
             usd: 0.1,
             per: "second",
-            defaultUnits: 30,
-            sourceLength: true,
             source: "admin",
           },
         },
         updatedAt: new Date(),
       })
       const priced = await pricingContext(true)
-      expect(priced.credits["kling-video/motion-control/std"]).toBeDefined()
+      expect(priced.credits["minimax/h3/text-to-video"]).toBeDefined()
     } finally {
       process.env.HF_API_BASE_URL = before
       resetEnvForTests()

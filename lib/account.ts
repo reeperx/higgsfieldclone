@@ -5,7 +5,7 @@ import { ObjectId, type Filter } from "mongodb"
 import { NotFoundError } from "@/lib/errors"
 import { totalCredits } from "@/lib/billing/ledger"
 import { planOf, type BillingInterval, type PlanId } from "@/lib/billing/plans"
-import { billingEnabled } from "@/lib/billing/stripe"
+import { billingEnabled } from "@/lib/billing/bachs"
 import {
   collections,
   type Credits,
@@ -48,7 +48,7 @@ export async function getAccount(userId: ObjectId): Promise<AccountView> {
     ...(user.planRenewsAt ? { planRenewsAt: user.planRenewsAt.getTime() } : {}),
     credits,
     total: totalCredits(credits),
-    hasBillingAccount: Boolean(user.stripeCustomerId),
+    hasBillingAccount: Boolean(user.bachsCustomerId),
     billingEnabled: billingEnabled(),
     createdAt: user.createdAt?.getTime() ?? 0,
   }
@@ -89,7 +89,7 @@ const REASON_LABEL: Record<LedgerReason, string> = {
   topup_purchase: "Top-up",
   signup_bonus: "Welcome bonus",
   admin_adjust: "Adjustment by support",
-  stripe_refund: "Payment refunded",
+  bachs_refund: "Payment refunded",
 }
 
 export function toLedgerView(doc: LedgerDoc): LedgerEntryView {

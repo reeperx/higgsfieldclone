@@ -59,7 +59,7 @@ export function ModelCard({ generator }: { generator: Generator }) {
       )}
       <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
       <div className="absolute right-3 bottom-3 left-3">
-        <p className="font-display text-xl text-lime">
+        <p className="font-display text-xl text-sand">
           {preset ? preset.title : (model.category ?? "GENERAL")}
         </p>
         <p className="mt-1 flex items-center gap-1.5 text-xs text-white/70">
@@ -156,7 +156,7 @@ export function PromptCard({ generator }: { generator: Generator }) {
             className={cn(
               "flex h-7 items-center gap-1 rounded-lg px-2 text-xs font-semibold transition-colors",
               enhanceOn
-                ? "bg-lime/15 text-lime"
+                ? "bg-sand/15 text-sand"
                 : "bg-panel text-muted-foreground hover:text-foreground"
             )}
           >

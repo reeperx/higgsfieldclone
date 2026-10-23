@@ -62,7 +62,7 @@ export function TopNav({ compact = false }: { compact?: boolean }) {
               className={cn(
                 "rounded-lg px-2 py-1 text-sm font-medium whitespace-nowrap transition-colors duration-200",
                 active
-                  ? "text-lime"
+                  ? "text-sand"
                   : "text-[#a8a8a8] hover:bg-white/5 hover:text-white"
               )}
             >
@@ -101,7 +101,7 @@ function AccountControls({ compact }: { compact: boolean }) {
           type="button"
           onClick={() => openAuth({ mode: "login" })}
           className={cn(
-            "hidden rounded-[10px] bg-lime/10 px-3 text-sm font-medium text-lime transition-colors hover:bg-lime/15 sm:block",
+            "hidden rounded-[10px] bg-sand/10 px-3 text-sm font-medium text-sand transition-colors hover:bg-sand/15 sm:block",
             height
           )}
         >
@@ -129,7 +129,7 @@ function AccountControls({ compact }: { compact: boolean }) {
           height
         )}
       >
-        <Sparkle className="size-3.5 fill-lime text-lime" aria-hidden />
+        <Sparkle className="size-3.5 fill-sand text-sand" aria-hidden />
         {credits === null ? "—" : credits.toLocaleString("en-US")}
       </Link>
       <button
@@ -230,7 +230,7 @@ function MobileSheet({
                 className={cn(
                   "rounded-xl px-3 py-3 text-base font-medium",
                   link.match(pathname)
-                    ? "bg-white/5 text-lime"
+                    ? "bg-white/5 text-sand"
                     : "text-foreground hover:bg-white/5"
                 )}
               >

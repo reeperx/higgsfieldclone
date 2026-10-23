@@ -1,6 +1,6 @@
 # Runbook
 
-Operating Vireo in production. Everything below is idempotent unless noted.
+Operating Vendo in production. Everything below is idempotent unless noted.
 
 ## Health at a glance
 
@@ -11,6 +11,7 @@ Operating Vireo in production. Everything below is idempotent unless noted.
 | Pending submits | Admin → Generations → `pending_submit` | Empty after 2 minutes |
 | Pricing | Admin → Models & pricing | No pink "placeholder" or "Reprice" badges |
 | Billing flags | Admin → Users (pink ⚠ next to an email) | None unreviewed |
+| Bachs webhook | Bachs dashboard → webhook deliveries | Recent 2xx responses; no recurring `400 invalid signature` |
 
 ## Generation lifecycle
 
@@ -48,6 +49,7 @@ and delivered free.
 | `OPERATOR ALERT: Higgsfield account is out of credits (403)` | Platform balance empty | Top up the platform account |
 | `OPERATOR ALERT: Platform concurrency limit reached` | Account concurrency cap | Ask Higgsfield for higher limits; lower plan concurrency |
 | `[pricing] live cost … exceeds our price basis` | Price table stale | Admin → Models & pricing, or `pnpm pricing:sync` |
+| `[bachs] webhook rejected: invalid signature` | Secret mismatch (wrong environment?) | Re-copy `BACHS_WEBHOOK_SECRET` from the endpoint's signing secret and redeploy |
 
 ## Pricing
 
@@ -57,32 +59,79 @@ and delivered free.
   the duration curve. Commit and deploy. Endpoints that fetch their inputs
   need reachable sample media: `PROBE_IMAGE=https://… PROBE_VIDEO=https://…
   pnpm pricing:sync` (any public image and ~5 s MP4).
-* Token-metered endpoints (Seedance, Cinema Studio, Wan 3.0, Genjutsu,
+* Token-metered endpoints (Genjutsu Object Swap, Cinema Studio 4, Wan 3.0,
   MiniMax H3 references, Marketing Flare/Sunburst) answer the estimate with a
   pricing *description*; the sync prints it. Their rules are hand-derived in
   `lib/billing/pricing-table.ts` (`source: "description"`, text quoted next to
   each rule) — re-check them when the sync shows a changed description.
 * **Unverified** (placeholder) prices are never sold against the live API: the
-  Generate button says the option isn't available yet. As of 2026-09-26 that
-  is Kling motion control (2.6 / 3.0, std / pro), Kling O3 / Omni video edit
-  (their estimate returns 500) and Marketing Flare / Sunburst (token-billed
-  with no per-image rate). Look the cost up in the Higgsfield console and set
-  it in Admin → Models & pricing → ✎.
+  Generate button says the option isn't available yet. As of 2026-10 that is
+  Marketing Flare / Sunburst plus every rule marked `source: "placeholder"` in
+  `lib/billing/pricing-table.ts`. Look the cost up in the Higgsfield console
+  and set it in Admin → Models & pricing → ✎.
 * Per-endpoint overrides: Admin → Models & pricing → ✎. Takes effect within 30 s.
 * The price guard blocks a submit only when the live cost is > 25 % above our
   basis (and flags the model at > 1 %).
+
+## Bachs setup
+
+| Variable | Meaning |
+|---|---|
+| `BACHS_API_URL` | `https://sandbox-api.bachs.io` (sandbox) or `https://api.bachs.io` (live) |
+| `BACHS_SECRET_KEY` | `sk_sandbox_…` / `sk_live_…`. Unset → checkout is disabled with a clear message. Swapping sandbox→live is the go-live step. |
+| `BACHS_WEBHOOK_SECRET` | The endpoint's signing secret (`whsec_…`) for `X-Bachs-Signature-V2` |
+| `BACHS_PRICE_*` | Product ids: `STARTER_MONTHLY/ANNUAL`, `PLUS_MONTHLY/ANNUAL`, `ULTRA_MONTHLY/ANNUAL` (recurring) and `TOPUP_SMALL/MEDIUM/LARGE` (one-time). Create the 6 subscription + 3 top-up prices in the Bachs dashboard **in rands (ZAR)**, amounts matching `lib/billing/plans.ts`. |
+
+* Webhook endpoint: `https://<domain>/api/webhooks/bachs`. Subscribe to
+  `collection.succeeded`, `invoice.paid`,
+  `customer.subscription.created|updated|deleted` and `refund.paid`. Money
+  arrives as decimal strings (`"29.00"`), never minor units.
+* Every mutating Bachs call carries an `Idempotency-Key`; the client retries
+  429/5xx with backoff, so replayed deliveries are safe.
+* **Deliveries are at-least-once and can arrive out of order.** All grants run
+  through `lib/billing/bachs-events.ts`: events dedupe in `bachs_events`
+  (document `_id` = Bachs event id), every grant or clawback re-fetches the
+  checkout/subscription/invoice from the Bachs API first, and subscription
+  transitions carry a `planStatusAt` ordering guard. Replaying any event from
+  the dashboard changes nothing.
+* Top-ups are granted **only** from `collection.succeeded` (state
+  `SUCCEEDED`/`ACCEPTED`/`OVERPAID`); `invoice.paid` also fires for one-off
+  charges and is ignore-buffered for them. Out-of-band balance deposits (no
+  checkout id) never grant credits.
+* Local testing without touching Bachs: `pnpm mock:bachs` (port 4011) serves a
+  fake API + hosted checkout/portal and delivers the same signed webhooks to
+  `BACHS_WEBHOOK_TARGET` (default `http://localhost:3000/api/webhooks/bachs`).
+
+### Refunding a purchase
+
+1. Find the charged checkout: grab the `chk_…` id from the user's ledger
+   (`charge` entries, reason `bachs_sale` / `purchase`) or their Bachs
+   customer in the dashboard.
+2. Refund in the Bachs dashboard (full or partial) **and set `reference` to
+   that `chk_…` checkout id** — this is the only field our clawback can map
+   back to our ledger.
+3. `refund.paid` triggers `refundCredits`: the user gets back
+   floor(granted × refunded/requested) top-up credits (never below zero), with
+   anything already spent handled as: the account is **flagged** for review and
+   an admin decides (negative ledger entry vs. acceptance) in
+   Admin → Users. Unmatched/missing references flag the account instead of
+   guessing.
+4. On the plan side, refunds do not pull subscription credits back
+   automatically — adjust in Admin → Users if the policy is to claw the
+   current period's charges.
 
 ## Credits and billing
 
 * Adjust a balance: Admin → Users → **Adjust credits** (ledger `admin_adjust`
   with a note the user sees in their history).
-* Stripe events are deduplicated (`stripe_events`) and every grant is keyed on
-  a Stripe id. Replaying an event from the Stripe dashboard is safe.
+* Bachs events are deduplicated (`bachs_events`) and every grant is keyed on a
+  Bachs id. Replaying an event from the Bachs dashboard is safe.
 * Refunded top-ups claw back credits (never below zero). If the credits were
   already spent the user is flagged — decide in Admin → Users, then clear the
   flag.
 * Subscription invoices **reset** plan credits; cancellation keeps them until
-  the period ends (`customer.subscription.deleted` zeroes the plan bucket).
+  the period ends (`customer.subscription.deleted` zeroes the plan bucket
+  once, ordered by `planStatusAt`).
 * Annual plans get monthly grants from the reconciler (`nextGrantAt`).
 
 ## Moderation
@@ -97,7 +146,8 @@ item from Community and blocks re-publishing; **Dismiss** closes the reports.
 | `AUTH_SECRET` | Rotating signs everyone out (database sessions stay, cookies become invalid). |
 | `HF_WEBHOOK_SECRET` | In-flight runs' webhook tokens stop verifying; the reconciler finishes them. |
 | `HF_CREDENTIALS` | Create the new key in the console first, deploy, then revoke the old key. |
-| `STRIPE_WEBHOOK_SECRET` | Roll in the Stripe dashboard; Stripe retries failed deliveries. |
+| `BACHS_WEBHOOK_SECRET` | Roll in the Bachs dashboard; Bachs retries failed deliveries, so deploy promptly to avoid skipped grants. |
+| `BACHS_SECRET_KEY` | Create the new key (`sk_live_…`) first, deploy, then revoke the old key. |
 | `CRON_SECRET` | Update in Vercel; Vercel Cron sends the new value automatically. |
 
 ## Data
@@ -113,8 +163,14 @@ item from Community and blocks re-publishing; **Dismiss** closes the reports.
 - [ ] Every `(required)` variable in `.env.example` set in Production.
 - [ ] `pnpm db:init` against the production database.
 - [ ] `pnpm pricing:sync` with the live key; no placeholder prices in admin.
-- [ ] Final plan prices and credit allowances in `lib/billing/plans.ts`; Stripe prices match.
-- [ ] Stripe in live mode, webhook endpoint + events configured, test purchase refunded.
+- [ ] Final plan prices and credit allowances in `lib/billing/plans.ts`; 6
+      subscription + 3 top-up prices created in Bachs matching those amounts,
+      `prod_…` ids in the `BACHS_PRICE_*` variables.
+- [ ] Bachs live key swapped in (`BACHS_API_URL=https://api.bachs.io`,
+      `sk_live_…`), webhook endpoint + events configured
+      (`/api/webhooks/bachs`), signing secret deployed, test purchase paid and
+      refunded with `reference` set to the `chk_…` id (verify the ledger
+      grant and clawback both fire once).
 - [ ] Resend domain verified; a real magic link arrives.
 - [ ] R2 CORS allows GET from the site origin.
 - [ ] Legal pages replaced (`/legal/*`).

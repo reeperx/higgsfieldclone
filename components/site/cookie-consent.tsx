@@ -72,7 +72,15 @@ export function CookieConsent() {
           <p className="text-lg font-semibold">Cookie notice</p>
           <p className="text-sm text-muted-foreground">
             We use essential cookies to keep you signed in. With your permission
-            we&apos;d also use analytics cookies to improve the studio. See our{" "}
+            we&apos;d also use analytics cookies to improve the studio. Full
+            detail in our{" "}
+            <Link
+              href="/legal/cookies"
+              className="text-foreground underline underline-offset-2"
+            >
+              cookie policy
+            </Link>{" "}
+            and{" "}
             <Link
               href="/legal/privacy"
               className="text-foreground underline underline-offset-2"
@@ -179,7 +187,7 @@ function Toggle({
         aria-label={label}
         disabled={disabled}
         onClick={() => onChange?.(!checked)}
-        className={`relative h-5 w-9 shrink-0 rounded-full transition-colors disabled:opacity-60 ${checked ? "bg-lime" : "bg-[#3a3d42]"}`}
+        className={`relative h-5 w-9 shrink-0 rounded-full transition-colors disabled:opacity-60 ${checked ? "bg-sand" : "bg-[#3a352d]"}`}
       >
         <span
           className={`absolute top-0.5 left-0.5 size-4 rounded-full bg-white transition-transform ${checked ? "translate-x-4" : ""}`}

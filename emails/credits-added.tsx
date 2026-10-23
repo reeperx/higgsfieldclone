@@ -1,6 +1,6 @@
 import { Button, Text } from "@react-email/components"
 
-import { EmailFrame, heading, limeButton, paragraph } from "./components"
+import { EmailFrame, heading, sandButton, paragraph } from "./components"
 
 export interface CreditsAddedEmailProps {
   brand: string
@@ -23,8 +23,8 @@ export function CreditsAddedEmail({
       preview={`${credits.toLocaleString("en-US")} credits added to your ${brand} balance`}
       footer={
         <>
-          Stripe sends your official receipt separately. Top-up credits never
-          expire.
+          The payment receipt is in your Bachs checkout history. Top-up credits
+          never expire.
         </>
       }
     >
@@ -37,7 +37,7 @@ export function CreditsAddedEmail({
         to your account. Your balance is now ✦ {balance.toLocaleString("en-US")}
         .
       </Text>
-      <Button href={`${appUrl}/video`} style={limeButton}>
+      <Button href={`${appUrl}/video`} style={sandButton}>
         Start generating
       </Button>
     </EmailFrame>
@@ -54,11 +54,11 @@ export function creditsAddedText(props: CreditsAddedEmailProps): string {
 }
 
 CreditsAddedEmail.PreviewProps = {
-  brand: "Vireo",
+  brand: "Vendo",
   credits: 2200,
   balance: 3150,
   amountLabel: "$20.00",
-  appUrl: "https://vireo.studio",
+  appUrl: "https://vendo.studio",
 } satisfies CreditsAddedEmailProps
 
 export default CreditsAddedEmail

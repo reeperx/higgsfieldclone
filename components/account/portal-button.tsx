@@ -6,7 +6,7 @@ import { ExternalLink, Loader2 } from "lucide-react"
 import { portalAction } from "@/app/actions/billing"
 import { useToast } from "@/components/providers/app-providers"
 
-/** Opens the Stripe Customer Portal (plan changes, cancellations, invoices). */
+/** Opens the Bachs customer portal (plan changes, cancellations, invoices). */
 export function PortalButton() {
   const [pending, setPending] = useState(false)
   const toast = useToast()

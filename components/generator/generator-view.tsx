@@ -143,7 +143,7 @@ function ImageLayout({ generator }: { generator: Generator }) {
                     aria-checked={enhanceOn}
                     onClick={() => generator.setSetting(enhanceKey, !enhanceOn)}
                     start={<Wand2 />}
-                    className={cn(enhanceOn && "text-lime")}
+                    className={cn(enhanceOn && "text-sand")}
                   >
                     Enhance
                   </PromptBox.Pill>

@@ -59,7 +59,7 @@ export async function clearDatabase(): Promise<void> {
     "projects",
     "rate_limits",
     "hf_webhook_events",
-    "stripe_events",
+    "bachs_events",
     "model_pricing",
     "reports",
   ])

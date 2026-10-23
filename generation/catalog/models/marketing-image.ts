@@ -1,9 +1,8 @@
-// Marketing Studio Image — 2.5 Flare, 2.5 Sunburst and 2.0 (generate and edit).
+// Marketing Studio Image — 2.5 Flare and 2.5 Sunburst (generate and edit).
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/marketing-studio-image
 //   https://docs.higgsfield.ai/docs/models/marketing-studio-image/flare
 //   https://docs.higgsfield.ai/docs/models/marketing-studio-image/sunburst
-//   https://docs.higgsfield.ai/docs/models/marketing-studio-image/generate-and-edit
 // Not exposed: preset_id / enhance_prompt (preset enhancement is v2; the API
 // default enhance_prompt=false is what we want, so the field is omitted) and
 // moderation (omitted = auto).
@@ -125,20 +124,5 @@ export const marketingImageSunburst: ModelEntry = {
   ),
 }
 
-export const marketingImage2: ModelEntry = {
-  ...meta,
-  id: "marketing-image-2",
-  label: "Marketing Image 2.0",
-  description:
-    "The earlier marketing image model for campaign pictures and reference-based edits, with three quality tiers.",
-  bestFor: "Everyday campaign images at lower cost",
-  badges: ["4K"],
-  category: "ADS",
-  settings: { ...shared, quality: quality(["low", "medium", "high"]) },
-  order: 12,
-  docs: [DOCS, `${DOCS}/generate-and-edit`],
-  toPlatform: marketingImage("marketing-studio/image", "Marketing Image 2.0"),
-}
-
-const models = [marketingImageFlare, marketingImageSunburst, marketingImage2]
+const models = [marketingImageFlare, marketingImageSunburst]
 export default models

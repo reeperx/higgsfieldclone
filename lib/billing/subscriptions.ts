@@ -49,7 +49,7 @@ export async function applyPaidInvoice(input: {
         planStatus: "active",
         planRenewsAt: input.periodEnd,
         subscriptionAllowance: plan.monthlyCredits,
-        stripeSubscriptionId: input.subscriptionId,
+        bachsSubscriptionId: input.subscriptionId,
         ...(input.interval === "year" ? { nextGrantAt: addMonth(now) } : {}),
       },
       ...(input.interval === "month" ? { $unset: { nextGrantAt: "" } } : {}),
@@ -83,7 +83,7 @@ export async function grantMonthlyAllowances(
       mode: "reset",
       reason: "subscription_reset",
       refType: "annual-grant",
-      refId: `${user.stripeSubscriptionId ?? user._id.toHexString()}:${period}`,
+      refId: `${user.bachsSubscriptionId ?? user._id.toHexString()}:${period}`,
       note: `${plan.name} monthly credits (annual plan)`,
     })
     const next = addMonth(user.nextGrantAt)
@@ -120,7 +120,7 @@ export async function endSubscription(
     note: "Subscription ended",
   })
   await users.updateOne(
-    { _id: userId, stripeSubscriptionId: subscriptionId },
+    { _id: userId, bachsSubscriptionId: subscriptionId },
     {
       $set: { plan: "free", planStatus: "canceled" },
       $unset: {
@@ -128,7 +128,7 @@ export async function endSubscription(
         planRenewsAt: "",
         nextGrantAt: "",
         subscriptionAllowance: "",
-        stripeSubscriptionId: "",
+        bachsSubscriptionId: "",
       },
     }
   )

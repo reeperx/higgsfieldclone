@@ -47,7 +47,7 @@ export function CopyButton({
         className
       )}
     >
-      <Icon className={cn("size-3.5", copied && "text-lime")} aria-hidden />
+      <Icon className={cn("size-3.5", copied && "text-sand")} aria-hidden />
       {copied ? "Copied" : label}
     </button>
   )

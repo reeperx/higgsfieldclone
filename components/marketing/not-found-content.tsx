@@ -14,7 +14,7 @@ export function NotFoundContent({ logo = false }: { logo?: boolean }) {
         {logo ? <Logo className="mb-2" /> : null}
         <p
           aria-hidden
-          className="font-display text-[120px] leading-none text-lime md:text-[180px]"
+          className="font-display text-[120px] leading-none text-sand md:text-[180px]"
         >
           404
         </p>

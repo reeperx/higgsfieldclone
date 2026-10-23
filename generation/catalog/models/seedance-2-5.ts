@@ -1,12 +1,10 @@
-// Seedance 2.5 — text / image / reference-to-video, edit and extend.
+// Seedance 2.5 — text / image / reference-to-video.
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/seedance-2-5
 //   https://docs.higgsfield.ai/docs/models/seedance-2-5/image-to-video
 //   https://docs.higgsfield.ai/docs/models/seedance-2-5/reference-to-video
-//   https://docs.higgsfield.ai/docs/models/seedance-2-5/video-edit
-//   https://docs.higgsfield.ai/docs/models/seedance-2-5/video-extend
 // Text-to-video body follows the template mapper, matching the fields its sibling pages document.
-import { mapSeedance, mapSeedanceSource } from "../mappers"
+import { mapSeedance } from "../mappers"
 import { SEEDANCE_ASPECT } from "../tokens"
 import type { ModelEntry } from "../types"
 
@@ -86,48 +84,5 @@ export const seedance25: ModelEntry = {
   toPlatform: (plane) => mapSeedance(plane, "bytedance/seedance-2.5"),
 }
 
-export const seedance25Edit: ModelEntry = {
-  ...meta,
-  id: "seedance-2.5-edit",
-  label: "Seedance 2.5 Edit",
-  tab: "edit",
-  description:
-    "Rewrite what happens in a clip — restyle, swap or add elements — while keeping its framing.",
-  bestFor: "Changing an existing video with a prompt",
-  badges: ["NEW"],
-  category: "EDIT",
-  // The source video counts toward the 10-video limit, so 9 extra video references.
-  roles: { source: 1, video: 9, reference: 30, audio: 10 },
-  requiredRoles: ["source"],
-  requirePrompt: true,
-  maxTotalMedia: 50,
-  settings: shared,
-  order: 101,
-  docs: [`${DOCS}/video-edit`],
-  toPlatform: (plane) =>
-    mapSeedanceSource(plane, "bytedance/seedance-2.5/video-edit", false),
-}
-
-export const seedance25Extend: ModelEntry = {
-  ...meta,
-  id: "seedance-2.5-extend",
-  label: "Seedance 2.5 Extend",
-  tab: "edit",
-  description:
-    "Continue a clip for up to 30 more seconds, directed by a prompt.",
-  bestFor: "Making a shot longer",
-  badges: ["NEW"],
-  category: "EXTEND",
-  roles: { source: 1, video: 9, reference: 30, audio: 10 },
-  requiredRoles: ["source"],
-  requirePrompt: true,
-  maxTotalMedia: 50,
-  settings: { duration, ...shared },
-  order: 102,
-  docs: [`${DOCS}/video-extend`],
-  toPlatform: (plane) =>
-    mapSeedanceSource(plane, "bytedance/seedance-2.5/video-extend", true),
-}
-
-const models = [seedance25, seedance25Edit, seedance25Extend]
+const models = [seedance25]
 export default models

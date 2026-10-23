@@ -38,10 +38,10 @@ export default async function BillingPage({
       {checkout === "success" ? (
         <p
           role="status"
-          className="flex items-center gap-2 rounded-2xl border border-lime/30 bg-lime/10 p-4 text-sm"
+          className="flex items-center gap-2 rounded-2xl border border-sand/30 bg-sand/10 p-4 text-sm"
         >
-          <CheckCircle2 className="size-5 text-lime" />
-          Payment received. Credits appear as soon as Stripe confirms — usually
+          <CheckCircle2 className="size-5 text-sand" />
+          Payment received. Credits appear as soon as Bachs confirms — usually
           within seconds.
         </p>
       ) : null}
@@ -58,7 +58,7 @@ export default async function BillingPage({
                 }${account.planRenewsAt ? ` · renews ${new Date(account.planRenewsAt).toLocaleDateString()}` : ""}`}
           </p>
           <p className="mt-2 flex items-center gap-1.5 text-sm">
-            <Sparkle className="size-4 fill-lime text-lime" /> Balance{" "}
+            <Sparkle className="size-4 fill-sand text-sand" /> Balance{" "}
             <span className="font-mono tabular-nums">
               {account.total.toLocaleString("en-US")}
             </span>
@@ -77,7 +77,7 @@ export default async function BillingPage({
 
       {!account.billingEnabled ? (
         <p className="rounded-2xl bg-surface p-4 text-sm text-muted-foreground">
-          Payments aren&apos;t configured on this server yet (STRIPE_SECRET_KEY
+          Payments aren&apos;t configured on this server yet (BACHS_SECRET_KEY
           is empty).
         </p>
       ) : null}
@@ -97,7 +97,7 @@ export default async function BillingPage({
 
       <section className="rounded-2xl bg-surface p-5 text-sm text-muted-foreground">
         Invoices, payment methods, plan changes and cancellation are handled in
-        the secure Stripe customer portal. Canceling keeps your plan credits
+        the secure Bachs customer portal. Canceling keeps your plan credits
         until the end of the paid period.
       </section>
     </div>

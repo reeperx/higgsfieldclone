@@ -1,12 +1,8 @@
-// Kling 3.0 — Standard, Pro, 4K and Turbo, text and image to video.
+// Kling 3.0 — Pro and Turbo, text and image to video.
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/kling-3
-//   https://docs.higgsfield.ai/docs/models/kling-3/standard-text-to-video
-//   https://docs.higgsfield.ai/docs/models/kling-3/standard-image-to-video
 //   https://docs.higgsfield.ai/docs/models/kling-3/pro-text-to-video
 //   https://docs.higgsfield.ai/docs/models/kling-3/pro-image-to-video
-//   https://docs.higgsfield.ai/docs/models/kling-3/4k-text-to-video
-//   https://docs.higgsfield.ai/docs/models/kling-3/4k-image-to-video
 //   https://docs.higgsfield.ai/docs/models/kling-3/turbo-text-to-video
 //   https://docs.higgsfield.ai/docs/models/kling-3/turbo-image-to-video
 // Image-to-video has no aspect_ratio (framing follows the start frame). Turbo
@@ -110,22 +106,6 @@ function tierDocs(tier: string): string[] {
   ]
 }
 
-export const kling3Std: ModelEntry = {
-  ...meta,
-  id: "kling-3-std",
-  label: "Kling 3.0",
-  description:
-    "Dependable, lower-cost motion for simple scenes, with native sound and optional start and end frames.",
-  bestFor: "Straightforward shots on a budget",
-  badges: ["AUDIO"],
-  category: "GENERAL",
-  roles: { start: 1, end: 1 },
-  settings: tierSettings,
-  order: 110,
-  docs: tierDocs("standard"),
-  toPlatform: (plane) => mapTier(plane, "std"),
-}
-
 export const kling3Pro: ModelEntry = {
   ...meta,
   id: "kling-3-pro",
@@ -140,22 +120,6 @@ export const kling3Pro: ModelEntry = {
   order: 111,
   docs: tierDocs("pro"),
   toPlatform: (plane) => mapTier(plane, "pro"),
-}
-
-export const kling34k: ModelEntry = {
-  ...meta,
-  id: "kling-3-4k",
-  label: "Kling 3.0 4K",
-  description:
-    "The Kling 3.0 pipeline rendered at 4K for footage that holds up on big screens.",
-  bestFor: "Deliverables that need 4K",
-  badges: ["4K", "AUDIO"],
-  category: "CINEMATIC",
-  roles: { start: 1, end: 1 },
-  settings: tierSettings,
-  order: 112,
-  docs: tierDocs("4k"),
-  toPlatform: (plane) => mapTier(plane, "4k"),
 }
 
 export const kling3Turbo: ModelEntry = {
@@ -199,5 +163,5 @@ export const kling3Turbo: ModelEntry = {
   },
 }
 
-const models = [kling3Std, kling3Pro, kling34k, kling3Turbo]
+const models = [kling3Pro, kling3Turbo]
 export default models

@@ -74,8 +74,8 @@ function GeneratingTile({ item }: { item: GalleryItem }) {
         className="absolute top-2 left-2 inline-flex items-center gap-2 rounded-full bg-black/40 py-1.5 pr-3 pl-2.5 backdrop-blur-md"
         role="status"
       >
-        <Loader2 className="size-3.5 animate-spin text-lime" aria-hidden />
-        <span className="text-xs font-medium text-lime">{label}</span>
+        <Loader2 className="size-3.5 animate-spin text-sand" aria-hidden />
+        <span className="text-xs font-medium text-sand">{label}</span>
         <span className="font-mono text-xs text-white/60 tabular-nums">
           {elapsed}
         </span>
@@ -180,9 +180,9 @@ function AudioMedia({ item }: { item: GalleryItem }) {
   const [playing, setPlaying] = useState(false)
   const bars = Array.from({ length: 28 }, (_, i) => 20 + ((i * 37) % 70))
   return (
-    <span className="absolute inset-0 flex flex-col justify-between bg-gradient-to-br from-[#1c1e21] to-[#23262a] p-4">
+    <span className="absolute inset-0 flex flex-col justify-between bg-gradient-to-br from-[#1e1a16] to-[#232019] p-4">
       <span className="flex items-center gap-2 text-xs text-muted-foreground">
-        <AudioLines className="size-3.5 text-lime" aria-hidden />{" "}
+        <AudioLines className="size-3.5 text-sand" aria-hidden />{" "}
         {item.modelLabel}
       </span>
       <span className="flex h-12 items-end gap-[3px]" aria-hidden>
@@ -191,7 +191,7 @@ function AudioMedia({ item }: { item: GalleryItem }) {
             key={index}
             className={
               playing
-                ? "w-1 rounded-full bg-lime"
+                ? "w-1 rounded-full bg-sand"
                 : "w-1 rounded-full bg-white/25"
             }
             style={{ height: `${height}%` }}
@@ -202,7 +202,7 @@ function AudioMedia({ item }: { item: GalleryItem }) {
         <button
           type="button"
           aria-label={playing ? "Pause audio" : "Play audio"}
-          className="flex size-9 items-center justify-center rounded-full bg-lime text-[#131517]"
+          className="flex size-9 items-center justify-center rounded-full bg-sand text-[#17130b]"
           onClick={(event) => {
             event.stopPropagation()
             const audio = ref.current
@@ -298,7 +298,7 @@ function GalleryTileComponent({
           <button
             type="button"
             aria-label={`Open generation: ${item.prompt || item.modelLabel}`}
-            className="absolute inset-0 z-[1] cursor-pointer focus-visible:ring-2 focus-visible:ring-lime focus-visible:outline-none focus-visible:ring-inset"
+            className="absolute inset-0 z-[1] cursor-pointer focus-visible:ring-2 focus-visible:ring-sand focus-visible:outline-none focus-visible:ring-inset"
             onFocus={item.kind === "video" ? () => setHovered(true) : undefined}
             onBlur={item.kind === "video" ? () => setHovered(false) : undefined}
           />

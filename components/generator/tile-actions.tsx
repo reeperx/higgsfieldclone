@@ -39,7 +39,7 @@ import { cn } from "@/lib/utils"
 /**
  * Hover-rail + lightbox actions for a user's own generations, shared by the
  * generator feeds and the asset library. The first action is the lightbox's
- * primary (lime) button.
+ * primary (sand) button.
  */
 export function useTileActions({
   runs,
@@ -347,7 +347,7 @@ export function ProjectPickerDialog({
               placeholder="New project name"
               aria-label="New project name"
               maxLength={80}
-              className="h-9 flex-1 rounded-lg border border-white/10 bg-surface px-3 text-sm outline-none focus:border-lime/50"
+              className="h-9 flex-1 rounded-lg border border-white/10 bg-surface px-3 text-sm outline-none focus:border-sand/50"
             />
             <Button type="submit" disabled={!name.trim() || pending !== null}>
               Create

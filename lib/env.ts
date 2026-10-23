@@ -29,8 +29,8 @@ const schema = z.object({
 
   AUTH_SECRET: optionalString,
   AUTH_RESEND_KEY: optionalString,
-  EMAIL_FROM: z.string().default("Vireo <login@vireo.studio>"),
-  SUPPORT_EMAIL: z.email().default("support@vireo.studio"),
+  EMAIL_FROM: z.string().default("Vendo <login@vendo.studio>"),
+  SUPPORT_EMAIL: z.email().default("support@vendo.studio"),
   SIGNUP_BONUS_CREDITS: z.coerce.number().int().min(0).default(0),
   /** Comma-separated emails that get the admin role. */
   ADMIN_EMAILS: z
@@ -45,7 +45,7 @@ const schema = z.object({
   BLOCK_DISPOSABLE_EMAIL: bool(true),
 
   MONGODB_URI: optionalString,
-  MONGODB_DB: z.string().default("vireo-studio"),
+  MONGODB_DB: z.string().default("vendo-studio"),
 
   HF_API_BASE_URL: z.url().default("https://api.higgsfield.ai"),
   HF_CREDENTIALS: optionalString.refine(
@@ -60,8 +60,10 @@ const schema = z.object({
   CREDIT_MARKUP: z.coerce.number().min(1).default(2),
   RUN_TIMEOUT_MINUTES: z.coerce.number().int().min(5).default(30),
 
-  STRIPE_SECRET_KEY: optionalString,
-  STRIPE_WEBHOOK_SECRET: optionalString,
+  /** Bachs billing API base (sandbox: https://sandbox-api.bachs.io). */
+  BACHS_API_URL: z.url().default("https://api.bachs.io"),
+  BACHS_SECRET_KEY: optionalString,
+  BACHS_WEBHOOK_SECRET: optionalString,
 
   R2_ACCOUNT_ID: optionalString,
   R2_ACCESS_KEY_ID: optionalString,
@@ -87,8 +89,8 @@ const REQUIRED_IN_PRODUCTION = [
   "HF_CREDENTIALS",
   "HF_WEBHOOK_SECRET",
   "HF_WEBHOOK_BASE_URL",
-  "STRIPE_SECRET_KEY",
-  "STRIPE_WEBHOOK_SECRET",
+  "BACHS_SECRET_KEY",
+  "BACHS_WEBHOOK_SECRET",
   "R2_ACCOUNT_ID",
   "R2_ACCESS_KEY_ID",
   "R2_SECRET_ACCESS_KEY",
@@ -137,8 +139,8 @@ export function env(): Env {
         "HF_CREDENTIALS unset → generation is disabled (use `pnpm mock:higgsfield` + HF_CREDENTIALS=mock:mock)",
       !r2Configured(value) &&
         "R2 unset → media is stored under .data/media and served by /api/media",
-      !value.STRIPE_SECRET_KEY &&
-        "STRIPE_SECRET_KEY unset → checkout is disabled",
+      !value.BACHS_SECRET_KEY &&
+        "BACHS_SECRET_KEY unset → checkout is disabled",
       !value.HF_WEBHOOK_BASE_URL &&
         "HF_WEBHOOK_BASE_URL unset → no webhooks; the reconciler finishes runs",
     ].filter(Boolean)

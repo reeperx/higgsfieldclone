@@ -83,14 +83,6 @@ const text = (path: string): Case => ({ name: "text", path })
 const CASES: Record<string, Case[]> = {
   /* Image */
   "soul-2": [text("higgsfield-ai/soul/v2/standard")],
-  "soul-cinema": [
-    text("higgsfield-ai/soul/cinema"),
-    {
-      name: "batch of 4, enhanced",
-      path: "higgsfield-ai/soul/cinema",
-      settings: { batchSize: "4", enhancePrompt: true, resolution: "1080p" },
-    },
-  ],
   soul: [
     text("higgsfield-ai/soul/standard"),
     {
@@ -116,39 +108,12 @@ const CASES: Record<string, Case[]> = {
       media: { reference: 2 },
     },
   ],
-  "marketing-image-2": [
-    text("marketing-studio/image"),
-    {
-      name: "references",
-      path: "marketing-studio/image",
-      media: { reference: 16 },
-      settings: { quality: "medium" },
-    },
-  ],
   "grok-image-2": [
     text("xai/grok-imagine-image-2.0"),
     {
       name: "edit with references",
       path: "xai/grok-imagine-image-2.0",
       media: { reference: 2 },
-    },
-  ],
-  "recraft-4.1": [
-    text("recraft/v4.1/text-to-image"),
-    {
-      name: "standard 2k",
-      path: "recraft/v4.1/pro/text-to-image",
-      settings: { resolution: "2k", format: "png" },
-    },
-    {
-      name: "utility 1k",
-      path: "recraft/v4.1/utility/text-to-image",
-      settings: { style: "utility" },
-    },
-    {
-      name: "utility 2k",
-      path: "recraft/v4.1/utility/pro/text-to-image",
-      settings: { style: "utility", resolution: "2k", aspectRatio: "14:10" },
     },
   ],
   "qwen-image-3": [
@@ -171,14 +136,6 @@ const CASES: Record<string, Case[]> = {
       path: "ideogram/v4.0",
       media: { reference: 1 },
       settings: { imageWeight: 80, renderingSpeed: "QUALITY" },
-    },
-  ],
-  "z-image-turbo": [
-    text("z-image/turbo"),
-    {
-      name: "enhanced 2k",
-      path: "z-image/turbo",
-      settings: { promptExtend: true, resolution: "2k" },
     },
   ],
 
@@ -211,34 +168,12 @@ const CASES: Record<string, Case[]> = {
       media: { reference: 9, video: 3, audio: 3 },
     },
   ],
-  "kling-3-std": [
-    text("kling-video/v3.0/std/text-to-video"),
-    {
-      name: "start frame",
-      path: "kling-video/v3.0/std/image-to-video",
-      media: { start: 1 },
-    },
-    {
-      name: "start and end frames",
-      path: "kling-video/v3.0/std/image-to-video",
-      media: { start: 1, end: 1 },
-      settings: { generateAudio: false, multiShots: true, cfgScale: 0.8 },
-    },
-  ],
   "kling-3-pro": [
     text("kling-video/v3.0/pro/text-to-video"),
     {
       name: "start and end frames",
       path: "kling-video/v3.0/pro/image-to-video",
       media: { start: 1, end: 1 },
-    },
-  ],
-  "kling-3-4k": [
-    text("kling-video/v3.0/4k/text-to-video"),
-    {
-      name: "start frame",
-      path: "kling-video/v3.0/4k/image-to-video",
-      media: { start: 1 },
     },
   ],
   "kling-3-turbo": [
@@ -279,99 +214,6 @@ const CASES: Record<string, Case[]> = {
       settings: { thinking: true, aspectRatio: "9:16" },
     },
   ],
-  "wan-3-prime": [
-    text("alibaba/wan-3.0-prime/text-to-video"),
-    {
-      name: "start frame",
-      path: "alibaba/wan-3.0-prime/image-to-video",
-      media: { start: 1 },
-    },
-    {
-      name: "references",
-      path: "alibaba/wan-3.0-prime/reference-to-video",
-      media: { reference: 10, video: 5, audio: 5 },
-    },
-  ],
-  "kling-o3": [
-    {
-      name: "text (image-reference without images)",
-      path: "kling-video/o3/image-reference",
-    },
-    {
-      name: "frames",
-      path: "kling-video/o3/first-last-frame",
-      media: { start: 1, end: 1 },
-      settings: { mode: "4k", generateAudio: true },
-    },
-    {
-      name: "references",
-      path: "kling-video/o3/image-reference",
-      media: { reference: 3 },
-      settings: { mode: "std" },
-    },
-  ],
-  "kling-o3-video-ref": [
-    {
-      name: "video reference with images",
-      path: "kling-video/o3/video-reference",
-      media: { video: 1, reference: 2 },
-    },
-    {
-      name: "video reference only",
-      path: "kling-video/o3/video-reference",
-      media: { video: 1 },
-      settings: { duration: 10, mode: "std" },
-    },
-  ],
-  "kling-omni": [
-    {
-      name: "text (image-reference without images)",
-      path: "kling-video/omni/image-reference",
-    },
-    {
-      name: "frames",
-      path: "kling-video/omni/first-last-frame",
-      media: { start: 1, end: 1 },
-      settings: { duration: "10" },
-    },
-    {
-      name: "references",
-      path: "kling-video/omni/image-reference",
-      media: { reference: 4 },
-    },
-  ],
-  "kling-omni-video-ref": [
-    {
-      name: "video reference with images",
-      path: "kling-video/omni/video-reference",
-      media: { video: 1, reference: 4 },
-    },
-  ],
-  "kling-2.6": [
-    text("kling-video/v2.6/pro/text-to-video"),
-    {
-      name: "start frame",
-      path: "kling-video/v2.6/pro/image-to-video",
-      media: { start: 1 },
-      settings: { duration: "10", generateAudio: false },
-    },
-  ],
-  "kling-2.5-turbo": [
-    text("kling-video/v2.5-turbo/pro/text-to-video"),
-    {
-      name: "start frame",
-      path: "kling-video/v2.5-turbo/pro/image-to-video",
-      media: { start: 1 },
-    },
-  ],
-  "kling-2.5-turbo-std": [
-    {
-      name: "start frame",
-      path: "kling-video/v2.5-turbo/standard/image-to-video",
-      media: { start: 1 },
-      settings: { duration: "10" },
-    },
-  ],
   "minimax-h3": [
     text("minimax/h3/text-to-video"),
     {
@@ -384,42 +226,6 @@ const CASES: Record<string, Case[]> = {
       path: "minimax/h3/reference-to-video",
       media: { reference: 2, video: 1, audio: 1 },
       settings: { duration: 15, aspectRatio: "adaptive" },
-    },
-  ],
-  "hailuo-2.3": [
-    text("minimax/hailuo-2.3/standard/text-to-video"),
-    {
-      name: "start frame",
-      path: "minimax/hailuo-2.3/standard/image-to-video",
-      media: { start: 1 },
-      settings: { duration: "10", promptOptimizer: false },
-    },
-  ],
-  "happy-horse-1.1": [
-    text("alibaba/happy-horse/v1.1/text-to-video"),
-    {
-      name: "start frame without prompt",
-      path: "alibaba/happy-horse/v1.1/image-to-video",
-      media: { start: 1 },
-      prompt: "",
-    },
-    {
-      name: "references",
-      path: "alibaba/happy-horse/v1.1/reference-to-video",
-      media: { reference: 9 },
-    },
-  ],
-  "happy-horse-1": [
-    text("alibaba/happy-horse/text-to-video"),
-    {
-      name: "start frame",
-      path: "alibaba/happy-horse/image-to-video",
-      media: { start: 1 },
-    },
-    {
-      name: "references",
-      path: "alibaba/happy-horse/reference-to-video",
-      media: { reference: 2 },
     },
   ],
   "ltx-2.5-fast": [
@@ -436,15 +242,6 @@ const CASES: Record<string, Case[]> = {
       },
     },
   ],
-  "ltx-2.5-pro": [
-    text("lightricks/ltx-2.5/text-to-video/pro"),
-    {
-      name: "start frame",
-      path: "lightricks/ltx-2.5/image-to-video/pro",
-      media: { start: 1 },
-      settings: { fps: "50", aspectRatio: "9:16" },
-    },
-  ],
   "pixverse-v6": [
     text("pixverse/v6/text-to-video"),
     {
@@ -454,140 +251,13 @@ const CASES: Record<string, Case[]> = {
       settings: { duration: 1, resolution: "1080p" },
     },
   ],
-  "wan-2.7": [
-    text("wan/v2.7/text-to-video"),
-    {
-      name: "text with driving audio",
-      path: "wan/v2.7/text-to-video",
-      media: { audio: 1 },
-    },
-    {
-      name: "frames with driving audio, no prompt",
-      path: "wan/v2.7/image-to-video",
-      media: { start: 1, end: 1, audio: 1 },
-      prompt: "",
-    },
-    {
-      name: "references",
-      path: "wan/v2.7/reference-to-video",
-      media: { reference: 3, video: 2 },
-      settings: { aspectRatio: "9:16", duration: 10 },
-    },
-  ],
-  "wan-2.6": [
-    text("wan/v2.6/text-to-video"),
-    {
-      name: "text with driving audio",
-      path: "wan/v2.6/text-to-video",
-      media: { audio: 1 },
-      settings: { duration: "15", multiShots: true },
-    },
-    {
-      name: "start frame with audio",
-      path: "wan/v2.6/image-to-video",
-      media: { start: 1, audio: 1 },
-      settings: { promptExtend: true },
-    },
-    {
-      name: "video references",
-      path: "wan/v2.6/reference-to-video",
-      media: { video: 3 },
-      settings: { duration: "10", aspectRatio: "9:16" },
-    },
-  ],
-  "grok-video-1.5": [
-    text("xai/grok-imagine-video/v1.5/reference-to-video"),
-    {
-      name: "start frame at 1080p",
-      path: "xai/grok-imagine-video/v1.5/reference-to-video",
-      media: { start: 1 },
-      settings: { resolution: "1080p" },
-    },
-    {
-      name: "references with audio",
-      path: "xai/grok-imagine-video/v1.5/reference-to-video",
-      media: { reference: 7, audio: 1 },
-      settings: { resolution: "720p", duration: 15 },
-    },
-  ],
 
   /* Video — edit */
-  "seedance-2.5-edit": [
-    {
-      name: "source with references",
-      path: "bytedance/seedance-2.5/video-edit",
-      media: { source: 1, reference: 2, video: 1, audio: 1 },
-    },
-  ],
-  "seedance-2.5-extend": [
-    {
-      name: "source",
-      path: "bytedance/seedance-2.5/video-extend",
-      media: { source: 1 },
-      settings: { duration: 10 },
-    },
-  ],
-  "kling-o3-edit": [
-    {
-      name: "source with references",
-      path: "kling-video/o3/video-edit",
-      media: { source: 1, reference: 4 },
-      settings: { mode: "4k" },
-    },
-  ],
-  "kling-omni-edit": [
-    {
-      name: "source",
-      path: "kling-video/omni/video-edit",
-      media: { source: 1 },
-    },
-  ],
   "genjutsu-swap": [
     {
       name: "source with references",
       path: "higgsfield/genjutsu/object-swap/v1.0",
       media: { source: 1, reference: 2 },
-    },
-  ],
-
-  /* Video — motion */
-  "kling-3-motion-std": [
-    {
-      name: "character and motion video, no prompt",
-      path: "kling-video/v3/motion-control/std",
-      media: { start: 1, source: 1 },
-      prompt: "",
-    },
-  ],
-  "kling-3-motion-pro": [
-    {
-      name: "character and motion video",
-      path: "kling-video/v3/motion-control/pro",
-      media: { start: 1, source: 1 },
-      settings: { keepOriginalSound: false, characterOrientation: "image" },
-    },
-  ],
-  "kling-2.6-motion-std": [
-    {
-      name: "character and motion video",
-      path: "kling-video/motion-control/std",
-      media: { start: 1, source: 1 },
-    },
-  ],
-  "kling-2.6-motion-pro": [
-    {
-      name: "character and motion video",
-      path: "kling-video/motion-control/pro",
-      media: { start: 1, source: 1 },
-      prompt: "",
-    },
-  ],
-  "genjutsu-motion": [
-    {
-      name: "source with references, no prompt",
-      path: "higgsfield/genjutsu/motion-transfer/v1.0",
-      media: { source: 1, reference: 8 },
-      prompt: "",
     },
   ],
 }
@@ -717,13 +387,20 @@ describe.skipIf(!existsSync(DIGEST))(
       }
     }
 
-    it("reaches every documented generation endpoint", () => {
+    it("covers only endpoints we still ship", () => {
       expect(digest.size).toBeGreaterThan(70)
-      expect(digest.get("z-image/turbo")?.get("prompt")?.required).toBe(true)
-      const documented = [...digest.keys()].filter(
-        (path) => !path.startsWith("https://")
+      expect(
+        digest.get("kling-video/v3.0/pro/text-to-video")?.get("prompt")?.required
+      ).toBe(true)
+      // The digest is a crawl of ALL platform docs, including tiers we no
+      // longer ship; every path the catalog maps to (minus the one workflow
+      // page the digest does not cover) must be documented in it.
+      const reachedDocumented = [...reached].filter(
+        (path) => !UNDIGESTED.has(path)
       )
-      expect(documented.filter((path) => !reached.has(path))).toEqual([])
+      expect(reachedDocumented.length).toBeGreaterThan(15)
+      for (const path of reachedDocumented)
+        expect(digest.has(path), path).toBe(true)
     })
   }
 )
@@ -733,11 +410,7 @@ describe.skipIf(!existsSync(DIGEST))(
 const ICONS = new URL("../public/model-icons/", import.meta.url)
 
 /** Settings in the Seedance 2.5 exemplar that fall back to the key as label. */
-const UNLABELLED = new Set([
-  "seedance-2.5.resolution",
-  "seedance-2.5-edit.resolution",
-  "seedance-2.5-extend.resolution",
-])
+const UNLABELLED = new Set(["seedance-2.5.resolution"])
 const DOCS_PREFIX = "https://docs.higgsfield.ai/docs/models/"
 const CRAWLED = new URL("../_reference/docs/models/", import.meta.url)
 
@@ -852,12 +525,7 @@ describe("rejections", () => {
       )
     ).toThrow(/not supported with start\/end frames/)
     expect(() =>
-      toPlatform(plane("wan-2.6", { start: 1, video: 1 }, { noMode: true }))
-    ).toThrow(/either frames or references/)
-    expect(() =>
-      toPlatform(
-        plane("kling-o3", { start: 1, reference: 2 }, { noMode: true })
-      )
+      toPlatform(plane("wan-3", { start: 1, video: 1 }, { noMode: true }))
     ).toThrow(/either frames or references/)
   })
 
@@ -867,86 +535,17 @@ describe("rejections", () => {
     )
   })
 
-  it("requires the source video on edit models", () => {
-    for (const id of [
-      "kling-o3-edit",
-      "kling-omni-edit",
-      "genjutsu-swap",
-      "seedance-2.5-edit",
-    ])
+  it("requires the source video on swap models", () => {
+    for (const id of ["genjutsu-swap"])
       expect(() => toPlatform(plane(id, { reference: 1 })), id).toThrow(
         /source video/
       )
   })
 
-  it("rejects Kling motion control without a motion video", () => {
-    for (const id of [
-      "kling-3-motion-std",
-      "kling-3-motion-pro",
-      "kling-2.6-motion-std",
-      "kling-2.6-motion-pro",
-    ])
-      expect(() => toPlatform(plane(id, { start: 1 })), id).toThrow(
-        /motion video/
-      )
-    expect(() =>
-      toPlatform(plane("kling-3-motion-std", { source: 1 }))
-    ).toThrow(/character image/)
-  })
-
   it("rejects Genjutsu without reference images", () => {
     expect(() =>
-      toPlatform(plane("genjutsu-motion", { source: 1 }, { prompt: "" }))
-    ).toThrow(/character image/)
-  })
-
-  it("rejects Grok video at 1080p with references", () => {
-    expect(() =>
-      toPlatform(
-        plane(
-          "grok-video-1.5",
-          { reference: 2 },
-          { settings: { resolution: "1080p" } }
-        )
-      )
-    ).toThrow(/480p or 720p/)
-    expect(() =>
-      toPlatform(
-        plane(
-          "grok-video-1.5",
-          { audio: 1 },
-          { settings: { resolution: "1080p" } }
-        )
-      )
-    ).toThrow(/480p or 720p/)
-  })
-
-  it("rejects Wan 2.6 at 15 s with video references", () => {
-    expect(() =>
-      toPlatform(
-        plane("wan-2.6", { video: 2 }, { settings: { duration: "15" } })
-      )
-    ).toThrow(/5 or 10 seconds/)
-  })
-
-  it("rejects Wan 2.7 reference limits", () => {
-    expect(() =>
-      toPlatform(
-        plane(
-          "wan-2.7",
-          { reference: 3, video: 3 },
-          { settings: { aspectRatio: "16:9" } }
-        )
-      )
-    ).toThrow(/at most 5/)
-    expect(() =>
-      toPlatform(
-        plane("wan-2.7", { reference: 1 }, { settings: { aspectRatio: "1:1" } })
-      )
-    ).toThrow(/16:9 or 9:16/)
-    expect(() =>
-      toPlatform(plane("wan-2.7", { video: 1 }, { settings: { duration: 12 } }))
-    ).toThrow(/up to 10 seconds/)
+      toPlatform(plane("genjutsu-swap", { source: 1 }, { prompt: "" }))
+    ).toThrow(/replacement image/)
   })
 
   it("rejects audio-only references where audio needs company", () => {
@@ -963,34 +562,32 @@ describe("rejections", () => {
 
   it("rejects prompts over the documented limit", () => {
     expect(() =>
-      toPlatform(plane("z-image-turbo", {}, { prompt: "a".repeat(801) }))
-    ).toThrow(/limited to 800 characters/)
+      toPlatform(
+        plane("marketing-image-flare", {}, { prompt: "a".repeat(5001) })
+      )
+    ).toThrow(/limited to 5,000 characters/)
+    expect(() =>
+      toPlatform(plane("kling-3-pro", {}, { prompt: "a".repeat(2501) }))
+    ).toThrow(/limited to 2,500 characters/)
     expect(() =>
       toPlatform(plane("ideogram-4", {}, { prompt: "a".repeat(2049) }))
     ).toThrow(/limited to 2,048 characters/)
     expect(() =>
-      toPlatform(plane("z-image-turbo", {}, { prompt: "a".repeat(800) }))
+      toPlatform(
+        plane("marketing-image-flare", {}, { prompt: "a".repeat(5000) })
+      )
     ).not.toThrow()
   })
 
   it("requires a prompt where the docs do", () => {
     expect(() =>
-      toPlatform(plane("kling-3-std", {}, { prompt: "  " }))
+      toPlatform(plane("kling-3-pro", {}, { prompt: "  " }))
     ).toThrow(/prompt is required/)
-    expect(() =>
-      toPlatform(plane("happy-horse-1", { reference: 1 }, { prompt: "" }))
-    ).toThrow(/Enter a prompt/)
-    expect(() => toPlatform(plane("wan-2.7", {}, { prompt: "" }))).toThrow(
-      /Enter a prompt/
+    expect(() => toPlatform(plane("wan-3", {}, { prompt: "" }))).toThrow(
+      /prompt is required/
     )
     expect(() => toPlatform(plane("seedance-2", {}, { prompt: "" }))).toThrow(
       /Enter a prompt/
-    )
-  })
-
-  it("requires the start frame on start-frame-only endpoints", () => {
-    expect(() => toPlatform(plane("kling-2.5-turbo-std"))).toThrow(
-      /start frame/
     )
   })
 
@@ -999,7 +596,7 @@ describe("rejections", () => {
       /Invalid duration/
     )
     expect(() =>
-      parseSettings(getModel("kling-omni"), { duration: "7" })
+      parseSettings(getModel("minimax-h3"), { duration: 16 })
     ).toThrow(/Invalid duration/)
   })
 })
@@ -1045,12 +642,7 @@ describe("mapping details", () => {
     for (const [id, media] of [
       ["kling-3-pro", { start: 1 }],
       ["kling-3-turbo", { start: 1 }],
-      ["kling-2.5-turbo", {}],
-      ["hailuo-2.3", {}],
       ["pixverse-v6", { start: 1 }],
-      ["wan-2.6", {}],
-      ["wan-2.6", { start: 1 }],
-      ["wan-2.7", { start: 1 }],
     ] as [string, Attach][])
       expect(toPlatform(plane(id, media)).body, id).not.toHaveProperty(
         "aspect_ratio"

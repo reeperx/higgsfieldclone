@@ -90,18 +90,7 @@ const request = (usd: number, factors?: PriceRule["factors"]): PriceRule => ({
   source: P,
 })
 
-const sourceLength = (
-  usd: number,
-  maxSeconds: number,
-  factors?: PriceRule["factors"]
-): PriceRule =>
-  second(usd, factors, { defaultUnits: maxSeconds, sourceLength: true })
-
 const SOUND = { sound: { on: 1.5, off: 1 } }
-const MODE_O3 = { mode: { std: 0.75, pro: 1, "4k": 2.5 }, ...SOUND }
-const MODE_OMNI = { mode: { std: 0.75, pro: 1 } }
-const RES_720_1080 = { resolution: { "720p": 1, "1080p": 1.6 } }
-const RES_480_1080 = { resolution: { "480p": 0.5, "720p": 1, "1080p": 1.6 } }
 const MS_QUALITY = {
   quality: { low: 0.25, medium: 0.5, high: 1, xhigh: 1.5, max: 2.2 },
   resolution: { "1k": 0.7, "2k": 1, "4k": 1.8 },
@@ -115,19 +104,13 @@ const GENJUTSU_RES = {
 export const PLACEHOLDER_PRICING: PricingTable = {
   /* ── Image ── */
   "higgsfield-ai/soul/v2/standard": output(0.09, SOUL),
-  "higgsfield-ai/soul/cinema": output(0.1, SOUL),
   "higgsfield-ai/soul/standard": output(0.08, SOUL),
-  "marketing-studio/image": request(0.06, MS_QUALITY),
   "marketing-studio/image/flare": request(0.08, MS_QUALITY),
   "marketing-studio/image/sunburst": request(0.08, MS_QUALITY),
   "xai/grok-imagine-image-2.0": request(0.05, {
     quality: { low: 0.6, medium: 1 },
     resolution: { "1k": 1, "2k": 1.5 },
   }),
-  "recraft/v4.1/text-to-image": request(0.04),
-  "recraft/v4.1/pro/text-to-image": request(0.25),
-  "recraft/v4.1/utility/text-to-image": request(0.03),
-  "recraft/v4.1/utility/pro/text-to-image": request(0.2),
   "alibaba/qwen-image-3/text-to-image": request(0.03, {
     resolution: { "1k": 1, "2k": 1.5 },
   }),
@@ -136,10 +119,6 @@ export const PLACEHOLDER_PRICING: PricingTable = {
   }),
   "ideogram/v4.0": request(0.06, {
     rendering_speed: { TURBO: 0.5, DEFAULT: 1, QUALITY: 1.5 },
-  }),
-  "z-image/turbo": request(0.01, {
-    resolution: { "1k": 1, "2k": 1.6 },
-    prompt_extend: { true: 1.3, false: 1 },
   }),
 
   /* ── Seedance ── */
@@ -158,22 +137,6 @@ export const PLACEHOLDER_PRICING: PricingTable = {
     per: "second",
     factors: TOKEN_2025_RES,
     inputVideo: withVideo(["video"], 30),
-  }),
-  // "Video input is required … per second of combined input and generated
-  // video duration" (edit: output length follows the source video).
-  "bytedance/seedance-2.5/video-edit": described({
-    usd: TOKEN_2025_720,
-    per: "second",
-    defaultUnits: 30,
-    sourceLength: true,
-    factors: TOKEN_2025_RES,
-    inputVideo: withVideo(["source", "video"], 30),
-  }),
-  "bytedance/seedance-2.5/video-extend": described({
-    usd: TOKEN_2025_720,
-    per: "second",
-    factors: TOKEN_2025_RES,
-    inputVideo: withVideo(["source", "video"], 30),
   }),
   "bytedance/seedance-2.0/text-to-video": described({
     usd: SEEDANCE_2_720,
@@ -199,41 +162,10 @@ export const PLACEHOLDER_PRICING: PricingTable = {
   "kling-video/v3.0-turbo/image-to-video": second(0.06, {
     resolution: { "720p": 1, "1080p": 1.5 },
   }),
-  "kling-video/v3.0/std/text-to-video": second(0.084, SOUND),
-  "kling-video/v3.0/std/image-to-video": second(0.084, SOUND),
   "kling-video/v3.0/pro/text-to-video": second(0.112, SOUND),
   "kling-video/v3.0/pro/image-to-video": second(0.112, SOUND),
-  "kling-video/v3.0/4k/text-to-video": second(0.28, SOUND),
-  "kling-video/v3.0/4k/image-to-video": second(0.28, SOUND),
-  "kling-video/v3/motion-control/std": sourceLength(0.07, 30),
-  "kling-video/v3/motion-control/pro": sourceLength(0.112, 30),
-  "kling-video/v2.6/pro/text-to-video": second(0.07, {
-    sound: { on: 2, off: 1 },
-  }),
-  "kling-video/v2.6/pro/image-to-video": second(0.07, {
-    sound: { on: 2, off: 1 },
-  }),
-  "kling-video/motion-control/std": sourceLength(0.07, 30),
-  "kling-video/motion-control/pro": sourceLength(0.112, 30),
-  "kling-video/v2.5-turbo/pro/text-to-video": second(0.07),
-  "kling-video/v2.5-turbo/pro/image-to-video": second(0.07),
-  "kling-video/v2.5-turbo/standard/image-to-video": second(0.042),
-  "kling-video/o3/first-last-frame": second(0.112, MODE_O3),
-  "kling-video/o3/image-reference": second(0.112, MODE_O3),
-  "kling-video/o3/video-edit": sourceLength(0.168, 16, MODE_O3),
-  "kling-video/o3/video-reference": second(0.168, MODE_O3),
-  "kling-video/omni/first-last-frame": second(0.112, MODE_OMNI),
-  "kling-video/omni/image-reference": second(0.112, MODE_OMNI),
-  "kling-video/omni/video-edit": sourceLength(0.168, 10, MODE_OMNI),
-  "kling-video/omni/video-reference": second(0.168, MODE_OMNI),
 
-  /* ── Alibaba: Happy Horse, Wan ── */
-  "alibaba/happy-horse/text-to-video": second(0.06, RES_720_1080),
-  "alibaba/happy-horse/image-to-video": second(0.06, RES_720_1080),
-  "alibaba/happy-horse/reference-to-video": second(0.06, RES_720_1080),
-  "alibaba/happy-horse/v1.1/text-to-video": second(0.08, RES_720_1080),
-  "alibaba/happy-horse/v1.1/image-to-video": second(0.08, RES_720_1080),
-  "alibaba/happy-horse/v1.1/reference-to-video": second(0.08, RES_720_1080),
+  /* ── Alibaba: Wan ── */
   // "Priced per generated second by resolution: 480p $0.05, 720p $0.10, or 1080p $0.20."
   "alibaba/wan-3.0/text-to-video": described({
     usd: 0.1,
@@ -250,15 +182,6 @@ export const PLACEHOLDER_PRICING: PricingTable = {
     per: "second",
     factors: WAN_3_RES,
   }),
-  "alibaba/wan-3.0-prime/text-to-video": second(0.15, RES_480_1080),
-  "alibaba/wan-3.0-prime/image-to-video": second(0.15, RES_480_1080),
-  "alibaba/wan-3.0-prime/reference-to-video": second(0.15, RES_480_1080),
-  "wan/v2.7/text-to-video": second(0.1, RES_720_1080),
-  "wan/v2.7/image-to-video": second(0.1, RES_720_1080),
-  "wan/v2.7/reference-to-video": second(0.1, RES_720_1080),
-  "wan/v2.6/text-to-video": second(0.1, RES_480_1080),
-  "wan/v2.6/image-to-video": second(0.1, RES_480_1080),
-  "wan/v2.6/reference-to-video": second(0.1, RES_480_1080),
 
   /* ── Studio models ── */
   "higgsfield/cinema-studio/4.0": described({
@@ -269,13 +192,6 @@ export const PLACEHOLDER_PRICING: PricingTable = {
   }),
   // "Each second of input video costs $0.318 at 480p or $0.681 at 720p.
   // Input duration is rounded up to the nearest whole second."
-  "higgsfield/genjutsu/motion-transfer/v1.0": described({
-    usd: 0.681,
-    per: "second",
-    defaultUnits: 30,
-    sourceLength: true,
-    factors: GENJUTSU_RES,
-  }),
   "higgsfield/genjutsu/object-swap/v1.0": described({
     usd: 0.681,
     per: "second",
@@ -291,12 +207,6 @@ export const PLACEHOLDER_PRICING: PricingTable = {
   "lightricks/ltx-2.5/image-to-video/fast": second(0.04, {
     resolution: { "720p": 1, "1080p": 1.5, "2k": 3, "4k": 6 },
   }),
-  "lightricks/ltx-2.5/text-to-video/pro": second(0.06, {
-    resolution: { "720p": 1, "1080p": 1.5 },
-  }),
-  "lightricks/ltx-2.5/image-to-video/pro": second(0.06, {
-    resolution: { "720p": 1, "1080p": 1.5 },
-  }),
   "minimax/h3/text-to-video": second(0.08),
   "minimax/h3/image-to-video": second(0.08),
   // "2K output costs $0.13 per generated second. The first five reference
@@ -306,16 +216,11 @@ export const PLACEHOLDER_PRICING: PricingTable = {
     per: "second",
     perItem: { role: "reference", included: 5, usd: 0.08 },
   }),
-  "minimax/hailuo-2.3/standard/text-to-video": second(0.045),
-  "minimax/hailuo-2.3/standard/image-to-video": second(0.045),
   "pixverse/v6/text-to-video": second(0.05, {
     resolution: { "360p": 0.5, "540p": 0.7, "720p": 1, "1080p": 1.8 },
   }),
   "pixverse/v6/image-to-video": second(0.05, {
     resolution: { "360p": 0.5, "540p": 0.7, "720p": 1, "1080p": 1.8 },
-  }),
-  "xai/grok-imagine-video/v1.5/reference-to-video": second(0.05, {
-    resolution: { "480p": 1, "720p": 1.5, "1080p": 2.5 },
   }),
 }
 

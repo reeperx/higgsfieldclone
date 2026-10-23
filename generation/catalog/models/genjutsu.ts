@@ -1,9 +1,8 @@
-// Genjutsu — motion transfer and object swap on a source video.
+// Genjutsu — object swap on a source video.
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/genjutsu
-//   https://docs.higgsfield.ai/docs/models/genjutsu/motion-transfer
 //   https://docs.higgsfield.ai/docs/models/genjutsu/object-swap
-// Both take the source video (`source` → video_url, at least 4 s; trimmed to
+// Takes the source video (`source` → video_url, at least 4 s; trimmed to
 // 30 s) and 1–8 image references (image_urls). The prompt is optional and the
 // output length follows the source video.
 import { compact, first, promptText, urls } from "../mappers"
@@ -46,22 +45,6 @@ const meta = {
   },
 } satisfies Partial<ModelEntry>
 
-export const genjutsuMotion: ModelEntry = {
-  ...meta,
-  id: "genjutsu-motion",
-  tab: "motion",
-  label: "Genjutsu Motion Transfer",
-  description:
-    "Re-cast a clip: the people or characters in your 1–8 images perform the motion of the source video.",
-  bestFor: "Swapping who performs a clip's motion",
-  badges: ["NEW"],
-  category: "MOTION",
-  order: 314,
-  docs: [DOCS, `${DOCS}/motion-transfer`],
-  toPlatform: (plane) =>
-    mapGenjutsu(plane, "higgsfield/genjutsu/motion-transfer/v1.0"),
-}
-
 export const genjutsuSwap: ModelEntry = {
   ...meta,
   roleLabels: { source: "Source video", reference: "Replacement image" },
@@ -79,5 +62,5 @@ export const genjutsuSwap: ModelEntry = {
     mapGenjutsu(plane, "higgsfield/genjutsu/object-swap/v1.0"),
 }
 
-const models = [genjutsuMotion, genjutsuSwap]
+const models = [genjutsuSwap]
 export default models

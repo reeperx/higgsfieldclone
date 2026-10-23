@@ -30,8 +30,10 @@ export interface UserDoc {
   subscriptionAllowance?: number
   /** Next monthly grant for annual subscriptions. */
   nextGrantAt?: Date
-  stripeCustomerId?: string
-  stripeSubscriptionId?: string
+  bachsCustomerId?: string
+  bachsSubscriptionId?: string
+  /** Ordering guard: Bachs webhook deliveries may arrive out of order. */
+  planStatusAt?: Date
   /** Set when a charge was refunded after its credits were spent. */
   billingFlag?: { reason: string; at: Date }
   createdAt: Date
@@ -171,7 +173,7 @@ export type LedgerReason =
   | "topup_purchase"
   | "signup_bonus"
   | "admin_adjust"
-  | "stripe_refund"
+  | "bachs_refund"
 
 export interface LedgerDoc {
   _id: ObjectId
@@ -187,7 +189,7 @@ export interface LedgerDoc {
   createdAt: Date
 }
 
-export interface StripeEventDoc {
+export interface BachsEventDoc {
   _id: string
   type: string
   processedAt: Date
@@ -265,7 +267,7 @@ export async function collections() {
     projects: database.collection<ProjectDoc>("projects"),
     uploads: database.collection<UploadDoc>("uploads"),
     ledger: database.collection<LedgerDoc>("credit_ledger"),
-    stripeEvents: database.collection<StripeEventDoc>("stripe_events"),
+    bachsEvents: database.collection<BachsEventDoc>("bachs_events"),
     hfWebhookEvents:
       database.collection<HfWebhookEventDoc>("hf_webhook_events"),
     presets: database.collection<PresetDoc>("presets"),

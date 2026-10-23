@@ -1,9 +1,7 @@
-// Soul 2, Soul Cinema and Soul (standard) — text to image.
+// Soul 2 and Soul (standard) — text to image.
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/soul-2
 //   https://docs.higgsfield.ai/docs/models/soul-2/generate
-//   https://docs.higgsfield.ai/docs/models/soul-cinema
-//   https://docs.higgsfield.ai/docs/models/soul-cinema/generate
 //   https://docs.higgsfield.ai/docs/models/soul-standard
 //   https://docs.higgsfield.ai/docs/models/soul-standard/generate
 // Not exposed: seed, style_id / style_strength, custom_reference_* (Soul ID is v2).
@@ -82,26 +80,6 @@ export const soul2: ModelEntry = {
   }),
 }
 
-export const soulCinema: ModelEntry = {
-  ...meta,
-  id: "soul-cinema",
-  label: "Soul Cinema",
-  description:
-    "Stills that look lifted from a film: moody grading, filmic light and a fixed cinematic style.",
-  bestFor: "Film-look stills and concept frames",
-  category: "CINEMATIC",
-  roles: {},
-  requirePrompt: true,
-  settings: { aspectRatio: aspectRatio("1:1"), ...shared },
-  enhanceSetting: "enhancePrompt",
-  order: 1,
-  docs: [`${DOCS}/soul-cinema`, `${DOCS}/soul-cinema/generate`],
-  toPlatform: (plane) => ({
-    path: "higgsfield-ai/soul/cinema",
-    body: compact(soulBody(plane, "Soul Cinema")),
-  }),
-}
-
 export const soul: ModelEntry = {
   ...meta,
   id: "soul",
@@ -125,5 +103,5 @@ export const soul: ModelEntry = {
   }),
 }
 
-const models = [soul2, soulCinema, soul]
+const models = [soul2, soul]
 export default models

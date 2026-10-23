@@ -12,6 +12,7 @@ import {
 } from "@/components/billing/plan-cards"
 import { useApp } from "@/components/providers/app-providers"
 import { activeSurfaces } from "@/generation/catalog"
+import { zar } from "@/lib/billing/money"
 import {
   PLANS,
   type BillingInterval,
@@ -21,10 +22,6 @@ import {
 import { cn } from "@/lib/utils"
 
 const ORDER: PlanId[] = ["free", "starter", "plus", "ultra"]
-
-function money(value: number): string {
-  return value % 1 === 0 ? `$${value}` : `$${value.toFixed(2)}`
-}
 
 function hasFeature(plan: Plan, label: string): boolean {
   return plan.features.some(
@@ -79,7 +76,7 @@ function rowGroups(): { title: string; rows: Row[] }[] {
       title: "Generation",
       rows: [
         ...parallel,
-        { label: "Every image and video model", values: () => true },
+        { label: "Product photo & video models", values: () => true },
         {
           label: "Priority queue",
           values: (plan) => hasFeature(plan, "Priority queue"),
@@ -104,7 +101,7 @@ function CellValue({ value }: { value: Cell }) {
   if (value === true)
     return (
       <>
-        <Check className="size-4 text-lime" aria-hidden />
+        <Check className="size-4 text-sand" aria-hidden />
         <span className="sr-only">Included</span>
       </>
     )
@@ -171,13 +168,13 @@ function FreeCard() {
               key={feature.label}
               className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-white/5 px-2.5 text-white/85"
             >
-              <Check className="size-3.5 text-lime" aria-hidden />{" "}
+              <Check className="size-3.5 text-sand" aria-hidden />{" "}
               {feature.label}
             </li>
           ))}
       </ul>
       <div className="flex items-center gap-4 md:shrink-0">
-        <span className="text-3xl font-bold tracking-tight">$0</span>
+        <span className="text-3xl font-bold tracking-tight">R0</span>
         <FreeCta className="h-11 px-5 text-sm" />
       </div>
     </div>
@@ -235,7 +232,7 @@ function CompareTable({ interval }: { interval: BillingInterval }) {
                   <span className="text-[11px] text-muted-foreground md:text-sm">
                     {value ? (
                       <>
-                        {money(value)}
+                        {zar(value)}
                         <span className="hidden md:inline">/mo</span>
                       </>
                     ) : (
@@ -341,8 +338,15 @@ export function PricingView() {
         <FreeCard />
         <PlanGrid interval={interval} />
         <p className="text-xs text-muted-foreground">
-          Plan prices are in USD. Taxes may apply at checkout. Cancel any time
-          from Account → Billing.
+          All prices in South African rand (ZAR), VAT excluded. Cancel any time
+          from Account → Billing, and see our{" "}
+          <Link
+            href="/legal/refunds"
+            className="underline underline-offset-2 hover:text-sand"
+          >
+            refund policy
+          </Link>{" "}
+          for what happens to unused credits.
         </p>
       </section>
 

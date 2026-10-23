@@ -11,19 +11,19 @@ import {
 import type { ReactNode } from "react"
 
 export const EMAIL_COLORS = {
-  page: "#0F1113",
-  card: "#131517",
-  border: "#23262A",
-  text: "#F7F7F8",
-  muted: "#898A8B",
-  lime: "#D1FE17",
-  onLime: "#131517",
+  page: "#11100d",
+  card: "#1a1714",
+  border: "#322d25",
+  text: "#f7f4ec",
+  muted: "#99948a",
+  sand: "#d8b26e",
+  onSand: "#17130b",
 } as const
 
 const font =
   "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
 
-/** Shared dark frame for every Vireo email. */
+/** Shared dark frame for every Vendo email. */
 export function EmailFrame({
   preview,
   brand,
@@ -59,7 +59,7 @@ export function EmailFrame({
           <Section>
             <Text
               style={{
-                color: EMAIL_COLORS.lime,
+                color: EMAIL_COLORS.sand,
                 fontSize: 22,
                 fontWeight: 700,
                 letterSpacing: "-0.04em",
@@ -107,10 +107,10 @@ export const paragraph = {
   margin: "0 0 24px",
 }
 
-export const limeButton = {
-  backgroundColor: EMAIL_COLORS.lime,
+export const sandButton = {
+  backgroundColor: EMAIL_COLORS.sand,
   borderRadius: 12,
-  color: EMAIL_COLORS.onLime,
+  color: EMAIL_COLORS.onSand,
   display: "block",
   fontSize: 16,
   fontWeight: 700,

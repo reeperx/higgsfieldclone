@@ -73,7 +73,7 @@ export function LedgerTable({
               <td
                 className={cn(
                   "px-4 py-3 text-right font-mono tabular-nums",
-                  entry.delta > 0 ? "text-lime" : "text-foreground"
+                  entry.delta > 0 ? "text-sand" : "text-foreground"
                 )}
               >
                 {entry.delta > 0 ? "+" : ""}

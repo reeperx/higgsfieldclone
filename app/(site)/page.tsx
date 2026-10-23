@@ -29,12 +29,12 @@ import { FAMILY_LOOPS, familyCover, HERO } from "@/lib/showcase"
 
 /** Top-of-page tool cards (§3.2): the models we lead with. */
 const TOOL_IDS = [
-  "seedance-2.5",
-  "kling-3-std",
-  "soul-2",
-  "cinema-studio-4",
-  "genjutsu-motion",
   "marketing-image-flare",
+  "soul-2",
+  "seedance-2.5",
+  "cinema-studio-4",
+  "genjutsu-swap",
+  "ideogram-4",
 ] as const
 
 function generatorHref(model: ModelEntry): string {
@@ -94,39 +94,39 @@ export default async function ExplorePage() {
             className="absolute inset-0 size-full object-[50%_70%]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-page/75 via-transparent via-45% to-page" />
-          <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_40%,transparent_55%,rgba(15,17,19,0.9)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_40%,transparent_55%,rgba(17,16,13,0.9)_100%)]" />
         </div>
         <Atmosphere glow="top" className="-z-10" />
         <div className="mx-auto flex min-h-[600px] max-w-[1440px] flex-col items-center justify-start gap-6 px-4 pt-20 pb-44 text-center md:min-h-[min(90svh,820px)] md:pt-28">
           <span className="inline-flex h-8 items-center gap-1.5 rounded-full border border-white/10 bg-black/30 px-3 text-xs font-medium text-white/85 backdrop-blur-md">
-            <Sparkles className="size-3.5 text-lime" aria-hidden />
-            Every frontier model, one studio
+            <Sparkles className="size-3.5 text-sand" aria-hidden />
+            Product photos &amp; video for online sellers
           </span>
           <h1
             id="hero-title"
             className="font-display text-[44px] leading-[0.92] text-white sm:text-[60px] md:text-[80px] lg:text-[96px]"
           >
-            Direct the shot.
+            Studio shots.
             <br />
-            <span className="text-lime">Skip the set.</span>
+            <span className="text-sand">No studio.</span>
           </h1>
           <p className="max-w-[560px] text-base text-white/80 [text-shadow:0_1px_14px_rgba(0,0,0,0.7)] md:text-lg">
-            Turn a sentence or a single frame into cinematic video and images.
-            Seedance, Kling, Soul and dozens more models share one credit
-            balance and one library.
+            Turn a packshot and a sentence into product photos, lifestyle
+            scenes and scroll-stopping video. One credit balance, one
+            library, listings in minutes.
           </p>
           <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
             <Link
-              href="/video"
+              href="/image"
               className="btn-keycap inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold sm:w-auto"
             >
-              <Sparkles className="size-4" aria-hidden /> Start creating
+              <Sparkles className="size-4" aria-hidden /> Start a shoot
             </Link>
             <Link
               href="/effects"
               className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white/10 sm:w-auto"
             >
-              Explore effects
+              Browse presets
             </Link>
           </div>
         </div>
@@ -153,16 +153,16 @@ export default async function ExplorePage() {
             <p className="font-display text-[30px] leading-[1.05] text-white md:text-[36px]">
               One balance.
               <br />
-              <span className="text-lime">Every model.</span>
+              <span className="text-sand">Every shot.</span>
             </p>
             <ul className="flex flex-col gap-1.5 text-[13px] text-white/75">
               {[
-                "Switch models without switching apps",
+                "Packshots, model scenes and video — one balance",
                 "Failed runs are refunded automatically",
                 "Top-up credits never expire",
               ].map((line) => (
                 <li key={line} className="flex items-center gap-2">
-                  <Check className="size-3.5 text-lime" aria-hidden /> {line}
+                  <Check className="size-3.5 text-sand" aria-hidden /> {line}
                 </li>
               ))}
             </ul>
@@ -208,23 +208,23 @@ export default async function ExplorePage() {
         >
           <SectionHeader
             id="effects-title"
-            title="Visual effects"
-            description="Signature looks and camera moves. Pick one, add your subject, generate."
+            title="Shot presets"
+            description="White background, tabletop, lifestyle and motion looks. Pick one, add your product, generate."
             action={
               <Link
                 href="/effects"
                 className="btn-keycap inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold md:h-12 md:px-5 md:text-base"
               >
-                <Sparkles className="size-4" aria-hidden /> Try an effect
+                <Sparkles className="size-4" aria-hidden /> Try a preset
               </Link>
             }
           />
           <FadeClamp
             href="/effects"
-            label="View all effects"
+            label="View all presets"
             className="max-h-[720px] md:max-h-[880px]"
           >
-            <Masonry columns={5} label="Effects">
+            <Masonry columns={5} label="Presets">
               {effects.slice(0, 12).map((effect) => (
                 <MasonryItem key={effect.slug}>
                   <EffectTile effect={effect} cta="Recreate" />
@@ -243,7 +243,7 @@ export default async function ExplorePage() {
         <SectionHeader
           id="models-title"
           title="Models"
-          description="The best image and video models in one place. Pick a family to open it in the generator."
+          description="Image and video models picked for product work. Pick a family to open it in the generator."
         />
         <ScrollRow label="Model families">
           {modelFamilies.map(({ lead, count }) => {
@@ -348,10 +348,10 @@ export default async function ExplorePage() {
             }
             action={
               <Link
-                href="/video"
+                href="/image"
                 className="btn-keycap inline-flex h-10 items-center gap-2 rounded-[10px] px-4 text-sm font-semibold"
               >
-                <Sparkles className="size-4" aria-hidden /> Start creating
+                <Sparkles className="size-4" aria-hidden /> Start a shoot
               </Link>
             }
           />
@@ -378,20 +378,21 @@ export default async function ExplorePage() {
             id="cta-title"
             className="font-display text-[36px] leading-[0.95] text-white md:text-[56px]"
           >
-            Your next shot
+            Your next product
             <br />
-            <span className="text-lime">starts with a sentence.</span>
+            <span className="text-sand">shoots itself.</span>
           </h2>
           <p className="max-w-[440px] text-sm text-white/75 md:text-base">
-            Describe it, pick a model, press Generate. Keep the takes you love
-            in your library and publish the best ones.
+            Upload a packshot, describe the scene, press Generate. Photos,
+            model scenes and video for every listing — keep the best takes in
+            your library.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/video"
+              href="/image"
               className="btn-keycap inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold"
             >
-              <Sparkles className="size-4" aria-hidden /> Start creating
+              <Sparkles className="size-4" aria-hidden /> Start a shoot
             </Link>
             <Link
               href="/pricing"

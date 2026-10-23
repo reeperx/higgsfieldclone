@@ -7,11 +7,11 @@ Newest decisions go at the bottom of each section.
 
 | Placeholder | Value | Why |
 |---|---|---|
-| `BRAND_NAME` | **Vireo** | A small green songbird: short, ownable, and the lime accent reads as its plumage. |
-| `APP_SLUG` | `vireo-studio` | |
-| `PRODUCTION_URL` | `https://vireo.studio` | Placeholder domain; change in env (`APP_URL`, `AUTH_URL`). |
-| `EMAIL_FROM` | `Vireo <login@vireo.studio>` | Domain must be verified in Resend before launch. |
-| `SUPPORT_EMAIL` | `support@vireo.studio` | |
+| `BRAND_NAME` | **Vendo** | Renamed 2026-10 when the product was re-scoped to e-commerce product photos & videos: a selling word (vendo = "I sell"), short and ownable; the lime accent stays as the brand accent. |
+| `APP_SLUG` | `vendo-studio` | |
+| `PRODUCTION_URL` | `https://vendo.studio` | Placeholder domain; change in env (`APP_URL`, `AUTH_URL`). |
+| `EMAIL_FROM` | `Vendo <login@vendo.studio>` | Domain must be verified in Resend before launch. |
+| `SUPPORT_EMAIL` | `support@vendo.studio` | |
 | `CREDIT_MARKUP` | `2.0` | Sell at 2× the Higgsfield API cost; with `CREDIT_USD_VALUE=0.01` a $0.094 image costs 19 credits. |
 
 ## Sources and precedence
@@ -134,9 +134,70 @@ Newest decisions go at the bottom of each section.
 
 Structure mirrors higgsfield: Free / Starter / Plus / Ultra, monthly + annual
 ("20% OFF"), plus three top-up packs. Credit allowances and prices are
-`TBD` in `lib/billing/plans.ts` and are the one thing we need from the owner.
+suggested defaults in `lib/billing/plans.ts` and the one thing still to confirm
+with the owner. Each plan product id comes from env (`BACHS_PRICE_*`); the
+price the user sees is ours, the catalog amounts are the owner's Bachs setup.
 Concurrency defaults (parallel generations): Free 1/1, Starter 2 video / 4
 image, Plus 6 / 8, Ultra 8 / 12.
+
+## Payments — Bachs (replaced Stripe, 2026-10)
+
+The payment platform is [Bachs](https://docs.bachs.io) (source of truth:
+`https://docs.bachs.io/llms.txt`). Stripe was removed fully — dependency,
+`lib/billing/stripe*`, the webhook route, CSP entries; the secret-scan now
+watches `sk_(sandbox|live)_…` against `sk-test_…`-style Stripe keys. What the
+integration relies on:
+
+- **API base:** sandbox `https://sandbox-api.bachs.io` + `sk_sandbox_…`; going
+  live is `https://api.bachs.io` with a `sk_live_…` key swap.
+- **Money is a decimal string** (`"29.00"`). Never divide by 100; convert with
+  `Number()` at the ledger boundary only.
+- **Idempotency:** every mutating call (`POST`/`PATCH`) sends an
+  `Idempotency-Key` header; safe methods are retried (429/500/502/503/504,
+  backoff with full jitter, `SAFE_RETRY` in `lib/billing/bachs.ts`).
+- **Webhooks are at-least-once and may arrive out of order.**
+  `/api/webhooks/bachs` verifies `X-Bachs-Signature-V2: t=<ts>,v1=<hex>` —
+  HMAC-SHA256 over `${t}.${rawBody}`, matched against any listed `v1`
+  (constant-time) with a 300 s timestamp tolerance — and still treats payloads
+  as untrusted: anything that grants or cuts credits re-fetches the object from
+  the Bachs API first. Legacy `X-Bachs-Timestamp` + `X-Bachs-Signature` pairs
+  are accepted for older configurations. Events dedupe in `bachs_events`
+  (document `_id`), subscription writes carry a `planStatusAt` ordering guard.
+- **Events:** `collection.succeeded` grants top-ups (checkout metadata carries
+  `{user_id, credits}`); `invoice.paid` also fires for one-off charges, so it
+  is gated on `data.subscription` being non-null and resolves the subscription
+  from the API, re-fetching period end (fallback now + 30 d).
+  `customer.subscription.created/updated/deleted` maintain
+  `bachsSubscriptionId` + plan status; `cancel_at_period_end` shows as
+  "canceling" and cancellation zeroes the plan bucket at period end.
+  `refund.paid` claws back top-up credits floor(granted × refunded/requested)
+  and flags the account when they are unavailable or already spent.
+- **Checkout:** lazy customer creation (`POST /v1/customers` with the email,
+  memo `{user_id}`), one reusable `billingPortal` session. `success`/`cancel`
+  URLs are only sent when `APP_URL` is public HTTPS — Bachs rejects localhost
+  in hosted checkout, so local dev returns to the app between steps without
+  URL parameters and grants happen via webhooks only.
+- **Top-up metadata holds the credit grant** (`credits` as a decimal string);
+  a purchased checkout that never delivered its webhook can be replayed from
+  the Bachs dashboard because `collection.succeeded` is keyed on the checkout
+  id.
+- **Refund mapping:** the clawback resolves our checkout only from the
+  `reference` field on the refund. When refunding a top-up charge, set
+  `reference` to the `chk_…` checkout session id; a null/unmatched reference
+  flags the account instead of silently skipping.
+
+## Catalog scope (pruned to product work, 2026-10)
+
+The picker was re-scoped from "every documented model" (81 endpoints) to the
+17-entry e-commerce keep-list in `docs/model-catalog.md`. Rationale: faster
+picker review, fewer placeholder-priced units to vet, and every remaining entry
+maps to a concrete product job (packshot, model-in-scene, product video,
+re-composite). Pruned families (Kling O3/Omni/motion/legacy tiers, Wan
+2.6/2.7/Prime, Happy Horse, Hailuo, LTX Pro, Recraft, Z-Image Turbo, Marketing
+Image 2.0, Seedance edit/extend) stay documented there — restoring one is one
+file + `pnpm models` + a price rule. Internal `vireo:*` identifiers
+(localStorage keys, dev replica-set name, test fixtures) are deliberately not
+renamed.
 
 ## UI
 
@@ -148,6 +209,55 @@ image, Plus 6 / 8, Ultra 8 / 12.
   generator pages use the site's left control panel + right canvas.
 - **Audio nav item hidden** while the catalog has no audio models (see
   `model-catalog.md`); appears automatically when one is added.
+
+## Theme — calm dark identity (2026-10)
+
+The template's lime-on-cool-grey look was rethemed to a relaxed "calm studio"
+identity. Everything routes through token overrides — components never hardcode
+the accent:
+
+- **Surfaces warmed to ink:** the cool grey ramp (`--hf-color-cool-*`) is
+  revalued in `styles/theme.css` (page → panel → card → raised all warm);
+  white text/buttons pick up a chalk tint (`--hf-color-grey-050`).
+- **Accent = sand:** every lime consumer (brand, focus, icons, links,
+  transparent-* tints) now points at `#D8B26E`. `bg-sand`/`text-sand`/`btn-keycap`
+  are the class names — nothing says lime any more outside vendored Quanta.
+- Point-of-rest details: display tracking −2 %, slower studio-glow breathe,
+  hard-cool hexes inside components warmed, email palette (`EMAIL_COLORS`)
+  updated, icons/OG theme color follow.
+- Vendored Quanta (`styles/quanta/**`) is intentionally untouched ("DO NOT
+  EDIT"); if tokens ever regenerate, the identity re-applies wholesale because
+  it lives in `styles/theme.css`.
+
+## Currency — rand (2026-10)
+
+- **Customer-facing money is ZAR**: plans (Starter R199 / Plus R549 /
+  Ultra R1 399 per month, annual −20 %; top-ups R99 / R399 / R899) in
+  `lib/billing/plans.ts`, formatted by `zar()` in `lib/billing/money.ts`
+  (`en-ZA`, decimal comma). Bachs products in the dashboard must be created in
+  rands with matching amounts; `billing_currency: "ZAR"` flows through checkout.
+- **The platform-cost basis stays USD.** Higgsfield bills us in dollars, so
+  admin pricing views and the pricing-table documentation quote USD — that is
+  cost data, not what customers pay.
+- Mock Bachs serves rand products with matching annual amounts.
+
+## Policies (2026-10)
+
+Five legal documents live in `app/(site)/legal/[doc]/page.tsx` — terms,
+privacy, **refunds**, **cookies** and acceptable-use — framed for South African
+law (POPIA for privacy; the CPA cooling-off and s55 defect rights inform the
+refund policy). They are honest placeholders describing actual product
+behavior (automatic refunds for failed/canceled generations, claw-back on
+purchase refunds) but must be lawyer-reviewed before launch; the placeholder
+banner stays. Footer + cookie-consent link to all of them.
+
+## Logo (2026-10)
+
+The wordmark + product mark: sand tile with a soft price-tag glyph and sparkle,
+inverted (ink tile, sand glyph) on sand surfaces (`LogoMark inverted`). Set in
+components (`components/site/logo.tsx`) as UI, and as `app/icon.svg` /
+`public/icon.svg` for favicon; the wordmark renders lowercase Space Grotesk
+instead of the uppercase display face.
 
 ## Implementation decisions (build)
 

@@ -4,7 +4,7 @@ import { cn } from "cn"
 
 /**
  * Input — Quanta TextField skin (q-field-* from styles/quanta/components/input.css):
- * a 40px white-5% surface with a lime focus ring. `start`/`end` are 20px affix slots.
+ * a 40px white-5% surface with a sand focus ring. `start`/`end` are 20px affix slots.
  */
 function Input({
   className,

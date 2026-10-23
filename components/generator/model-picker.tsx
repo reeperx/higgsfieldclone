@@ -30,7 +30,7 @@ export function ModelIcon({
 }
 
 const BADGE_CLASS: Record<ModelBadge, string> = {
-  NEW: "bg-lime text-[#131517]",
+  NEW: "bg-sand text-[#17130b]",
   TOP: "bg-gradient-to-r from-[#4fc9dc] via-[#32a2ee] to-[#167bff] text-white",
   FAST: "bg-white/10 text-white",
   "4K": "bg-white/10 text-white",
@@ -130,7 +130,7 @@ export function ModelPicker({
             {!query && featured.length ? (
               <section className="mb-6">
                 <h3 className="mb-3 flex items-center gap-1.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  <Sparkle className="size-3 fill-lime text-lime" /> Featured
+                  <Sparkle className="size-3 fill-sand text-sand" /> Featured
                 </h3>
                 <div className="grid gap-3 sm:grid-cols-3">
                   {featured.map((model) => (
@@ -139,8 +139,8 @@ export function ModelPicker({
                       type="button"
                       onClick={() => pick(model.id)}
                       className={cn(
-                        "group relative flex h-36 flex-col justify-end overflow-hidden rounded-2xl p-3 text-left ring-1 ring-white/10 transition hover:ring-lime/50",
-                        value === model.id && "ring-2 ring-lime"
+                        "group relative flex h-36 flex-col justify-end overflow-hidden rounded-2xl p-3 text-left ring-1 ring-white/10 transition hover:ring-sand/50",
+                        value === model.id && "ring-2 ring-sand"
                       )}
                     >
                       <img
@@ -215,7 +215,7 @@ export function ModelPicker({
                             ) : null}
                             {selected ? (
                               <Check
-                                className="size-4 text-lime"
+                                className="size-4 text-sand"
                                 aria-label="Selected"
                               />
                             ) : null}

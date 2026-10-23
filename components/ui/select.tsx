@@ -126,7 +126,7 @@ function SelectContent({
   > & {
     /** `glass` frosted popup, `solid` opaque secondary background. */
     surface?: "glass" | "solid"
-    /** `picker` — compact builder-picker rows (44px, body-sm, lime check). */
+    /** `picker` — compact builder-picker rows (44px, body-sm, sand check). */
     variant?: "default" | "picker"
   }) {
   return (

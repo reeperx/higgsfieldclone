@@ -1,9 +1,11 @@
 import type { Surface } from "@/generation/catalog/types"
 
 /**
- * Plans and top-up packs. Prices are SUGGESTED defaults pending the owner's
- * final numbers (see docs/decisions.md → Plans); Stripe price IDs come from env.
- * Retail value of one credit is CREDIT_USD_VALUE (default $0.01).
+ * Plans and top-up packs, priced in South African rand (ZAR). Amounts are
+ * SUGGESTED defaults pending the owner's final numbers (see
+ * docs/decisions.md → Plans); Bachs product IDs come from env and must match
+ * these amounts in the dashboard (currency ZAR, money as decimal strings).
+ * Retail value of one credit remains CREDIT_USD_VALUE (internal USD basis).
  */
 
 export type PlanId = "free" | "starter" | "plus" | "ultra"
@@ -16,16 +18,16 @@ export interface Plan {
   tagline: string
   /** Credits granted each month (subscription bucket is reset to this). */
   monthlyCredits: number
-  /** USD per month when billed monthly / per month when billed annually. */
+  /** Rand per month when billed monthly / per month when billed annually. */
   priceMonthly: number
   priceAnnualPerMonth: number
   /** Parallel generations per surface. */
   concurrency: Record<Surface, number>
-  /** Top-up credits per dollar multiplier (higher plans get more). */
+  /** Top-up credits per rand multiplier (higher plans get more). */
   topupMultiplier: number
   badge?: "MOST POPULAR" | "BEST VALUE"
   features: { label: string; included: boolean; tag?: string }[]
-  stripePriceEnv?: { month: string; year: string }
+  priceEnv?: { month: string; year: string }
 }
 
 export const PLANS: Record<PlanId, Plan> = {
@@ -51,8 +53,8 @@ export const PLANS: Record<PlanId, Plan> = {
     name: "Starter",
     tagline: "For creators getting started",
     monthlyCredits: 1_000,
-    priceMonthly: 12,
-    priceAnnualPerMonth: 9.6,
+    priceMonthly: 199,
+    priceAnnualPerMonth: 159.2,
     concurrency: { image: 4, video: 2, audio: 2 },
     topupMultiplier: 1.05,
     features: [
@@ -62,9 +64,9 @@ export const PLANS: Record<PlanId, Plan> = {
       { label: "5% bonus on credit top-ups", included: true },
       { label: "Priority queue", included: false },
     ],
-    stripePriceEnv: {
-      month: "STRIPE_PRICE_STARTER_MONTHLY",
-      year: "STRIPE_PRICE_STARTER_ANNUAL",
+    priceEnv: {
+      month: "BACHS_PRICE_STARTER_MONTHLY",
+      year: "BACHS_PRICE_STARTER_ANNUAL",
     },
   },
   plus: {
@@ -72,8 +74,8 @@ export const PLANS: Record<PlanId, Plan> = {
     name: "Plus",
     tagline: "For daily creators and small teams",
     monthlyCredits: 3_500,
-    priceMonthly: 35,
-    priceAnnualPerMonth: 28,
+    priceMonthly: 549,
+    priceAnnualPerMonth: 439.2,
     concurrency: { image: 8, video: 6, audio: 4 },
     topupMultiplier: 1.1,
     badge: "MOST POPULAR",
@@ -84,9 +86,9 @@ export const PLANS: Record<PlanId, Plan> = {
       { label: "10% bonus on credit top-ups", included: true, tag: "BONUS" },
       { label: "Priority queue", included: true },
     ],
-    stripePriceEnv: {
-      month: "STRIPE_PRICE_PLUS_MONTHLY",
-      year: "STRIPE_PRICE_PLUS_ANNUAL",
+    priceEnv: {
+      month: "BACHS_PRICE_PLUS_MONTHLY",
+      year: "BACHS_PRICE_PLUS_ANNUAL",
     },
   },
   ultra: {
@@ -94,8 +96,8 @@ export const PLANS: Record<PlanId, Plan> = {
     name: "Ultra",
     tagline: "For studios shipping every day",
     monthlyCredits: 9_000,
-    priceMonthly: 89,
-    priceAnnualPerMonth: 71.2,
+    priceMonthly: 1_399,
+    priceAnnualPerMonth: 1_119.2,
     concurrency: { image: 12, video: 8, audio: 6 },
     topupMultiplier: 1.2,
     badge: "BEST VALUE",
@@ -106,9 +108,9 @@ export const PLANS: Record<PlanId, Plan> = {
       { label: "20% bonus on credit top-ups", included: true, tag: "BONUS" },
       { label: "Priority queue", included: true },
     ],
-    stripePriceEnv: {
-      month: "STRIPE_PRICE_ULTRA_MONTHLY",
-      year: "STRIPE_PRICE_ULTRA_ANNUAL",
+    priceEnv: {
+      month: "BACHS_PRICE_ULTRA_MONTHLY",
+      year: "BACHS_PRICE_ULTRA_ANNUAL",
     },
   },
 }
@@ -120,7 +122,7 @@ export interface TopupPack {
   name: string
   credits: number
   price: number
-  stripePriceEnv: string
+  priceEnv: string
 }
 
 export const TOPUPS: Record<TopupId, TopupPack> = {
@@ -128,22 +130,22 @@ export const TOPUPS: Record<TopupId, TopupPack> = {
     id: "small",
     name: "Boost",
     credits: 500,
-    price: 5,
-    stripePriceEnv: "STRIPE_PRICE_TOPUP_SMALL",
+    price: 99,
+    priceEnv: "BACHS_PRICE_TOPUP_SMALL",
   },
   medium: {
     id: "medium",
     name: "Pack",
     credits: 2_200,
-    price: 20,
-    stripePriceEnv: "STRIPE_PRICE_TOPUP_MEDIUM",
+    price: 399,
+    priceEnv: "BACHS_PRICE_TOPUP_MEDIUM",
   },
   large: {
     id: "large",
     name: "Crate",
     credits: 6_000,
-    price: 50,
-    stripePriceEnv: "STRIPE_PRICE_TOPUP_LARGE",
+    price: 899,
+    priceEnv: "BACHS_PRICE_TOPUP_LARGE",
   },
 }
 

@@ -243,7 +243,7 @@ export function LibraryView({
       >
         <header className="flex flex-wrap items-center gap-2">
           <h1 className="mr-2 flex items-center gap-2 text-xl font-medium">
-            <FolderClosed className="size-5 text-lime" />
+            <FolderClosed className="size-5 text-sand" />
             {project ? project.name : "Library"}
           </h1>
           <div
@@ -428,8 +428,8 @@ function BulkButton({
 function EmptyLibrary({ project }: { project: boolean }) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-      <span className="flex size-14 items-center justify-center rounded-2xl bg-lime/10">
-        <FolderClosed className="size-7 text-lime" />
+      <span className="flex size-14 items-center justify-center rounded-2xl bg-sand/10">
+        <FolderClosed className="size-7 text-sand" />
       </span>
       <p className="text-base font-semibold">
         {project
@@ -445,7 +445,7 @@ function EmptyLibrary({ project }: { project: boolean }) {
         href="/video"
         className="mt-2 flex h-10 items-center gap-1.5 rounded-[10px] bg-raised px-4 text-sm font-medium hover:bg-hover"
       >
-        <Sparkle className="size-4 fill-lime text-lime" /> Generate
+        <Sparkle className="size-4 fill-sand text-sand" /> Generate
       </Link>
     </div>
   )
@@ -503,7 +503,7 @@ function UploadsGrid() {
               />
             ) : (
               <span className="flex size-full items-center justify-center">
-                <AudioLines className="size-8 text-lime" />
+                <AudioLines className="size-8 text-sand" />
               </span>
             )}
           </div>

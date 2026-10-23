@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils"
 
 const TONES = {
   pink: "bg-pink-strong text-white",
-  lime: "bg-lime text-[#131517]",
-  blue: "bg-gradient-to-r from-[#4fc9dc] via-[#32a2ee] to-[#167bff] text-white",
+  sand: "bg-sand text-[#17130b]",
+  blue: "bg-gradient-to-r from-[#6f93b8] via-[#5d81a6] to-[#4b6e93] text-white",
   muted: "bg-white/10 text-white",
 } as const
 
-/** Space Grotesk italic micro-badge: TOP, NEW, BEST VALUE, % OFF. */
+/** Space Grotesk italic micro-badge: NEW, BEST VALUE, % OFF. */
 export function ItalicBadge({
   tone,
   children,
@@ -40,7 +40,7 @@ export function ModelBadge({ model }: { model: ModelEntry }) {
   if (model.badges?.includes("TOP"))
     return <ItalicBadge tone="pink">Top</ItalicBadge>
   if (model.badges?.includes("NEW"))
-    return <ItalicBadge tone="lime">New</ItalicBadge>
+    return <ItalicBadge tone="sand">New</ItalicBadge>
   return null
 }
 

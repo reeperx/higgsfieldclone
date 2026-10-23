@@ -24,12 +24,12 @@ export default async function AccountPage() {
       </header>
 
       <section aria-labelledby="balance" className="grid gap-3 md:grid-cols-3">
-        <div className="flex flex-col gap-2 rounded-2xl border border-lime/20 bg-gradient-to-b from-lime/10 to-transparent p-5">
+        <div className="flex flex-col gap-2 rounded-2xl border border-sand/20 bg-gradient-to-b from-sand/10 to-transparent p-5">
           <h2 id="balance" className="text-sm text-muted-foreground">
             Total balance
           </h2>
           <p className="flex items-center gap-2 font-mono text-4xl font-semibold tabular-nums">
-            <Sparkle className="size-6 fill-lime text-lime" />{" "}
+            <Sparkle className="size-6 fill-sand text-sand" />{" "}
             {account.total.toLocaleString("en-US")}
           </p>
           <p className="text-xs text-muted-foreground">

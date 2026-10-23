@@ -31,7 +31,7 @@ export default function ErrorBoundary({
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage:
-            "radial-gradient(60% 50% at 50% 50%, rgba(209,254,23,0.12) 0%, transparent 70%)",
+            "radial-gradient(60% 50% at 50% 50%, rgba(216,178,110,0.12) 0%, transparent 70%)",
         }}
       />
       <div className="flex max-w-[520px] flex-col items-center gap-5 text-center">
@@ -40,7 +40,7 @@ export default function ErrorBoundary({
         </Link>
         <p
           aria-hidden
-          className="font-display text-[96px] leading-none text-lime md:text-[140px]"
+          className="font-display text-[96px] leading-none text-sand md:text-[140px]"
         >
           500
         </p>

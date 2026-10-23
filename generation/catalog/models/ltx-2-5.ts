@@ -1,13 +1,10 @@
-// LTX-2.5 — Fast and Pro, text and image to video.
+// LTX-2.5 Fast — text and image to video.
 // Sources:
 //   https://docs.higgsfield.ai/docs/models/ltx-2-5
 //   https://docs.higgsfield.ai/docs/models/ltx-2-5/text-to-video-fast
 //   https://docs.higgsfield.ai/docs/models/ltx-2-5/image-to-video-fast
-//   https://docs.higgsfield.ai/docs/models/ltx-2-5/text-to-video-pro
-//   https://docs.higgsfield.ai/docs/models/ltx-2-5/image-to-video-pro
-// Fast allows 720p–4k and 24/25/48/50 fps; Pro allows 720p/1080p and
-// 24/25/50 fps. Image-to-video takes a start frame plus optional end frame;
-// both workflows document aspect_ratio.
+// Fast allows 720p–4k and 24/25/48/50 fps. Image-to-video takes a start frame
+// plus optional end frame; both workflows document aspect_ratio.
 import {
   assertFramesOrReferences,
   autoEnum,
@@ -76,11 +73,7 @@ function settings(
   }
 }
 
-function mapLtx(
-  plane: GenerationPlane,
-  tier: "fast" | "pro",
-  label: string
-): PlatformRequest {
+function mapLtx(plane: GenerationPlane, label: string): PlatformRequest {
   assertFramesOrReferences(plane)
   const start = first(plane, "start")
   const body = compact({
@@ -94,14 +87,14 @@ function mapLtx(
   })
   if (start)
     return {
-      path: `lightricks/ltx-2.5/image-to-video/${tier}`,
+      path: "lightricks/ltx-2.5/image-to-video/fast",
       body: compact({
         ...body,
         image_url: start,
         end_image_url: first(plane, "end"),
       }),
     }
-  return { path: `lightricks/ltx-2.5/text-to-video/${tier}`, body }
+  return { path: "lightricks/ltx-2.5/text-to-video/fast", body }
 }
 
 const meta = {
@@ -126,23 +119,8 @@ export const ltx25Fast: ModelEntry = {
   settings: settings(["720p", "1080p", "2k", "4k"], ["24", "25", "48", "50"]),
   order: 210,
   docs: [DOCS, `${DOCS}/text-to-video-fast`, `${DOCS}/image-to-video-fast`],
-  toPlatform: (plane) => mapLtx(plane, "fast", "LTX-2.5 Fast"),
+  toPlatform: (plane) => mapLtx(plane, "LTX-2.5 Fast"),
 }
 
-export const ltx25Pro: ModelEntry = {
-  ...meta,
-  id: "ltx-2.5-pro",
-  label: "LTX-2.5 Pro",
-  description:
-    "The higher-quality LTX-2.5 tier for 720p or 1080p clips with sound, from text or start and end frames.",
-  bestFor: "Clean 1080p clips with camera moves",
-  badges: ["PRO", "AUDIO"],
-  category: "GENERAL",
-  settings: settings(["720p", "1080p"], ["24", "25", "50"]),
-  order: 211,
-  docs: [DOCS, `${DOCS}/text-to-video-pro`, `${DOCS}/image-to-video-pro`],
-  toPlatform: (plane) => mapLtx(plane, "pro", "LTX-2.5 Pro"),
-}
-
-const models = [ltx25Fast, ltx25Pro]
+const models = [ltx25Fast]
 export default models

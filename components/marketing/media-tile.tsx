@@ -58,7 +58,7 @@ export function TileMedia({
 
 /**
  * One effect preset as a masonry tile. Hover (or keyboard focus) darkens the
- * media and centres the title with a lime chip; on touch screens the title
+ * media and centres the title with a sand chip; on touch screens the title
  * sits at the bottom instead, since there is no hover.
  */
 export function EffectTile({
@@ -103,7 +103,7 @@ export function EffectTile({
         <span className="font-display text-[26px] leading-[1.05] text-white lg:text-[28px]">
           {effect.title}
         </span>
-        <span className="inline-flex h-9 items-center gap-1.5 rounded-[10px] bg-lime/15 px-3 text-sm font-medium text-lime backdrop-blur-sm">
+        <span className="inline-flex h-9 items-center gap-1.5 rounded-[10px] bg-sand/15 px-3 text-sm font-medium text-sand backdrop-blur-sm">
           <Sparkles className="size-4" /> {cta}
         </span>
       </span>

@@ -17,7 +17,7 @@ export default async function CommunityPage() {
       <Atmosphere glow="top" className="-z-10 h-[420px]" />
       <div className="mx-auto flex max-w-[1440px] flex-col gap-8 px-4 pt-10 md:px-12 md:pt-14">
         <header className="flex flex-col items-center gap-2 text-center">
-          <h1 className="font-display text-[36px] leading-none text-lime md:text-[56px]">
+          <h1 className="font-display text-[36px] leading-none text-sand md:text-[56px]">
             Community
           </h1>
           <p className="max-w-[520px] text-sm text-muted-foreground md:text-base">

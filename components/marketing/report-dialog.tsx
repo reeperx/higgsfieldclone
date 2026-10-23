@@ -129,9 +129,9 @@ export function ReportDialog({
                 <label
                   key={item.value}
                   className={cn(
-                    "flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-lime",
+                    "flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-sand",
                     reason === item.value
-                      ? "border-lime/40 bg-lime/[0.06]"
+                      ? "border-sand/40 bg-sand/[0.06]"
                       : "border-white/10 bg-surface hover:bg-raised"
                   )}
                 >
@@ -141,7 +141,7 @@ export function ReportDialog({
                     value={item.value}
                     checked={reason === item.value}
                     onChange={() => setReason(item.value)}
-                    className="size-4 shrink-0 accent-[#d1fe17] focus-visible:outline-none"
+                    className="size-4 shrink-0 accent-[#d8b26e] focus-visible:outline-none"
                   />
                   <span className="flex flex-col">
                     <span className="text-sm font-medium">{item.label}</span>
@@ -167,7 +167,7 @@ export function ReportDialog({
                 rows={3}
                 maxLength={500}
                 placeholder="Anything that helps us review it"
-                className="resize-none rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-lime/60 focus:outline-none"
+                className="resize-none rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
               />
               <span className="self-end text-[11px] text-muted-foreground tabular-nums">
                 {details.length}/500
@@ -189,7 +189,7 @@ export function ReportDialog({
               <button
                 type="submit"
                 disabled={pending}
-                className="flex h-10 items-center gap-2 rounded-[10px] bg-white px-4 text-sm font-semibold text-[#131517] hover:bg-white/90 disabled:opacity-60"
+                className="flex h-10 items-center gap-2 rounded-[10px] bg-white px-4 text-sm font-semibold text-[#17130b] hover:bg-white/90 disabled:opacity-60"
               >
                 {pending ? (
                   <Loader2 className="size-4 animate-spin" aria-hidden />

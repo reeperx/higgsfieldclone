@@ -15,7 +15,7 @@ export default function CheckEmailPage() {
     <div className="mx-auto flex w-full max-w-[560px] px-4 py-12 md:py-20">
       <div className="relative isolate flex w-full flex-col items-center gap-5 overflow-hidden rounded-3xl border border-hairline bg-panel px-6 py-12 text-center md:px-12">
         <Atmosphere glow="top" className="-z-10" />
-        <span className="flex size-14 items-center justify-center rounded-2xl bg-lime/10 text-lime ring-1 ring-lime/20">
+        <span className="flex size-14 items-center justify-center rounded-2xl bg-sand/10 text-sand ring-1 ring-sand/20">
           <MailCheck className="size-7" aria-hidden />
         </span>
         <div className="flex flex-col gap-2">
