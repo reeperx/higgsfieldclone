@@ -14,7 +14,7 @@ export function NotFoundContent({ logo = false }: { logo?: boolean }) {
         {logo ? <Logo className="mb-2" /> : null}
         <p
           aria-hidden
-          className="font-display text-[120px] leading-none text-sand md:text-[180px]"
+          className="font-display text-[120px] leading-none text-forest-soft md:text-[180px]"
         >
           404
         </p>
@@ -34,7 +34,7 @@ export function NotFoundContent({ logo = false }: { logo?: boolean }) {
           </Link>
           <Link
             href="/effects"
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-white/15 px-6 text-base font-medium transition-colors hover:bg-white/5"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-surface px-6 text-base font-medium transition-colors hover:bg-raised"
           >
             Browse effects
           </Link>

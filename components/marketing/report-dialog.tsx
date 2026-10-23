@@ -182,14 +182,14 @@ export function ReportDialog({
               <button
                 type="button"
                 onClick={() => close(false)}
-                className="h-10 rounded-[10px] bg-white/5 px-4 text-sm font-medium hover:bg-white/10"
+                className="h-10 rounded-full border border-white/10 bg-surface px-4 text-sm font-medium hover:bg-raised"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={pending}
-                className="flex h-10 items-center gap-2 rounded-[10px] bg-white px-4 text-sm font-semibold text-[#17130b] hover:bg-white/90 disabled:opacity-60"
+                className="btn-keycap flex h-10 items-center gap-2 rounded-[10px] px-4 text-sm font-semibold disabled:opacity-60"
               >
                 {pending ? (
                   <Loader2 className="size-4 animate-spin" aria-hidden />
@@ -229,7 +229,7 @@ export function ReportButton({
           setOpen(true)
         }}
         className={cn(
-          "inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-5 text-base font-medium hover:bg-white/10",
+          "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/10 bg-surface px-5 text-base font-medium hover:bg-raised",
           className
         )}
       >

@@ -25,7 +25,7 @@ export function LedgerTable({
       </p>
     )
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/5">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-panel">
       <table className="w-full text-sm">
         <thead className="bg-surface text-left text-xs text-muted-foreground">
           <tr>
@@ -54,7 +54,7 @@ export function LedgerTable({
         </thead>
         <tbody>
           {items.map((entry) => (
-            <tr key={entry.id} className="border-t border-white/5">
+            <tr key={entry.id} className="border-t border-white/10">
               <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
                 {new Date(entry.createdAt).toLocaleString(undefined, {
                   dateStyle: "medium",
@@ -98,7 +98,7 @@ export function LedgerTable({
             setItems((current) => [...current, ...result.data.items])
             setCursor(result.data.nextCursor)
           }}
-          className="flex w-full items-center justify-center gap-2 border-t border-white/5 py-3 text-sm text-muted-foreground hover:text-foreground"
+          className="flex w-full items-center justify-center gap-2 border-t border-white/10 py-3 text-sm text-muted-foreground hover:text-foreground"
         >
           {loading ? <Loader2 className="size-4 animate-spin" /> : null} Load
           more

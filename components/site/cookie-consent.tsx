@@ -187,7 +187,7 @@ function Toggle({
         aria-label={label}
         disabled={disabled}
         onClick={() => onChange?.(!checked)}
-        className={`relative h-5 w-9 shrink-0 rounded-full transition-colors disabled:opacity-60 ${checked ? "bg-sand" : "bg-[#3a352d]"}`}
+        className={`relative h-5 w-9 shrink-0 rounded-full transition-colors disabled:opacity-60 ${checked ? "bg-sand" : "bg-[#465647]"}`}
       >
         <span
           className={`absolute top-0.5 left-0.5 size-4 rounded-full bg-white transition-transform ${checked ? "translate-x-4" : ""}`}

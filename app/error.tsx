@@ -31,7 +31,7 @@ export default function ErrorBoundary({
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage:
-            "radial-gradient(60% 50% at 50% 50%, rgba(216,178,110,0.12) 0%, transparent 70%)",
+            "radial-gradient(60% 50% at 50% 50%, rgba(185,76,50,0.09) 0%, transparent 70%)",
         }}
       />
       <div className="flex max-w-[520px] flex-col items-center gap-5 text-center">
@@ -40,7 +40,7 @@ export default function ErrorBoundary({
         </Link>
         <p
           aria-hidden
-          className="font-display text-[96px] leading-none text-sand md:text-[140px]"
+          className="font-display text-[96px] leading-none text-forest-soft md:text-[140px]"
         >
           500
         </p>
@@ -52,7 +52,7 @@ export default function ErrorBoundary({
           safe. Try again, or head back home.
         </p>
         {error.digest ? (
-          <p className="font-mono text-xs text-white/30">
+          <p className="font-mono text-xs text-muted-foreground">
             Reference: {error.digest}
           </p>
         ) : null}
@@ -66,7 +66,7 @@ export default function ErrorBoundary({
           </button>
           <Link
             href="/"
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-white/15 px-6 text-base font-medium transition-colors hover:bg-white/5"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-surface px-6 text-base font-medium transition-colors hover:bg-raised"
           >
             Go home
           </Link>

@@ -45,9 +45,9 @@ beforeEach(async () => {
 
 const image = (overrides: Record<string, unknown> = {}) => ({
   submitKey: randomUUID(),
-  modelId: "soul-2",
+  modelId: "qwen-image-3",
   prompt: "Editorial portrait in soft daylight",
-  settings: { batchSize: "1", resolution: "720p" },
+  settings: { resolution: "1k" },
   media: [],
   ...overrides,
 })
@@ -62,15 +62,15 @@ describe("submit", () => {
     const user = await createUser({ subscription: 100, topup: 100 })
     const view = await submitGeneration(user, image())
     expect(view.status).toBe("queued")
-    expect(view.cost).toBe(18) // $0.09 × 2 / $0.01
-    expect(fake.submits[0]!.path).toBe("higgsfield-ai/soul/v2/standard")
+    expect(view.cost).toBe(6) // $0.03 × 2 / $0.01
+    expect(fake.submits[0]!.path).toBe("alibaba/qwen-image-3/text-to-image")
     expect(fake.submits[0]!.body).toMatchObject({
       prompt: "Editorial portrait in soft daylight",
-      batch_size: 1,
+      resolution: "1k",
     })
     expect(fake.submits[0]!.webhook).toContain("/api/webhooks/higgsfield?gid=")
     expect(await balanceOf(user.objectId)).toEqual({
-      subscription: 82,
+      subscription: 94,
       topup: 100,
     })
     expect(await ledgerRows(view.id)).toHaveLength(1)
@@ -83,8 +83,8 @@ describe("submit", () => {
       cost: 1,
       path: "some/other/model",
     } as never)
-    expect(view.cost).toBe(18)
-    expect(fake.submits[0]!.path).toBe("higgsfield-ai/soul/v2/standard")
+    expect(view.cost).toBe(6)
+    expect(fake.submits[0]!.path).toBe("alibaba/qwen-image-3/text-to-image")
   })
 
   it("rejects unknown models and invalid settings before charging", async () => {
@@ -93,8 +93,8 @@ describe("submit", () => {
       submitGeneration(user, image({ modelId: "flux-2" }))
     ).rejects.toThrow(/Unknown model/)
     await expect(
-      submitGeneration(user, image({ settings: { batchSize: "7" } }))
-    ).rejects.toThrow(/Invalid batchSize/)
+      submitGeneration(user, image({ settings: { resolution: "4k" } }))
+    ).rejects.toThrow(/Invalid resolution/)
     expect(await balanceOf(user.objectId)).toEqual({
       subscription: 0,
       topup: 100,
@@ -123,12 +123,12 @@ describe("submit", () => {
     expect(a.id).toBe(b.id)
     expect(await balanceOf(user.objectId)).toEqual({
       subscription: 0,
-      topup: 82,
+      topup: 94,
     })
   })
 
   it("lets exactly one of two simultaneous submits through when credits cover one", async () => {
-    const user = await createUser({ topup: 20 })
+    const user = await createUser({ topup: 6 })
     const results = await Promise.allSettled([
       submitGeneration(user, image()),
       submitGeneration(user, image()),
@@ -137,7 +137,7 @@ describe("submit", () => {
     expect(results.filter((r) => r.status === "rejected")).toHaveLength(1)
     expect(await balanceOf(user.objectId)).toEqual({
       subscription: 0,
-      topup: 2,
+      topup: 0,
     })
   })
 
@@ -168,7 +168,7 @@ describe("submit", () => {
     expect(view.status).toBe("pending_submit")
     expect(await balanceOf(user.objectId)).toEqual({
       subscription: 0,
-      topup: 82,
+      topup: 94,
     })
     const summary = await reconcile({ pendingSeconds: 0 })
     expect(summary.unconfirmed).toBe(1)
@@ -200,7 +200,7 @@ describe("finalize", () => {
     expect(await finalizeGeneration(doc!._id)).toBe("already_terminal")
     expect(await balanceOf(user.objectId)).toEqual({
       subscription: 0,
-      topup: 82,
+      topup: 94,
     })
   })
 
@@ -258,59 +258,6 @@ describe("finalize", () => {
     expect(summary.finalized).toBe(1)
     const [after] = await generationStatuses(user.objectId, [view.id])
     expect(after!.status).toBe("completed")
-  })
-
-  it("trues up a source-length charge once the real duration is known", async () => {
-    const user = await createUser({ topup: 5000 })
-    const { uploads } = await collections()
-    const upload = {
-      _id: new ObjectId(),
-      userId: user.objectId,
-      kind: "video" as const,
-      url: "https://cdn.hf.test/uploads/clip.mp4",
-      platformUrl: "https://cdn.hf.test/uploads/clip.mp4",
-      contentType: "video/mp4",
-      bytes: 100,
-      name: "clip.mp4",
-      createdAt: new Date(),
-    }
-    await uploads.insertOne(upload)
-    const packUpload = {
-      _id: new ObjectId(),
-      userId: user.objectId,
-      kind: "image" as const,
-      url: "https://cdn.hf.test/uploads/pack.png",
-      platformUrl: "https://cdn.hf.test/uploads/pack.png",
-      contentType: "image/png",
-      bytes: 100,
-      name: "pack.png",
-      createdAt: new Date(),
-    }
-    await uploads.insertOne(packUpload)
-    const view = await submitGeneration(user, {
-      submitKey: randomUUID(),
-      modelId: "genjutsu-swap",
-      prompt: "Swap the pack",
-      settings: {},
-      media: [
-        { id: "src", role: "source", kind: "video", url: upload.url },
-        { id: "ref", role: "reference", kind: "image", url: packUpload.url },
-      ],
-    })
-    // Provisional: 30 s (the documented max) × $0.681 × 2 / $0.01.
-    expect(view.cost).toBe(4086)
-    const { generations } = await collections()
-    const doc = await generations.findOne({ _id: new ObjectId(view.id) })
-    fake.complete(doc!.hfRequestId!, "video") // 6-second output
-    await finalizeGeneration(doc!._id)
-    const [after] = await generationStatuses(user.objectId, [view.id])
-    expect(after!.outputs[0]!.durationSec).toBe(6)
-    // Trued up to the real 6 s.
-    expect(after!.cost - after!.refunded).toBe(818)
-    expect(await balanceOf(user.objectId)).toEqual({
-      subscription: 0,
-      topup: 5000 - 818,
-    })
   })
 })
 
@@ -375,7 +322,7 @@ describe("ownership", () => {
       submitGeneration(
         b,
         image({
-          modelId: "grok-image-2",
+          modelId: "qwen-image-3",
           settings: {},
           media: [{ role: "reference", url: "https://cdn.hf.test/a.png" }],
         })
@@ -434,26 +381,28 @@ describe("pricing on the live platform", () => {
       process.env.HF_API_BASE_URL = "https://api.higgsfield.ai"
       resetEnvForTests()
       const live = await pricingContext(true)
-      expect(live.credits["minimax/h3/text-to-video"]).toBeUndefined()
-      expect(live.placeholderPaths).toContain("minimax/h3/text-to-video")
-      expect(live.credits["bytedance/seedance-2.5/text-to-video"]).toBeDefined()
+      expect(live.credits["alibaba/qwen-image-3/text-to-image"]).toBeUndefined()
+      expect(live.placeholderPaths).toContain(
+        "alibaba/qwen-image-3/text-to-image"
+      )
+      expect(live.credits["alibaba/wan-3.0/text-to-video"]).toBeDefined()
 
       const { modelPricing } = await collections()
       await modelPricing.insertOne({
         _id: new ObjectId(),
-        modelId: "minimax-h3",
+        modelId: "qwen-image-3",
         enabled: true,
         rules: {
-          "minimax/h3/text-to-video": {
-            usd: 0.1,
-            per: "second",
+          "alibaba/qwen-image-3/text-to-image": {
+            usd: 0.03,
+            per: "request",
             source: "admin",
           },
         },
         updatedAt: new Date(),
       })
       const priced = await pricingContext(true)
-      expect(priced.credits["minimax/h3/text-to-video"]).toBeDefined()
+      expect(priced.credits["alibaba/qwen-image-3/text-to-image"]).toBeDefined()
     } finally {
       process.env.HF_API_BASE_URL = before
       resetEnvForTests()

@@ -3,10 +3,7 @@ import { cn } from "@/lib/utils"
 const DOTS_MASK =
   "radial-gradient(ellipse 70% 60% at 50% 40%, #000 0%, transparent 75%)"
 
-/**
- * The studio's backdrop: a soft sand radial glow plus a masked dot field
- * (same recipe as ScreenEmptyState). Purely decorative.
- */
+/** Soft paper grain and warm color wash for editorial section transitions. */
 export function Atmosphere({
   className,
   glow = "top",
@@ -24,15 +21,15 @@ export function Atmosphere({
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(60% 55% at ${at}, rgba(216,178,110,0.16) 0%, rgba(216,178,110,0.05) 45%, transparent 75%)`,
+          backgroundImage: `radial-gradient(60% 55% at ${at}, rgba(185,76,50,0.10) 0%, rgba(71,107,130,0.04) 45%, transparent 75%)`,
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
+            "radial-gradient(rgba(37,35,31,0.08) 0.7px, transparent 0.7px)",
+          backgroundSize: "18px 18px",
           maskImage: DOTS_MASK,
           WebkitMaskImage: DOTS_MASK,
         }}

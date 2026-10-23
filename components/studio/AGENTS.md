@@ -1,4 +1,4 @@
-# Studio components (from the Higgsfield app template)
+# Studio component guidance
 
 Import these; do not fork or hand-roll replacements. Missing a prop? Extend
 the component here, backward compatible.
@@ -18,6 +18,7 @@ the component here, backward compatible.
   **`GenerationDetailModal`** (lightbox) render one generation.
 - **`ScreenEmptyState`**, **`ProjectCreateModal` / `ProjectActions`**.
 
-Design invariants: dark only; lime `bg-primary`/`bg-lime` is reserved for the
-Generate CTA and active states; icons are `lucide-react`; every visible
-control works end to end.
+Design invariants: studio pages use the dark forest/ink commerce-control shell
+from `docs/ui-inventory.md`. Use forest for primary actions and sand only for
+Generate and active states. Keep labels sentence case. Icons are `lucide-react`;
+every visible control works end to end.

@@ -62,8 +62,10 @@ export class AmbiguousSubmitError extends Error {
 }
 
 export class PlatformNotConfiguredError extends Error {
-  constructor() {
-    super("HF_CREDENTIALS is not set, so generation is disabled.")
+  constructor(
+    message = "HF_CREDENTIALS is not set, so generation is disabled."
+  ) {
+    super(message)
     this.name = "PlatformNotConfiguredError"
   }
 }
@@ -250,6 +252,13 @@ let shared: HiggsfieldClient | undefined
 export function higgsfield(): HiggsfieldClient {
   if (shared) return shared
   const value = env()
+  const hostname = new URL(value.HF_API_BASE_URL).hostname
+  const isHiggsfield =
+    hostname === "higgsfield.ai" || hostname.endsWith(".higgsfield.ai")
+  if (isHiggsfield && !value.HF_SAAS_APPROVAL_REFERENCE)
+    throw new PlatformNotConfiguredError(
+      "Live generation is disabled until written authorization for this SaaS use is recorded."
+    )
   if (!value.HF_CREDENTIALS) throw new PlatformNotConfiguredError()
   shared = createHiggsfieldClient({
     credentials: value.HF_CREDENTIALS,

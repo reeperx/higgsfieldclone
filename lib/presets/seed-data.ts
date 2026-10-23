@@ -41,10 +41,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Clean seamless-backdrop packshots with a crisp specular highlight.",
     surface: "image",
-    modelId: "marketing-image-flare",
+    modelId: "qwen-image-3",
     promptTemplate:
       "{subject}, premium studio product photograph on a seamless pastel backdrop, soft box lighting, crisp specular highlight, subtle floor shadow, commercial catalog quality",
-    settings: { aspectRatio: "1:1" },
+    settings: { aspectRatio: "1:1", resolution: "1k" },
     category: "Product",
     order: 1,
   },
@@ -54,10 +54,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Bring your reference into an AI model's hands: lifestyle product-in-use shots.",
     surface: "image",
-    modelId: "soul",
+    modelId: "qwen-image-3",
     promptTemplate:
       "An AI model holding and using {subject}, casual lifestyle setting, natural window light, authentic in-use moment, editorial product photography",
-    settings: { aspectRatio: "3:4", resolution: "1080p" },
+    settings: { aspectRatio: "3:4", resolution: "1k" },
     category: "Portrait",
     order: 2,
   },
@@ -67,10 +67,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Products hovering mid-air in soft light with gentle drifting motion.",
     surface: "video",
-    modelId: "kling-3-pro",
+    modelId: "wan-3",
     promptTemplate:
       "{subject}, product levitating in mid-air, slow gentle rotation, soft studio light, subtle particles drifting, premium commercial look",
-    settings: { aspectRatio: "9:16", duration: 5 },
+    settings: { aspectRatio: "9:16", duration: 5, resolution: "720p" },
     category: "Product",
     order: 3,
   },
@@ -80,10 +80,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "A slow cinematic orbit around your product, reveal-style, from references or frames.",
     surface: "video",
-    modelId: "minimax-h3",
+    modelId: "wan-3",
     promptTemplate:
       "{subject}, camera slowly orbiting around the product, dramatic reveal, depth of field shifting, polished commercial lighting, premium ad",
-    settings: { duration: 5 },
+    settings: { duration: 5, resolution: "720p" },
     category: "Cinematic",
     order: 4,
   },
@@ -93,10 +93,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "High-fashion model frames for apparel and accessories — bold styling, hard flash.",
     surface: "image",
-    modelId: "soul-2",
+    modelId: "qwen-image-3",
     promptTemplate:
       "{subject} worn by a model, high fashion editorial photograph, bold avant-garde styling, direct hard flash, glossy magazine look, strong pose",
-    settings: { aspectRatio: "3:4", resolution: "1080p" },
+    settings: { aspectRatio: "3:4", resolution: "1k" },
     category: "Portrait",
     order: 5,
   },
@@ -106,10 +106,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Warm, low-sun lifestyle scenes with soft rim light and creamy background blur.",
     surface: "image",
-    modelId: "soul-2",
+    modelId: "qwen-image-3",
     promptTemplate:
       "Lifestyle shot featuring {subject} in use, golden hour warm low sun, soft rim light, shallow depth of field, creamy bokeh, natural skin texture",
-    settings: { aspectRatio: "3:4", resolution: "1080p" },
+    settings: { aspectRatio: "3:4", resolution: "1k" },
     category: "Portrait",
     order: 6,
   },
@@ -119,10 +119,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "The vertigo push-pull on your product: it holds still while the world stretches behind.",
     surface: "video",
-    modelId: "seedance-2.5",
+    modelId: "wan-3",
     promptTemplate:
       "{subject}, dramatic dolly zoom, camera pushes in while the background stretches away, product stays centered and still, tense cinematic mood",
-    settings: { aspectRatio: "16:9", duration: 5 },
+    settings: { aspectRatio: "16:9", duration: 5, resolution: "720p" },
     category: "Motion",
     order: 7,
   },
@@ -132,10 +132,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Frozen action while the camera sweeps around your product — ingredients suspended mid-air.",
     surface: "video",
-    modelId: "seedance-2.5",
+    modelId: "wan-3",
     promptTemplate:
       "{subject}, bullet time effect, product frozen mid-motion with ingredients suspended in the air around it, camera sweeps 180 degrees, high contrast",
-    settings: { aspectRatio: "16:9", duration: 5 },
+    settings: { aspectRatio: "16:9", duration: 5, resolution: "720p" },
     category: "Motion",
     order: 8,
   },
@@ -145,10 +145,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Moody product hero shots under practical neon light, anamorphic flare.",
     surface: "image",
-    modelId: "grok-image-2",
+    modelId: "qwen-image-3",
     promptTemplate:
       "{subject}, moody product photograph under magenta and cyan neon signage, wet reflective surface, volumetric haze, anamorphic lens flare, cinematic night",
-    settings: { aspectRatio: "16:9" },
+    settings: { aspectRatio: "16:9", resolution: "1k" },
     category: "Cinematic",
     order: 9,
   },
@@ -158,10 +158,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Sweeping dunes and heat shimmer around your product, 70mm hero framing.",
     surface: "image",
-    modelId: "marketing-image-sunburst",
+    modelId: "qwen-image-3",
     promptTemplate:
       "{subject}, epic outdoor product hero shot amid towering desert dunes, heat shimmer, low golden light, vast sky, warm cinematic color grade, 70mm",
-    settings: { aspectRatio: "16:9" },
+    settings: { aspectRatio: "16:9", resolution: "1k" },
     category: "Cinematic",
     order: 10,
   },
@@ -171,10 +171,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Hand-made plasticine characters with visible fingerprints and warm set lighting.",
     surface: "image",
-    modelId: "grok-image-2",
+    modelId: "qwen-image-3",
     promptTemplate:
       "{subject}, claymation style, handmade plasticine figures with visible fingerprints, stop-motion set, warm practical lighting, playful",
-    settings: { aspectRatio: "4:3" },
+    settings: { aspectRatio: "4:3", resolution: "1k" },
     category: "Stylized",
     order: 11,
   },
@@ -184,10 +184,10 @@ export const PRESET_SEED: PresetSeed[] = [
     description:
       "Late-80s cel animation ad frame with bold signage text — built for social.",
     surface: "image",
-    modelId: "ideogram-4",
+    modelId: "qwen-image-3",
     promptTemplate:
       "{subject}, 1980s cel-shaded anime advertisement, hand-painted background sky, bold signage lettering with the product name, film grain, VHS color bleed",
-    settings: { aspectRatio: "16:9" },
+    settings: { aspectRatio: "16:9", resolution: "1k" },
     category: "Stylized",
     order: 12,
   },

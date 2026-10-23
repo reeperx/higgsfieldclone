@@ -8,6 +8,7 @@ import { useApp, useToast } from "@/components/providers/app-providers"
 import { zar } from "@/lib/billing/money"
 import {
   annualSavingsPercent,
+  annualTotalPrice,
   PAID_PLANS,
   PLANS,
   TOPUPS,
@@ -76,7 +77,7 @@ export function IntervalToggle({
         onClick={() => onChange(value === "year" ? "month" : "year")}
         className={cn(
           "relative h-5 w-9 rounded-full transition-colors",
-          value === "year" ? "bg-sand" : "bg-[#3a352d]"
+          value === "year" ? "bg-sand" : "bg-[#465647]"
         )}
       >
         <span
@@ -94,16 +95,16 @@ export function IntervalToggle({
         Annual
       </span>
       <span className="font-display rounded bg-pink-strong px-1.5 py-0.5 text-[11px] text-white italic">
-        20% OFF
+        20% off
       </span>
     </div>
   )
 }
 
 const TONE: Record<string, string> = {
-  starter: "from-white/[0.06] to-transparent",
-  plus: "from-sand/[0.14] to-transparent",
-  ultra: "from-pink/[0.16] to-transparent",
+  starter: "from-[#4267d5]/[0.08] to-transparent",
+  plus: "from-forest-soft/[0.12] to-transparent",
+  ultra: "from-pink/[0.1] to-transparent",
 }
 
 function price(plan: Plan, interval: BillingInterval): string {
@@ -131,24 +132,24 @@ export function PlanCard({
   return (
     <div
       className={cn(
-        "relative flex flex-col gap-5 overflow-hidden rounded-[20px] border border-white/10 bg-gradient-to-b p-6",
+        "relative flex flex-col gap-5 overflow-hidden rounded-[24px] border border-white/10 bg-panel bg-gradient-to-b p-6",
         TONE[plan.id] ?? "from-white/[0.03] to-transparent",
-        plan.badge === "MOST POPULAR" && "border-sand/40"
+        plan.badge === "Most popular" && "border-forest-soft/40"
       )}
     >
       <div className="flex flex-wrap items-center gap-2">
         <h3 className="font-display text-2xl">{plan.name}</h3>
         {interval === "year" && savings ? (
           <span className="font-display rounded bg-pink-strong px-1.5 py-0.5 text-[11px] text-white italic">
-            {savings}% OFF
+            {savings}% off
           </span>
         ) : null}
         {plan.badge ? (
           <span
             className={cn(
               "font-display rounded px-1.5 py-0.5 text-[11px] italic",
-              plan.badge === "MOST POPULAR"
-                ? "bg-sand text-[#17130b]"
+              plan.badge === "Most popular"
+                ? "bg-forest-soft/15 text-forest-soft"
                 : "bg-[#33475a] text-white"
             )}
           >
@@ -157,9 +158,9 @@ export function PlanCard({
         ) : null}
       </div>
       <p className="-mt-3 text-sm text-muted-foreground">{plan.tagline}</p>
-      <div className="rounded-xl bg-black/20 p-4">
+      <div className="rounded-2xl bg-surface p-4">
         <p className="flex items-center gap-1.5 text-[15px] font-semibold">
-          <Sparkle className="size-4 fill-sand text-sand" />{" "}
+          <Sparkle className="size-4 fill-forest-soft text-forest-soft" />{" "}
           {plan.monthlyCredits.toLocaleString("en-US")} credits/mo.
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
@@ -182,7 +183,9 @@ export function PlanCard({
         </p>
         <p className="text-sm text-muted-foreground">
           per month
-          {interval === "year" ? ", billed annually" : ", billed monthly"}
+          {interval === "year"
+            ? ` · ${zar(annualTotalPrice(plan))} billed annually`
+            : ", billed monthly"}
         </p>
       </div>
       <button
@@ -194,8 +197,8 @@ export function PlanCard({
           plan.id === "plus"
             ? "btn-keycap"
             : plan.id === "ultra"
-              ? "bg-gradient-to-b from-[#5e4a26] to-[#46371b] text-[#f5efe3] shadow-[inset_0_-3px_0_rgba(0,0,0,0.3)]"
-              : "btn-keycap-white"
+              ? "bg-[#33475a] text-white hover:bg-[#3d566b]"
+              : "btn-keycap-secondary"
         )}
       >
         {pending ? <Loader2 className="size-4 animate-spin" /> : null}
@@ -203,8 +206,7 @@ export function PlanCard({
       </button>
       {interval === "year" ? (
         <p className="-mt-3 text-center text-xs text-muted-foreground">
-          Save {zar(Math.round((plan.priceMonthly - plan.priceAnnualPerMonth) * 12))}{" "}
-          a year vs monthly
+          Save {zar(plan.priceMonthly * 12 - annualTotalPrice(plan))} a year
         </p>
       ) : null}
       {!compact ? (
@@ -218,13 +220,13 @@ export function PlanCard({
               )}
             >
               {feature.included ? (
-                <Check className="mt-0.5 size-4 shrink-0 text-sand" />
+                <Check className="mt-0.5 size-4 shrink-0 text-forest-soft" />
               ) : (
                 <X className="mt-0.5 size-4 shrink-0" />
               )}
               <span>{feature.label}</span>
               {feature.tag ? (
-                <span className="font-display rounded bg-sand/15 px-1.5 py-0.5 text-[10px] text-sand italic">
+                <span className="font-display rounded bg-forest-soft/15 px-1.5 py-0.5 text-[10px] text-forest-soft italic">
                   {feature.tag}
                 </span>
               ) : null}
@@ -283,11 +285,11 @@ export function TopupGrid({ currentPlan }: { currentPlan?: string }) {
             type="button"
             disabled={pending === pack.id}
             onClick={() => void start({ kind: "topup", pack: pack.id })}
-            className="group flex flex-col items-start gap-2 rounded-2xl border border-white/10 bg-surface p-5 text-left transition-colors hover:border-sand/40 disabled:opacity-60"
+            className="group flex flex-col items-start gap-2 rounded-2xl border border-white/10 bg-surface p-5 text-left transition-colors hover:border-forest-soft/40 disabled:opacity-60"
           >
             <span className="font-display text-lg">{pack.name}</span>
             <span className="flex items-center gap-1.5 text-2xl font-bold">
-              <Sparkle className="size-5 fill-sand text-sand" />{" "}
+              <Sparkle className="size-5 fill-forest-soft text-forest-soft" />{" "}
               {credits.toLocaleString("en-US")}
             </span>
             <span className="text-sm text-muted-foreground">
@@ -295,12 +297,12 @@ export function TopupGrid({ currentPlan }: { currentPlan?: string }) {
               credits
             </span>
             {plan.topupMultiplier > 1 ? (
-              <span className="rounded bg-sand/15 px-1.5 py-0.5 text-xs text-sand">
+              <span className="rounded bg-forest-soft/15 px-1.5 py-0.5 text-xs text-forest-soft">
                 +{Math.round((plan.topupMultiplier - 1) * 100)}% {plan.name}{" "}
                 bonus
               </span>
             ) : null}
-            <span className="mt-1 flex items-center gap-1.5 text-sm font-medium text-sand">
+            <span className="mt-1 flex items-center gap-1.5 text-sm font-medium text-forest-soft">
               {pending === pack.id ? (
                 <Loader2 className="size-3.5 animate-spin" />
               ) : null}

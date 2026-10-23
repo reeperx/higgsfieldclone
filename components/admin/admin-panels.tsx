@@ -42,7 +42,7 @@ const input =
 
 function Table({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-white/5">
+    <div className="overflow-x-auto rounded-2xl border border-white/10 bg-panel">
       <table className="w-full min-w-[720px] text-sm">{children}</table>
     </div>
   )
@@ -107,7 +107,7 @@ export function AdminUsers({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id} className="border-t border-white/5">
+            <tr key={row.id} className="border-t border-white/10">
               <td className="px-3 py-2.5">
                 <span className="flex items-center gap-2">
                   {row.email}
@@ -368,7 +368,7 @@ export function AdminGenerations({
         </thead>
         <tbody>
           {page.items.map((row) => (
-            <tr key={row.id} className="border-t border-white/5 align-top">
+            <tr key={row.id} className="border-t border-white/10 align-top">
               <td className="px-3 py-2.5">
                 {row.thumb ? (
                   row.kind === "video" ? (
@@ -492,7 +492,7 @@ export function AdminModels({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id} className="border-t border-white/5 align-top">
+            <tr key={row.id} className="border-t border-white/10 align-top">
               <td className="px-3 py-2.5">
                 <div className="font-medium">{row.label}</div>
                 <div className="text-xs text-muted-foreground">
@@ -522,7 +522,7 @@ export function AdminModels({
                   }}
                   className={cn(
                     "relative h-5 w-9 rounded-full",
-                    row.enabled ? "bg-sand" : "bg-[#3a352d]"
+                    row.enabled ? "bg-sand" : "bg-[#465647]"
                   )}
                 >
                   <span

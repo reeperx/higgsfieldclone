@@ -45,7 +45,7 @@ export function LoginForm({
   if (sentTo)
     return (
       <div className="flex flex-col items-start gap-4" aria-live="polite">
-        <span className="flex size-12 items-center justify-center rounded-2xl bg-sand/10 text-sand">
+        <span className="flex size-12 items-center justify-center rounded-2xl bg-forest-soft/10 text-forest-soft">
           <MailCheck className="size-6" />
         </span>
         <h2 className="text-3xl font-semibold tracking-tight">
@@ -95,7 +95,7 @@ export function LoginForm({
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@example.com"
-          className="h-12 rounded-xl border border-white/10 bg-surface px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
+          className="h-12 rounded-xl border border-white/15 bg-surface px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-sand/60 focus:outline-none"
         />
       </label>
       {mode === "signup" ? (
@@ -144,7 +144,7 @@ export function LoginForm({
           {mode === "signup" ? "Already have an account? " : "New here? "}
           <button
             type="button"
-            className="font-medium text-sand hover:underline"
+            className="font-medium text-forest-soft hover:underline"
             onClick={() => {
               setError(null)
               onModeChange(mode === "signup" ? "login" : "signup")

@@ -53,6 +53,10 @@ export async function seedPresets(): Promise<number> {
   let inserted = 0
   for (const seed of PRESET_SEED) {
     const now = new Date()
+    if (!findModel(seed.modelId))
+      throw new Error(
+        `Preset ${seed.slug} refers to unknown model ${seed.modelId}`
+      )
     const result = await presets.updateOne(
       { slug: seed.slug },
       {
@@ -70,7 +74,27 @@ export async function seedPresets(): Promise<number> {
       },
       { upsert: true }
     )
-    if (result.upsertedCount) inserted++
+    if (result.upsertedCount) {
+      inserted++
+      continue
+    }
+    const existing = await presets.findOne(
+      { slug: seed.slug },
+      { projection: { modelId: 1 } }
+    )
+    if (existing && !findModel(existing.modelId)) {
+      await presets.updateOne(
+        { slug: seed.slug, modelId: existing.modelId },
+        {
+          $set: {
+            surface: seed.surface,
+            modelId: seed.modelId,
+            settings: seed.settings,
+            updatedAt: now,
+          },
+        }
+      )
+    }
   }
   return inserted
 }

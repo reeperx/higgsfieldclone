@@ -11,19 +11,19 @@ import {
 import type { ReactNode } from "react"
 
 export const EMAIL_COLORS = {
-  page: "#11100d",
-  card: "#1a1714",
-  border: "#322d25",
-  text: "#f7f4ec",
-  muted: "#99948a",
-  sand: "#d8b26e",
-  onSand: "#17130b",
+  page: "#F4F0E8",
+  card: "#FFFDF8",
+  border: "rgba(41,36,30,0.12)",
+  text: "#25231F",
+  muted: "#665F57",
+  terracotta: "#B94C32",
+  onTerracotta: "#FFFDF8",
 } as const
 
 const font =
   "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
 
-/** Shared dark frame for every Vendo email. */
+/** Shared paper-and-ink frame for every Vendo email. */
 export function EmailFrame({
   preview,
   brand,
@@ -59,12 +59,11 @@ export function EmailFrame({
           <Section>
             <Text
               style={{
-                color: EMAIL_COLORS.sand,
+                color: EMAIL_COLORS.terracotta,
                 fontSize: 22,
                 fontWeight: 700,
                 letterSpacing: "-0.04em",
                 margin: "0 0 28px",
-                textTransform: "uppercase",
               }}
             >
               ✦ {brand}
@@ -97,7 +96,6 @@ export const heading = {
   letterSpacing: "-0.04em",
   lineHeight: "32px",
   margin: "0 0 12px",
-  textTransform: "uppercase" as const,
 }
 
 export const paragraph = {
@@ -107,10 +105,10 @@ export const paragraph = {
   margin: "0 0 24px",
 }
 
-export const sandButton = {
-  backgroundColor: EMAIL_COLORS.sand,
+export const brandButton = {
+  backgroundColor: EMAIL_COLORS.terracotta,
   borderRadius: 12,
-  color: EMAIL_COLORS.onSand,
+  color: EMAIL_COLORS.onTerracotta,
   display: "block",
   fontSize: 16,
   fontWeight: 700,

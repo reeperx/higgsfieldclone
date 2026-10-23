@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import { ObjectId } from "mongodb"
 
 import { setupEnv, tinyMp4, tinyPng, tinyWav } from "./support/harness"
 
@@ -13,6 +14,12 @@ const { extractArtifacts } = await import("@/lib/higgsfield/client")
 const { parseUploadTicket, requireUploadContentType } =
   await import("@/generation/upload-contract")
 const { applyTemplate } = await import("@/lib/presets")
+const { annualTotalPrice, PLANS } = await import("@/lib/billing/plans")
+const {
+  generationDocumentSchema,
+  ledgerDocumentSchema,
+  projectDocumentSchema,
+} = await import("@/lib/db/schemas")
 
 describe("credit buckets", () => {
   it("spends subscription credits first, then top-ups", () => {
@@ -23,6 +30,86 @@ describe("credit buckets", () => {
     expect(splitDebit({ subscription: 100, topup: 0 }, 80)).toEqual({
       subscription: 80,
       topup: 0,
+    })
+  })
+
+  describe("annual plan pricing", () => {
+    it("uses whole-rand monthly equivalents and matching annual totals", () => {
+      expect([
+        annualTotalPrice(PLANS.starter),
+        annualTotalPrice(PLANS.plus),
+        annualTotalPrice(PLANS.ultra),
+      ]).toEqual([1908, 5268, 13428])
+    })
+  })
+
+  describe("MongoDB write contracts", () => {
+    const userId = new ObjectId()
+    const now = new Date()
+
+    it("accepts a valid generation and rejects invalid billing state", () => {
+      const generation = {
+        _id: new ObjectId(),
+        userId,
+        projectId: null,
+        submitKey: "d2719f5f-7ba2-4d22-a86c-a5ba47d19842",
+        surface: "image",
+        modelId: "qwen-image-3",
+        modelLabel: "Qwen Image 3",
+        modelPath: "alibaba/qwen-image-3/text-to-image",
+        requestBody: { prompt: "packshot" },
+        prompt: "packshot",
+        settings: {},
+        media: [],
+        status: "pending_submit",
+        cost: 12,
+        costSplit: { subscription: 12, topup: 0 },
+        refunded: 0,
+        priceUsd: 0.06,
+        billing: {
+          units: 1,
+          provisional: false,
+          creditsPerUnit: 12,
+        },
+        outputs: [],
+        aspect: 1,
+        isPublic: false,
+        createdAt: now,
+        updatedAt: now,
+        finalizeAttempts: 0,
+      }
+      expect(generationDocumentSchema.parse(generation)).toEqual(generation)
+      expect(
+        generationDocumentSchema.safeParse({
+          ...generation,
+          costSplit: { subscription: -1, topup: 0 },
+        }).success
+      ).toBe(false)
+    })
+
+    it("validates ledger and project inserts", () => {
+      expect(
+        ledgerDocumentSchema.safeParse({
+          _id: new ObjectId(),
+          userId,
+          delta: 20,
+          bucket: "topup",
+          reason: "signup_bonus",
+          refType: "user",
+          refId: userId.toHexString(),
+          balanceAfter: { subscription: 0, topup: 20 },
+          createdAt: now,
+        }).success
+      ).toBe(true)
+      expect(
+        projectDocumentSchema.safeParse({
+          _id: new ObjectId(),
+          userId,
+          name: "Spring drop",
+          createdAt: now,
+          updatedAt: now,
+        }).success
+      ).toBe(true)
     })
   })
 

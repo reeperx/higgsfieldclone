@@ -3,36 +3,34 @@ import Link from "next/link"
 import { BRAND } from "@/lib/brand"
 import { cn } from "@/lib/utils"
 
-/**
- * Vendo mark: a sand tile carrying a soft price-tag glyph and a four-point
- * sparkle — "products, priced, made intelligent". Drawn to stay legible down to
- * a 16 px favicon; glyph colour is the warm ink the wordmark is set in.
- */
+/** A parcel mark, drawn to stay legible down to the favicon size. */
 export function LogoMark({
   className,
   inverted = false,
 }: {
   className?: string
-  /** On sand surfaces: ink tile with sand glyph. */
+  /** On dark surfaces: ink tile with sand glyph. */
   inverted?: boolean
 }) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden className={cn("size-8", className)}>
-      <rect width="32" height="32" rx="9" fill={inverted ? "#17130B" : "#D8B26E"} />
-      <g transform="rotate(-12 14 17.5)">
-        <rect
-          x="6"
-          y="12"
-          width="15.5"
-          height="11.5"
-          rx="3.6"
-          fill={inverted ? "#D8B26E" : "#17130B"}
-        />
-        <circle cx="10" cy="15.1" r="1.5" fill={inverted ? "#17130B" : "#D8B26E"} />
-      </g>
+      <rect
+        width="32"
+        height="32"
+        rx="9"
+        fill={inverted ? "#17231D" : "#24543F"}
+      />
       <path
-        d="M24.2 4l1.15 3.05L28.4 8.2l-3.05 1.15L24.2 12.4l-1.15-3.05L20 8.2l3.05-1.15L24.2 4z"
-        fill={inverted ? "#D8B26E" : "#17130B"}
+        d="m7.5 11.5 8.5-4.5 8.5 4.5v9L16 25l-8.5-4.5z"
+        fill="none"
+        stroke={inverted ? "#D8B26E" : "#F2F4EC"}
+        strokeWidth="2"
+      />
+      <path
+        d="m8 12 8 4.5 8-4.5M16 17v7"
+        stroke="#F2F4EC"
+        strokeLinecap="round"
+        strokeWidth="2"
       />
     </svg>
   )
@@ -52,7 +50,7 @@ export function Logo({
       className={cn("flex shrink-0 items-center gap-2", className)}
     >
       <LogoMark className={compact ? "size-6" : "size-8"} />
-      {/* Calm lowercase wordmark — the display face's uppercase plays no part here. */}
+      {/* Keep the lowercase wordmark distinct from the editorial display face. */}
       <span
         className={cn(
           "font-heading font-bold tracking-[-0.03em] text-foreground",

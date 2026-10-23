@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils"
 
 const TONES = {
   pink: "bg-pink-strong text-white",
-  sand: "bg-sand text-[#17130b]",
-  blue: "bg-gradient-to-r from-[#6f93b8] via-[#5d81a6] to-[#4b6e93] text-white",
+  sand: "bg-sand text-[#17231d]",
+  blue: "bg-[#476B82] text-white",
   muted: "bg-white/10 text-white",
 } as const
 
-/** Space Grotesk italic micro-badge: NEW, BEST VALUE, % OFF. */
+/** Small italic badges for new items, value notes, and savings. */
 export function ItalicBadge({
   tone,
   children,

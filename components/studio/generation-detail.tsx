@@ -86,7 +86,7 @@ export function GenerationDetailModal({
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Trigger render={trigger} />
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-[#161310] duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/60 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Popup className="fixed inset-0 z-50 flex flex-col duration-150 outline-none md:flex-row data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0">
           <DialogPrimitive.Title className="sr-only">
             Generation
@@ -184,7 +184,7 @@ export function GenerationDetailModal({
                 {generation.prompt ? (
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium tracking-wide text-[#828282] uppercase">
+                      <span className="text-xs font-medium tracking-wide text-white/70">
                         Prompt
                       </span>
                       <button
@@ -228,13 +228,13 @@ export function GenerationDetailModal({
                 ) : null}
                 {detailRows.length > 0 ? (
                   <div className="flex flex-col gap-1.5">
-                    <span className="text-xs font-medium tracking-wide text-[#828282] uppercase">
+                    <span className="text-xs font-medium tracking-wide text-white/70">
                       Details
                     </span>
                     <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
                       {detailRows.map((row) => (
                         <div key={row.id} className="contents">
-                          <dt className="text-[#828282]">{row.label}</dt>
+                          <dt className="text-white/70">{row.label}</dt>
                           <dd className="truncate text-right tabular-nums">
                             {row.value}
                           </dd>

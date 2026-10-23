@@ -77,7 +77,7 @@ export default async function LoginErrorPage({
           </Link>
           <Link
             href="/"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-white/5 px-5 text-sm font-medium transition-colors hover:bg-white/10"
+            className="inline-flex h-11 items-center justify-center rounded-full border border-white/10 bg-surface px-5 text-sm font-medium transition-colors hover:bg-raised"
           >
             Go home
           </Link>
@@ -91,7 +91,9 @@ export default async function LoginErrorPage({
             {BRAND.supportEmail}
           </a>
           {code ? (
-            <span className="block pt-1 text-white/30">Error code: {code}</span>
+            <span className="block pt-1 text-muted-foreground/70">
+              Error code: {code}
+            </span>
           ) : null}
         </p>
       </div>

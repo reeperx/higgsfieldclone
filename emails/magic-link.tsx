@@ -3,8 +3,8 @@ import { Button, Link, Text } from "@react-email/components"
 import {
   EMAIL_COLORS,
   EmailFrame,
+  brandButton,
   heading,
-  sandButton,
   paragraph,
 } from "./components"
 
@@ -45,7 +45,7 @@ export function MagicLinkEmail({
       <Text style={paragraph}>
         Tap the button to sign in. No password needed.
       </Text>
-      <Button href={url} style={sandButton}>
+      <Button href={url} style={brandButton}>
         Sign in to {brand}
       </Button>
       <Text style={{ ...paragraph, fontSize: 13, margin: "24px 0 8px" }}>
@@ -60,7 +60,7 @@ export function MagicLinkEmail({
           wordBreak: "break-all",
         }}
       >
-        <Link href={url} style={{ color: EMAIL_COLORS.sand }}>
+        <Link href={url} style={{ color: EMAIL_COLORS.terracotta }}>
           {url}
         </Link>
       </Text>

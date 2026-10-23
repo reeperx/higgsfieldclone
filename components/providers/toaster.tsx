@@ -63,7 +63,7 @@ export function Toaster() {
             <Icon
               className={cn(
                 "mt-0.5 size-4 shrink-0",
-                toast.tone === "success" && "text-sand",
+                toast.tone === "success" && "text-forest-soft",
                 toast.tone === "error" && "text-[#ff5c63]",
                 toast.tone === "info" && "text-muted-foreground"
               )}

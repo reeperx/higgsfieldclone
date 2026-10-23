@@ -2,6 +2,16 @@
 
 Operating Vendo in production. Everything below is idempotent unless noted.
 
+Do not enable production until the legal and provider-authorization blockers in
+[`legal-risk-register.md`](./legal-risk-register.md) are resolved. In
+particular, written permission for Vendo's customer-facing Higgsfield API use
+is required; public SDKs do not grant resale permission.
+
+For local UI review, use the commerce-workbench routes in
+`docs/ui-inventory.md`. A seeded `seller@vendo.test` login is available only
+with loopback MongoDB via `pnpm db:init --test-user=seller@vendo.test`; it is
+not a production account or a sign-in bypass.
+
 ## Health at a glance
 
 | Signal | Where | Healthy |
@@ -23,6 +33,16 @@ Operating Vendo in production. Everything below is idempotent unless noted.
   didn't land.
 * The webhook never trusts its payload — it re-fetches
   `GET /requests/{id}/status`.
+
+## Arcjet request protection
+
+`ARCJET_KEY` is required in production. `proxy.ts` applies IP-based fixed
+windows: 10 `/api/auth/*` requests per 10 minutes, 120 API reads per minute,
+and 60 API writes/server actions per minute. Webhooks, cron, and test hooks are
+excluded and retain their own authentication/signature checks. MongoDB
+per-user limits continue to apply on generation and upload paths. Locally,
+Arcjet can be omitted; a single warning is logged and the Arcjet layer is
+skipped. Denials return 429; Arcjet decision errors fail closed with 503.
 
 ### A run is stuck
 
@@ -59,16 +79,14 @@ and delivered free.
   the duration curve. Commit and deploy. Endpoints that fetch their inputs
   need reachable sample media: `PROBE_IMAGE=https://… PROBE_VIDEO=https://…
   pnpm pricing:sync` (any public image and ~5 s MP4).
-* Token-metered endpoints (Genjutsu Object Swap, Cinema Studio 4, Wan 3.0,
-  MiniMax H3 references, Marketing Flare/Sunburst) answer the estimate with a
-  pricing *description*; the sync prints it. Their rules are hand-derived in
-  `lib/billing/pricing-table.ts` (`source: "description"`, text quoted next to
-  each rule) — re-check them when the sync shows a changed description.
-* **Unverified** (placeholder) prices are never sold against the live API: the
-  Generate button says the option isn't available yet. As of 2026-10 that is
-  Marketing Flare / Sunburst plus every rule marked `source: "placeholder"` in
-  `lib/billing/pricing-table.ts`. Look the cost up in the Higgsfield console
-  and set it in Admin → Models & pricing → ✎.
+* Wan 3.0 returns a pricing *description*; the sync prints it. Its rules are
+  hand-derived in `lib/billing/pricing-table.ts` (`source: "description"`,
+  source text quoted next to the rules) — re-check them when the sync shows a
+  changed description.
+* **Unverified** (placeholder) prices are never sold against the live API:
+  every rule marked `source: "placeholder"` in
+  `lib/billing/pricing-table.ts` is unavailable until priced in Admin →
+  Models & pricing → ✎.
 * Per-endpoint overrides: Admin → Models & pricing → ✎. Takes effect within 30 s.
 * The price guard blocks a submit only when the live cost is > 25 % above our
   basis (and flags the model at > 1 %).
@@ -133,6 +151,9 @@ and delivered free.
   the period ends (`customer.subscription.deleted` zeroes the plan bucket
   once, ordered by `planStatusAt`).
 * Annual plans get monthly grants from the reconciler (`nextGrantAt`).
+* Current annual product totals are Starter **R1,908**, Plus **R5,268**, and
+  Ultra **R13,428** (monthly equivalents R159 / R439 / R1,119). Bachs must use
+  those exact annual totals before checkout is enabled.
 
 ## Moderation
 
@@ -161,6 +182,11 @@ item from Community and blocks re-publishing; **Dismiss** closes the reports.
 ## Launch checklist
 
 - [ ] Every `(required)` variable in `.env.example` set in Production.
+- [ ] Written Higgsfield authorization explicitly covers Vendo's paid,
+      customer-facing SaaS use; set `HF_SAAS_APPROVAL_REFERENCE` to its actual
+      reference. Without it production fails environment validation and live
+      API calls are blocked.
+- [ ] `ARCJET_KEY` set and Arcjet decisions verified in the production project.
 - [ ] `pnpm db:init` against the production database.
 - [ ] `pnpm pricing:sync` with the live key; no placeholder prices in admin.
 - [ ] Final plan prices and credit allowances in `lib/billing/plans.ts`; 6
@@ -173,6 +199,10 @@ item from Community and blocks re-publishing; **Dismiss** closes the reports.
       grant and clawback both fire once).
 - [ ] Resend domain verified; a real magic link arrives.
 - [ ] R2 CORS allows GET from the site origin.
-- [ ] Legal pages replaced (`/legal/*`).
-- [ ] `higgsfield-ai/app-templates` licence re-checked.
+- [ ] South African counsel approves the legal pages and closes the
+      operator-identity, POPIA, CPA/ECTA, data-retention, provider-rights, and
+      community-publication items in `legal-risk-register.md`.
+- [ ] License/permission for adapted `higgsfield-ai/app-templates` code is
+      resolved or affected code is replaced; all public media and dependency
+      licenses are inventoried.
 - [ ] `pnpm test:e2e` green against the preview deploy (`E2E_TEST_MODE` on the preview only).

@@ -21,7 +21,7 @@ export function UpgradeModal() {
       onOpenChange={(open) => !open && closeUpgrade()}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/80 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Popup className="fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-[min(1100px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 overflow-y-auto rounded-3xl border border-hairline bg-panel p-6 duration-200 outline-none md:p-8 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95">
           <div className="flex items-start justify-between gap-4">
             <div>

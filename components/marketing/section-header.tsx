@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-/** Lime uppercase section title, grey one-liner and an optional right action (§3 pattern). */
+/** Editorial section title, supporting copy, and an optional right action. */
 export function SectionHeader({
   id,
   title,
@@ -28,7 +28,7 @@ export function SectionHeader({
       <div className="flex min-w-0 flex-col gap-1.5">
         <h2
           id={id}
-          className="font-display text-2xl leading-8 text-sand md:text-[28px] md:leading-9"
+          className="font-display text-3xl leading-9 text-foreground md:text-4xl md:leading-10"
         >
           {title}
         </h2>
@@ -52,7 +52,7 @@ export function ViewAllPill({
   return (
     <Link
       href={href}
-      className="inline-flex h-10 items-center gap-1.5 rounded-full border border-sand/10 bg-[#1f2603]/80 px-4 text-sm font-medium text-sand backdrop-blur-md transition-colors hover:bg-[#344006]/90"
+      className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 bg-surface px-4 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-raised"
     >
       {children} <ArrowUpRight className="size-4" aria-hidden />
     </Link>

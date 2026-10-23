@@ -16,14 +16,6 @@ import { PLACEHOLDER_PRICING, PRICING_TABLE } from "@/lib/billing/pricing-table"
 const config = { markup: 2, creditUsd: 0.01 }
 const table = toCreditTable(PRICING_TABLE, config)
 
-const source = (seconds?: number): MediaItem => ({
-  id: "s",
-  role: "source",
-  kind: "video",
-  url: "https://example.com/source.mp4",
-  ...(seconds ? { durationSec: seconds } : {}),
-})
-
 const refImage = (): MediaItem => ({
   id: "r",
   role: "reference",
@@ -39,119 +31,63 @@ describe("priceFor", () => {
     expect(roundCredits(20.0000000001)).toBe(20)
   })
 
-  it("scales video by duration and resolution", () => {
+  it("scales Wan video by duration and resolution", () => {
     const five = priceFor(
-      "seedance-2.5",
+      "wan-3",
       { duration: 5, resolution: "720p" },
       [],
       table
     )
     const ten = priceFor(
-      "seedance-2.5",
+      "wan-3",
       { duration: 10, resolution: "720p" },
       [],
       table
     )
     const low = priceFor(
-      "seedance-2.5",
+      "wan-3",
       { duration: 10, resolution: "480p" },
       [],
       table
     )
-    expect(five.path).toBe("bytedance/seedance-2.5/text-to-video")
-    // Twice the seconds, within one credit of rounding.
+    expect(five.path).toBe("alibaba/wan-3.0/text-to-video")
     expect(ten.units).toBe(five.units * 2)
     expect(Math.abs(ten.credits - five.credits * 2)).toBeLessThanOrEqual(1)
     expect(low.credits).toBeLessThan(ten.credits)
     expect(five.provisional).toBe(false)
   })
 
-  it("multiplies images by batch size", () => {
-    const one = priceFor("soul-2", { batchSize: "1" }, [], table)
-    const four = priceFor("soul-2", { batchSize: "4" }, [], table)
-    expect(four.credits).toBe(one.credits * 4)
+  it("prices Qwen product images by resolution", () => {
+    const low = priceFor("qwen-image-3", { resolution: "1k" }, [], table)
+    const high = priceFor("qwen-image-3", { resolution: "2k" }, [], table)
+    expect(low.path).toBe("alibaba/qwen-image-3/text-to-image")
+    expect(high.credits).toBeGreaterThan(low.credits)
   })
 
-  it("prices source-length endpoints from the probed source duration", () => {
-    const known = priceFor(
-      "genjutsu-swap",
-      {},
-      [source(8), refImage()],
-      table,
-      "swap it"
-    )
-    const unknown = priceFor(
-      "genjutsu-swap",
-      {},
-      [source(), refImage()],
-      table,
-      "swap it"
-    )
-    // Object swap bills the source video's own seconds (output follows it).
-    expect(known.units).toBe(8)
-    expect(known.provisional).toBe(false)
-    expect(unknown.units).toBe(30)
-    expect(unknown.provisional).toBe(true)
-    expect(unknown.unitScale).toBe(1)
-    expect(unknown.credits).toBeGreaterThan(known.credits)
-  })
-
-  it("bills reference videos as input seconds at the with-video rate", () => {
-    const video = (seconds?: number): MediaItem => ({
+  it("prices reference-led Wan videos through the reference workflow", () => {
+    const video: MediaItem = {
       id: "v",
       role: "video",
       kind: "video",
       url: "https://example.com/ref.mp4",
-      ...(seconds ? { durationSec: seconds } : {}),
-    })
-    const prompt = "a dancer"
-    const plain = priceFor("seedance-2.5", { duration: 5 }, [], table, prompt)
+      durationSec: 4,
+    }
     const withRef = priceFor(
-      "seedance-2.5",
-      { duration: 5 },
-      [video(4)],
+      "wan-3",
+      { duration: 5, resolution: "480p" },
+      [refImage(), video],
       table,
-      prompt
+      "a product film"
     )
-    const unknownRef = priceFor(
-      "seedance-2.5",
-      { duration: 5 },
-      [video()],
-      table,
-      prompt
-    )
-    expect(withRef.path).toBe("bytedance/seedance-2.5/reference-to-video")
-    expect(plain.units).toBe(5)
-    expect(withRef.units).toBeCloseTo((5 + 4) * 0.6)
-    // Unknown lengths are billed at the rule's maximum, never less.
-    expect(unknownRef.units).toBeCloseTo((5 + 30) * 0.6)
+    expect(withRef.path).toBe("alibaba/wan-3.0/reference-to-video")
+    expect(withRef.units).toBe(5)
   })
 
-  it("charges extra reference images beyond the included count", () => {
-    const refs = (count: number): MediaItem[] =>
-      Array.from({ length: count }, (_, i) => ({
-        id: `r${i}`,
-        role: "reference" as const,
-        kind: "image" as const,
-        url: `https://example.com/r${i}.png`,
-      }))
-    const five = priceFor("minimax-h3", { duration: 5 }, refs(5), table, "x")
-    const seven = priceFor("minimax-h3", { duration: 5 }, refs(7), table, "x")
-    expect(five.path).toBe("minimax/h3/reference-to-video")
-    expect(seven.credits - five.credits).toBe(creditsFromUsd(0.16, config))
-  })
-
-  it("returns null from tryPriceFor while inputs are incomplete", () => {
-    expect(tryPriceFor("genjutsu-swap", {}, [], table)).toBeNull()
-  })
-
-  it("rejects out-of-range settings instead of pricing them", () => {
-    expect(() => priceFor("seedance-2.5", { duration: 99 }, [], table)).toThrow(
+  it("returns null or rejects when settings cannot be priced", () => {
+    expect(tryPriceFor("wan-3", { duration: 99 }, [], table)).toBeNull()
+    expect(() => priceFor("wan-3", { duration: 5.5 }, [], table)).toThrow(
       /duration/
     )
-    expect(() =>
-      priceFor("seedance-2.5", { duration: 5.5 }, [], table)
-    ).toThrow(/duration/)
   })
 
   it("has a price for every catalog model", () => {

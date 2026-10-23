@@ -38,9 +38,9 @@ export default async function BillingPage({
       {checkout === "success" ? (
         <p
           role="status"
-          className="flex items-center gap-2 rounded-2xl border border-sand/30 bg-sand/10 p-4 text-sm"
+          className="flex items-center gap-2 rounded-2xl border border-forest-soft/30 bg-forest-soft/10 p-4 text-sm"
         >
-          <CheckCircle2 className="size-5 text-sand" />
+          <CheckCircle2 className="size-5 text-forest-soft" />
           Payment received. Credits appear as soon as Bachs confirms — usually
           within seconds.
         </p>
@@ -58,7 +58,8 @@ export default async function BillingPage({
                 }${account.planRenewsAt ? ` · renews ${new Date(account.planRenewsAt).toLocaleDateString()}` : ""}`}
           </p>
           <p className="mt-2 flex items-center gap-1.5 text-sm">
-            <Sparkle className="size-4 fill-sand text-sand" /> Balance{" "}
+            <Sparkle className="size-4 fill-forest-soft text-forest-soft" />{" "}
+            Balance{" "}
             <span className="font-mono tabular-nums">
               {account.total.toLocaleString("en-US")}
             </span>

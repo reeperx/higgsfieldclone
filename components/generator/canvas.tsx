@@ -17,36 +17,36 @@ import type { Generator } from "./use-generator"
 const HEADLINE: Record<Surface, Record<GeneratorTab, [string, string]>> = {
   video: {
     create: [
-      "Make videos in one click",
-      "Start from text, a first frame or a stack of references — then direct the camera.",
+      "Create a short product film",
+      "Start with a product image or a written brief, then shape the movement and finish.",
     ],
     edit: [
-      "Edit any video with words",
-      "Upload a clip, describe the change, keep the framing.",
+      "Refine a product clip",
+      "Bring in a source video, describe the change, and keep the product in focus.",
     ],
     motion: [
-      "Copy any motion",
-      "Give us a motion clip and a character image; we transfer every move.",
+      "Carry a movement into your campaign",
+      "Pair a product image with a motion reference to build a more directed clip.",
     ],
   },
   image: {
     create: [
-      "Start creating with any model",
-      "Describe a scene, character, mood or style — and watch it come to life.",
+      "Build a product photo set",
+      "Describe the product, the setting, and the look you need for your storefront.",
     ],
     edit: [
-      "Edit images with words",
-      "Attach references and describe the change.",
+      "Refine a product image",
+      "Add a reference and describe the change while keeping the product recognizable.",
     ],
     motion: ["Start creating", "Describe what you want to see."],
   },
   audio: {
     create: [
-      "Turn text into sound",
-      "Voices, effects and music from a single prompt.",
+      "Design sound for a campaign",
+      "Create voices, effects, or music to accompany your product story.",
     ],
-    edit: ["Edit audio", "Describe the change you want."],
-    motion: ["Design a voice", "Describe the voice you need."],
+    edit: ["Refine campaign audio", "Describe what should change in the mix."],
+    motion: ["Shape a product voice", "Describe the voice you need."],
   },
 }
 

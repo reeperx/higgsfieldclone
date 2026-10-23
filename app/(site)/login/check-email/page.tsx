@@ -15,7 +15,7 @@ export default function CheckEmailPage() {
     <div className="mx-auto flex w-full max-w-[560px] px-4 py-12 md:py-20">
       <div className="relative isolate flex w-full flex-col items-center gap-5 overflow-hidden rounded-3xl border border-hairline bg-panel px-6 py-12 text-center md:px-12">
         <Atmosphere glow="top" className="-z-10" />
-        <span className="flex size-14 items-center justify-center rounded-2xl bg-sand/10 text-sand ring-1 ring-sand/20">
+        <span className="flex size-14 items-center justify-center rounded-2xl bg-forest-soft/10 text-forest-soft ring-1 ring-forest-soft/20">
           <MailCheck className="size-7" aria-hidden />
         </span>
         <div className="flex flex-col gap-2">
@@ -46,7 +46,7 @@ export default function CheckEmailPage() {
         </ul>
         <Link
           href="/login"
-          className="inline-flex h-11 items-center gap-2 rounded-xl bg-white/5 px-5 text-sm font-medium transition-colors hover:bg-white/10"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-surface px-5 text-sm font-medium transition-colors hover:bg-raised"
         >
           <ArrowLeft className="size-4" aria-hidden /> Use a different email
         </Link>

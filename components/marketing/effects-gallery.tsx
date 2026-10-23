@@ -52,17 +52,17 @@ export function EffectsGallery({
               aria-pressed={pressed}
               onClick={() => setActive(chip)}
               className={cn(
-                "flex h-8 shrink-0 items-center gap-1.5 rounded-[10px] border px-3 text-sm font-medium uppercase transition-colors duration-200",
+                "flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-medium transition-colors duration-200",
                 pressed
-                  ? "border-sand/40 bg-sand/10 text-sand"
-                  : "border-sand/5 bg-white/[0.01] text-white hover:bg-[rgba(233,234,236,0.14)]"
+                  ? "border-sand/30 bg-sand/10 text-sand"
+                  : "border-white/10 bg-surface text-muted-foreground hover:bg-raised"
               )}
             >
               {chip}
               <span
                 className={cn(
                   "text-xs tabular-nums",
-                  pressed ? "text-sand/70" : "text-white/40"
+                  pressed ? "text-sand/70" : "text-muted-foreground"
                 )}
               >
                 {count}

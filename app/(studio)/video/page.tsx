@@ -5,9 +5,9 @@ import { GeneratorView } from "@/components/generator/generator-view"
 import { listPresets, type PresetView } from "@/lib/presets"
 
 export const metadata: Metadata = {
-  title: "Video generator",
+  title: "Product video studio",
   description:
-    "Create, edit and motion-control video with Seedance, Kling, Wan and more.",
+    "Create short product films, campaign variations, and listing videos.",
 }
 
 async function presets(): Promise<PresetView[]> {

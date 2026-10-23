@@ -30,12 +30,21 @@ export function ModelIcon({
 }
 
 const BADGE_CLASS: Record<ModelBadge, string> = {
-  NEW: "bg-sand text-[#17130b]",
-  TOP: "bg-gradient-to-r from-[#4fc9dc] via-[#32a2ee] to-[#167bff] text-white",
-  FAST: "bg-white/10 text-white",
-  "4K": "bg-white/10 text-white",
-  AUDIO: "bg-white/10 text-white",
-  PRO: "bg-white/10 text-white",
+  NEW: "bg-sand text-[#17231d]",
+  TOP: "bg-[#476B82] text-white",
+  FAST: "bg-foreground/80 text-background",
+  "4K": "bg-foreground/80 text-background",
+  AUDIO: "bg-foreground/80 text-background",
+  PRO: "bg-foreground/80 text-background",
+}
+
+const BADGE_LABEL: Record<ModelBadge, string> = {
+  NEW: "New",
+  TOP: "Top",
+  FAST: "Fast",
+  "4K": "4K",
+  AUDIO: "Audio",
+  PRO: "Pro",
 }
 
 export function Badge({ badge }: { badge: ModelBadge }) {
@@ -46,7 +55,7 @@ export function Badge({ badge }: { badge: ModelBadge }) {
         BADGE_CLASS[badge]
       )}
     >
-      {badge}
+      {BADGE_LABEL[badge]}
     </span>
   )
 }
@@ -101,7 +110,7 @@ export function ModelPicker({
       <DialogPrimitive.Portal>
         <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/60 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Popup className="glass fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] flex-col overflow-hidden rounded-t-3xl duration-200 outline-none sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[min(760px,calc(100dvh-4rem))] sm:w-[min(900px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl data-open:animate-in data-open:slide-in-from-bottom-8 sm:data-open:zoom-in-95">
-          <div className="flex items-center gap-3 border-b border-white/5 p-4">
+          <div className="flex items-center gap-3 border-b border-hairline p-4">
             <DialogPrimitive.Title className="text-base font-semibold">
               {title}
             </DialogPrimitive.Title>
@@ -118,7 +127,7 @@ export function ModelPicker({
             </label>
             <DialogPrimitive.Close
               aria-label="Close"
-              className="flex size-10 shrink-0 items-center justify-center rounded-[10px] border border-white/10 hover:bg-white/5"
+              className="flex size-10 shrink-0 items-center justify-center rounded-[10px] border border-hairline hover:bg-accent"
             >
               <X className="size-4" />
             </DialogPrimitive.Close>
@@ -129,8 +138,9 @@ export function ModelPicker({
           <div className="flex-1 overflow-y-auto p-4">
             {!query && featured.length ? (
               <section className="mb-6">
-                <h3 className="mb-3 flex items-center gap-1.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  <Sparkle className="size-3 fill-sand text-sand" /> Featured
+                <h3 className="mb-3 flex items-center gap-1.5 text-xs font-medium tracking-wide text-muted-foreground">
+                  <Sparkle className="size-3 fill-forest-soft text-forest-soft" />{" "}
+                  Featured
                 </h3>
                 <div className="grid gap-3 sm:grid-cols-3">
                   {featured.map((model) => (
@@ -173,7 +183,7 @@ export function ModelPicker({
             ) : (
               groups.map(([family, entries]) => (
                 <section key={family} className="mb-5">
-                  <h3 className="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  <h3 className="mb-2 text-xs font-medium tracking-wide text-muted-foreground">
                     {family}
                   </h3>
                   <div className="grid gap-2 sm:grid-cols-2">
@@ -187,11 +197,11 @@ export function ModelPicker({
                           onClick={() => pick(model.id)}
                           aria-pressed={selected}
                           className={cn(
-                            "flex items-center gap-3 rounded-xl p-2 pr-3 text-left transition-colors hover:bg-white/5",
-                            selected && "bg-white/5"
+                            "flex items-center gap-3 rounded-xl p-2 pr-3 text-left transition-colors hover:bg-accent",
+                            selected && "bg-accent"
                           )}
                         >
-                          <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-hover">
+                          <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-raised">
                             <ModelIcon model={model} />
                           </span>
                           <span className="min-w-0 flex-1">
